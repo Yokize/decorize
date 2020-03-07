@@ -1,5 +1,17 @@
 # IDE
 .idea
+.vscode
 
-# System
+# Rush
+common/temp
+node_modules
+yarn.lock
+
+# Test
+coverage
+
+# Log
+*.log
+
+# OS
 .DS_Store
