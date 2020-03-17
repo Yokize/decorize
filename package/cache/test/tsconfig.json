@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig",
+  "include": ["unit", "e2e"],
+  "compilerOptions": {
+    "paths": {
+      "~*": ["lib/*"]
+    }
+  }
+}

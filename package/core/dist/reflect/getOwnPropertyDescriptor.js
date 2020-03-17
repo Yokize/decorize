@@ -1,0 +1,34 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var isObject_1 = __importDefault(require("lodash/isObject"));
+/* istanbul ignore next */
+var builtInReflect = Reflect === null || Reflect === void 0 ? void 0 : Reflect.getOwnPropertyDescriptor;
+/**
+ * Reflect and Object build-in function returns a descriptor of the given property
+ * if it exists, undefined otherwise. Exceptional case is aligned and violation of
+ * target type throws a TypeError.
+ */
+var _getOwnPropertyDescriptor = builtInReflect !== null && builtInReflect !== void 0 ? builtInReflect : function getOwnPropertyDescriptorFk(target, property) {
+    // Verify whether target is object.
+    if (isObject_1.default(target))
+        // Use built-in helper to get own property descriptor.
+        return Object.getOwnPropertyDescriptor(target, property);
+    else
+        throw new TypeError('Property descriptor can be retrieved only from the object');
+};
+/**
+ * Get own property descriptor of the object.
+ *
+ * @param target Object in which to look for the property.
+ * @param property Name of the property to find and retrieve descriptor.
+ * @return Descriptor for the property; undefined in case property not defined.
+ * @throws TypeError in case of non-object target.
+ */
+function getOwnPropertyDescriptor(target, property) {
+    return _getOwnPropertyDescriptor(target, property);
+}
+exports.getOwnPropertyDescriptor = getOwnPropertyDescriptor;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2V0T3duUHJvcGVydHlEZXNjcmlwdG9yLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vbGliL3JlZmxlY3QvZ2V0T3duUHJvcGVydHlEZXNjcmlwdG9yLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0FBQUEsNkRBQXVDO0FBRXZDLDBCQUEwQjtBQUMxQixJQUFNLGNBQWMsR0FBUSxPQUFPLGFBQVAsT0FBTyx1QkFBUCxPQUFPLENBQUUsd0JBQXdCLENBQUM7QUFFOUQ7Ozs7R0FJRztBQUNILElBQU0seUJBQXlCLEdBQzdCLGNBQWMsYUFBZCxjQUFjLGNBQWQsY0FBYyxHQUNkLFNBQVMsMEJBQTBCLENBQUMsTUFBYyxFQUFFLFFBQXFCO0lBQ3ZFLG1DQUFtQztJQUNuQyxJQUFJLGtCQUFRLENBQUMsTUFBTSxDQUFDO1FBQ2xCLHNEQUFzRDtRQUN0RCxPQUFPLE1BQU0sQ0FBQyx3QkFBd0IsQ0FBQyxNQUFNLEVBQUUsUUFBUSxDQUFDLENBQUM7O1FBQ3RELE1BQU0sSUFBSSxTQUFTLENBQUMsMkRBQTJELENBQUMsQ0FBQztBQUN4RixDQUFDLENBQUM7QUFFSjs7Ozs7OztHQU9HO0FBQ0gsU0FBZ0Isd0JBQXdCLENBQUMsTUFBYyxFQUFFLFFBQXFCO0lBQzVFLE9BQU8seUJBQXlCLENBQUMsTUFBTSxFQUFFLFFBQVEsQ0FBQyxDQUFDO0FBQ3JELENBQUM7QUFGRCw0REFFQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBpc09iamVjdCBmcm9tICdsb2Rhc2gvaXNPYmplY3QnO1xuXG4vKiBpc3RhbmJ1bCBpZ25vcmUgbmV4dCAqL1xuY29uc3QgYnVpbHRJblJlZmxlY3Q6IGFueSA9IFJlZmxlY3Q/LmdldE93blByb3BlcnR5RGVzY3JpcHRvcjtcblxuLyoqXG4gKiBSZWZsZWN0IGFuZCBPYmplY3QgYnVpbGQtaW4gZnVuY3Rpb24gcmV0dXJucyBhIGRlc2NyaXB0b3Igb2YgdGhlIGdpdmVuIHByb3BlcnR5XG4gKiBpZiBpdCBleGlzdHMsIHVuZGVmaW5lZCBvdGhlcndpc2UuIEV4Y2VwdGlvbmFsIGNhc2UgaXMgYWxpZ25lZCBhbmQgdmlvbGF0aW9uIG9mXG4gKiB0YXJnZXQgdHlwZSB0aHJvd3MgYSBUeXBlRXJyb3IuXG4gKi9cbmNvbnN0IF9nZXRPd25Qcm9wZXJ0eURlc2NyaXB0b3I6ICh0YXJnZXQ6IG9iamVjdCwgcHJvcGVydHk6IFByb3BlcnR5S2V5KSA9PiBQcm9wZXJ0eURlc2NyaXB0b3IgfCB1bmRlZmluZWQgPVxuICBidWlsdEluUmVmbGVjdCA/P1xuICBmdW5jdGlvbiBnZXRPd25Qcm9wZXJ0eURlc2NyaXB0b3JGayh0YXJnZXQ6IG9iamVjdCwgcHJvcGVydHk6IFByb3BlcnR5S2V5KTogUHJvcGVydHlEZXNjcmlwdG9yIHwgdW5kZWZpbmVkIHtcbiAgICAvLyBWZXJpZnkgd2hldGhlciB0YXJnZXQgaXMgb2JqZWN0LlxuICAgIGlmIChpc09iamVjdCh0YXJnZXQpKVxuICAgICAgLy8gVXNlIGJ1aWx0LWluIGhlbHBlciB0byBnZXQgb3duIHByb3BlcnR5IGRlc2NyaXB0b3IuXG4gICAgICByZXR1cm4gT2JqZWN0LmdldE93blByb3BlcnR5RGVzY3JpcHRvcih0YXJnZXQsIHByb3BlcnR5KTtcbiAgICBlbHNlIHRocm93IG5ldyBUeXBlRXJyb3IoJ1Byb3BlcnR5IGRlc2NyaXB0b3IgY2FuIGJlIHJldHJpZXZlZCBvbmx5IGZyb20gdGhlIG9iamVjdCcpO1xuICB9O1xuXG4vKipcbiAqIEdldCBvd24gcHJvcGVydHkgZGVzY3JpcHRvciBvZiB0aGUgb2JqZWN0LlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgT2JqZWN0IGluIHdoaWNoIHRvIGxvb2sgZm9yIHRoZSBwcm9wZXJ0eS5cbiAqIEBwYXJhbSBwcm9wZXJ0eSBOYW1lIG9mIHRoZSBwcm9wZXJ0eSB0byBmaW5kIGFuZCByZXRyaWV2ZSBkZXNjcmlwdG9yLlxuICogQHJldHVybiBEZXNjcmlwdG9yIGZvciB0aGUgcHJvcGVydHk7IHVuZGVmaW5lZCBpbiBjYXNlIHByb3BlcnR5IG5vdCBkZWZpbmVkLlxuICogQHRocm93cyBUeXBlRXJyb3IgaW4gY2FzZSBvZiBub24tb2JqZWN0IHRhcmdldC5cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGdldE93blByb3BlcnR5RGVzY3JpcHRvcih0YXJnZXQ6IG9iamVjdCwgcHJvcGVydHk6IFByb3BlcnR5S2V5KTogUHJvcGVydHlEZXNjcmlwdG9yIHwgdW5kZWZpbmVkIHtcbiAgcmV0dXJuIF9nZXRPd25Qcm9wZXJ0eURlc2NyaXB0b3IodGFyZ2V0LCBwcm9wZXJ0eSk7XG59XG4iXX0=

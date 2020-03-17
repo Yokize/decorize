@@ -1,0 +1,24 @@
+{
+  "name": "@decorize/bind-dev",
+  "version": "0.0.1-rc.1",
+  "license": "MIT",
+  "author": "Nojukubi <nojukubi@yokize.com>",
+  "description": "Experimental @decorize/bind",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "tool-script lint",
+    "test": "tool-script test",
+    "build": "tool-script build"
+  },
+  "dependencies": {
+    "@decorize/core": "^0.0.1-rc.1",
+    "@types/lodash": "^4.14.149",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@toolize/script": "^0.0.1-rc.2"
+  }
+}

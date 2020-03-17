@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var defineMetadata_1 = require("../reflect/defineMetadata");
+var baseRegistry_1 = require("./baseRegistry");
+/**
+ * Link registry with the class (prototype).
+ *
+ * @param target Class (prototype).
+ * @param registry Registry to link.
+ */
+function setClassRegistry(target, registry) {
+    defineMetadata_1.defineMetadata(baseRegistry_1._registryKey, registry, target);
+}
+exports.setClassRegistry = setClassRegistry;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2V0Q2xhc3NSZWdpc3RyeS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uL2xpYi9yZWdpc3RyeS9zZXRDbGFzc1JlZ2lzdHJ5LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNERBQTJEO0FBQzNELCtDQUE4QztBQUc5Qzs7Ozs7R0FLRztBQUNILFNBQWdCLGdCQUFnQixDQUFDLE1BQWMsRUFBRSxRQUF1QjtJQUN0RSwrQkFBYyxDQUFDLDJCQUFZLEVBQUUsUUFBUSxFQUFFLE1BQU0sQ0FBQyxDQUFDO0FBQ2pELENBQUM7QUFGRCw0Q0FFQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGRlZmluZU1ldGFkYXRhIH0gZnJvbSAnLi4vcmVmbGVjdC9kZWZpbmVNZXRhZGF0YSc7XG5pbXBvcnQgeyBfcmVnaXN0cnlLZXkgfSBmcm9tICcuL2Jhc2VSZWdpc3RyeSc7XG5pbXBvcnQgeyBDbGFzc1JlZ2lzdHJ5IH0gZnJvbSAnLi9jbGFzc1JlZ2lzdHJ5JztcblxuLyoqXG4gKiBMaW5rIHJlZ2lzdHJ5IHdpdGggdGhlIGNsYXNzIChwcm90b3R5cGUpLlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgQ2xhc3MgKHByb3RvdHlwZSkuXG4gKiBAcGFyYW0gcmVnaXN0cnkgUmVnaXN0cnkgdG8gbGluay5cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIHNldENsYXNzUmVnaXN0cnkodGFyZ2V0OiBvYmplY3QsIHJlZ2lzdHJ5OiBDbGFzc1JlZ2lzdHJ5KTogdm9pZCB7XG4gIGRlZmluZU1ldGFkYXRhKF9yZWdpc3RyeUtleSwgcmVnaXN0cnksIHRhcmdldCk7XG59XG4iXX0=

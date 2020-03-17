@@ -1,0 +1,43 @@
+"use strict";
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+var decorator_1 = require("../decorator");
+var getPropertyRegistry_1 = require("../registry/getPropertyRegistry");
+/**
+ * Decorator can change or define a completely new descriptor of the
+ * property so sometimes its important to determine original type.
+ * Original type used for flexible and accurate decoration.
+ */
+var OriginalType;
+(function (OriginalType) {
+    OriginalType["Method"] = "method";
+    OriginalType["Property"] = "property";
+    OriginalType["Accessor"] = "accessor";
+})(OriginalType = exports.OriginalType || (exports.OriginalType = {}));
+/**
+ * Original type directly depends on Decorator type so mapping
+ * can be used to determine it.
+ */
+var originalTypeMapping = (_a = {},
+    _a[decorator_1.Decorator.Accessor] = OriginalType.Accessor,
+    _a[decorator_1.Decorator.Property] = OriginalType.Property,
+    _a[decorator_1.Decorator.Method] = OriginalType.Method,
+    _a);
+/**
+ * Determine original type based on already registered decorators.
+ * In case decorator change descriptor without registering itself
+ * its not possible to determine original type.
+ *
+ * @param target Class on which decorators registered.
+ * @param property Property for which to get the original type.
+ * @return Original type; undefined otherwise.
+ */
+function getOriginalType(target, property) {
+    var _a;
+    // Retrieve registry which contain records with registered decorators.
+    var registry = getPropertyRegistry_1.getPropertyRegistry(target, property);
+    // Use mapping to get original type.
+    return ((_a = registry === null || registry === void 0 ? void 0 : registry.decorator) === null || _a === void 0 ? void 0 : _a[0]) ? originalTypeMapping[registry.decorator[0].type] : undefined;
+}
+exports.getOriginalType = getOriginalType;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2V0T3JpZ2luYWxUeXBlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vbGliL29yaWdpbmFsL2dldE9yaWdpbmFsVHlwZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSwwQ0FBeUM7QUFFekMsdUVBQXNFO0FBRXRFOzs7O0dBSUc7QUFDSCxJQUFZLFlBSVg7QUFKRCxXQUFZLFlBQVk7SUFDdEIsaUNBQWlCLENBQUE7SUFDakIscUNBQXFCLENBQUE7SUFDckIscUNBQXFCLENBQUE7QUFDdkIsQ0FBQyxFQUpXLFlBQVksR0FBWixvQkFBWSxLQUFaLG9CQUFZLFFBSXZCO0FBRUQ7OztHQUdHO0FBQ0gsSUFBTSxtQkFBbUI7SUFDdkIsR0FBQyxxQkFBUyxDQUFDLFFBQVEsSUFBRyxZQUFZLENBQUMsUUFBUTtJQUMzQyxHQUFDLHFCQUFTLENBQUMsUUFBUSxJQUFHLFlBQVksQ0FBQyxRQUFRO0lBQzNDLEdBQUMscUJBQVMsQ0FBQyxNQUFNLElBQUcsWUFBWSxDQUFDLE1BQU07T0FDeEMsQ0FBQztBQUVGOzs7Ozs7OztHQVFHO0FBQ0gsU0FBZ0IsZUFBZSxDQUFDLE1BQWMsRUFBRSxRQUFxQjs7SUFDbkUsc0VBQXNFO0lBQ3RFLElBQU0sUUFBUSxHQUFpQix5Q0FBbUIsQ0FBQyxNQUFNLEVBQUUsUUFBUSxDQUFDLENBQUM7SUFFckUsb0NBQW9DO0lBQ3BDLE9BQU8sT0FBQSxRQUFRLGFBQVIsUUFBUSx1QkFBUixRQUFRLENBQUUsU0FBUywwQ0FBRyxDQUFDLEdBQUUsQ0FBQyxDQUFDLG1CQUFtQixDQUFDLFFBQVEsQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxDQUFDLFNBQVMsQ0FBQztBQUNoRyxDQUFDO0FBTkQsMENBTUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBEZWNvcmF0b3IgfSBmcm9tICcuLi9kZWNvcmF0b3InO1xuaW1wb3J0IHsgQmFzZVJlZ2lzdHJ5IH0gZnJvbSAnLi4vcmVnaXN0cnkvYmFzZVJlZ2lzdHJ5JztcbmltcG9ydCB7IGdldFByb3BlcnR5UmVnaXN0cnkgfSBmcm9tICcuLi9yZWdpc3RyeS9nZXRQcm9wZXJ0eVJlZ2lzdHJ5JztcblxuLyoqXG4gKiBEZWNvcmF0b3IgY2FuIGNoYW5nZSBvciBkZWZpbmUgYSBjb21wbGV0ZWx5IG5ldyBkZXNjcmlwdG9yIG9mIHRoZVxuICogcHJvcGVydHkgc28gc29tZXRpbWVzIGl0cyBpbXBvcnRhbnQgdG8gZGV0ZXJtaW5lIG9yaWdpbmFsIHR5cGUuXG4gKiBPcmlnaW5hbCB0eXBlIHVzZWQgZm9yIGZsZXhpYmxlIGFuZCBhY2N1cmF0ZSBkZWNvcmF0aW9uLlxuICovXG5leHBvcnQgZW51bSBPcmlnaW5hbFR5cGUge1xuICBNZXRob2QgPSAnbWV0aG9kJyxcbiAgUHJvcGVydHkgPSAncHJvcGVydHknLFxuICBBY2Nlc3NvciA9ICdhY2Nlc3Nvcidcbn1cblxuLyoqXG4gKiBPcmlnaW5hbCB0eXBlIGRpcmVjdGx5IGRlcGVuZHMgb24gRGVjb3JhdG9yIHR5cGUgc28gbWFwcGluZ1xuICogY2FuIGJlIHVzZWQgdG8gZGV0ZXJtaW5lIGl0LlxuICovXG5jb25zdCBvcmlnaW5hbFR5cGVNYXBwaW5nOiBhbnkgPSB7XG4gIFtEZWNvcmF0b3IuQWNjZXNzb3JdOiBPcmlnaW5hbFR5cGUuQWNjZXNzb3IsXG4gIFtEZWNvcmF0b3IuUHJvcGVydHldOiBPcmlnaW5hbFR5cGUuUHJvcGVydHksXG4gIFtEZWNvcmF0b3IuTWV0aG9kXTogT3JpZ2luYWxUeXBlLk1ldGhvZFxufTtcblxuLyoqXG4gKiBEZXRlcm1pbmUgb3JpZ2luYWwgdHlwZSBiYXNlZCBvbiBhbHJlYWR5IHJlZ2lzdGVyZWQgZGVjb3JhdG9ycy5cbiAqIEluIGNhc2UgZGVjb3JhdG9yIGNoYW5nZSBkZXNjcmlwdG9yIHdpdGhvdXQgcmVnaXN0ZXJpbmcgaXRzZWxmXG4gKiBpdHMgbm90IHBvc3NpYmxlIHRvIGRldGVybWluZSBvcmlnaW5hbCB0eXBlLlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgQ2xhc3Mgb24gd2hpY2ggZGVjb3JhdG9ycyByZWdpc3RlcmVkLlxuICogQHBhcmFtIHByb3BlcnR5IFByb3BlcnR5IGZvciB3aGljaCB0byBnZXQgdGhlIG9yaWdpbmFsIHR5cGUuXG4gKiBAcmV0dXJuIE9yaWdpbmFsIHR5cGU7IHVuZGVmaW5lZCBvdGhlcndpc2UuXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBnZXRPcmlnaW5hbFR5cGUodGFyZ2V0OiBvYmplY3QsIHByb3BlcnR5OiBQcm9wZXJ0eUtleSk6IE9yaWdpbmFsVHlwZSB8IHVuZGVmaW5lZCB7XG4gIC8vIFJldHJpZXZlIHJlZ2lzdHJ5IHdoaWNoIGNvbnRhaW4gcmVjb3JkcyB3aXRoIHJlZ2lzdGVyZWQgZGVjb3JhdG9ycy5cbiAgY29uc3QgcmVnaXN0cnk6IEJhc2VSZWdpc3RyeSA9IGdldFByb3BlcnR5UmVnaXN0cnkodGFyZ2V0LCBwcm9wZXJ0eSk7XG5cbiAgLy8gVXNlIG1hcHBpbmcgdG8gZ2V0IG9yaWdpbmFsIHR5cGUuXG4gIHJldHVybiByZWdpc3RyeT8uZGVjb3JhdG9yPy5bMF0gPyBvcmlnaW5hbFR5cGVNYXBwaW5nW3JlZ2lzdHJ5LmRlY29yYXRvclswXS50eXBlXSA6IHVuZGVmaW5lZDtcbn1cbiJdfQ==

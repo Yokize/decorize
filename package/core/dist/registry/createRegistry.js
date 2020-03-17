@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Create base registry.
+ *
+ * @return Empty base registry.
+ */
+function createRegistry() {
+    return { decorator: [] };
+}
+exports.createRegistry = createRegistry;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY3JlYXRlUmVnaXN0cnkuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9saWIvcmVnaXN0cnkvY3JlYXRlUmVnaXN0cnkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFFQTs7OztHQUlHO0FBQ0gsU0FBZ0IsY0FBYztJQUM1QixPQUFPLEVBQUUsU0FBUyxFQUFFLEVBQUUsRUFBRSxDQUFDO0FBQzNCLENBQUM7QUFGRCx3Q0FFQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJhc2VSZWdpc3RyeSB9IGZyb20gJy4vYmFzZVJlZ2lzdHJ5JztcblxuLyoqXG4gKiBDcmVhdGUgYmFzZSByZWdpc3RyeS5cbiAqXG4gKiBAcmV0dXJuIEVtcHR5IGJhc2UgcmVnaXN0cnkuXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBjcmVhdGVSZWdpc3RyeSgpOiBCYXNlUmVnaXN0cnkge1xuICByZXR1cm4geyBkZWNvcmF0b3I6IFtdIH07XG59XG4iXX0=

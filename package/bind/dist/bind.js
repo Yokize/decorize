@@ -1,0 +1,53 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var defineMetadata_1 = require("@decorize/core/reflect/defineMetadata");
+var getOwnMetadata_1 = require("@decorize/core/reflect/getOwnMetadata");
+var hasOwnMetadata_1 = require("@decorize/core/reflect/hasOwnMetadata");
+/**
+ * Get unique identifier of the decorator.
+ */
+function getDecoratorId() {
+    return 'decorize:@bind';
+}
+exports.getDecoratorId = getDecoratorId;
+/**
+ * Determine whether the bound method is cached.
+ *
+ * @param target Class (prototype).
+ * @param property Method name.
+ * @return True in case the method is cached; false otherwise.
+ */
+function hasBoundMethod(target, property) {
+    return hasOwnMetadata_1.hasOwnMetadata(getDecoratorId(), target, property);
+}
+exports.hasBoundMethod = hasBoundMethod;
+/**
+ * Set the bound method to the cache.
+ *
+ * @param target Class (prototype).
+ * @param property Method name.
+ * @param boundFn Bound method.
+ */
+function setBoundMethod(target, property, boundFn) {
+    defineMetadata_1.defineMetadata(getDecoratorId(), { boundFn: boundFn }, target, property);
+}
+exports.setBoundMethod = setBoundMethod;
+/**
+ * Get the bound method from the cache.
+ *
+ * @param target Class (prototype).
+ * @param property Method name.
+ * @return Bound method.
+ */
+function getBoundMethod(target, property) {
+    return getOwnMetadata_1.getOwnMetadata(getDecoratorId(), target, property).boundFn;
+}
+exports.getBoundMethod = getBoundMethod;
+/**
+ * Throw error in case the decorator used incorrectly.
+ */
+function throwIncorrectUsage() {
+    throw new Error(getDecoratorId() + " must be applied to the class or method");
+}
+exports.throwIncorrectUsage = throwIncorrectUsage;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYmluZC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uL2xpYi9iaW5kLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsd0VBQXVFO0FBQ3ZFLHdFQUF1RTtBQUN2RSx3RUFBdUU7QUFFdkU7O0dBRUc7QUFDSCxTQUFnQixjQUFjO0lBQzVCLE9BQU8sZ0JBQWdCLENBQUM7QUFDMUIsQ0FBQztBQUZELHdDQUVDO0FBRUQ7Ozs7OztHQU1HO0FBQ0gsU0FBZ0IsY0FBYyxDQUFDLE1BQWMsRUFBRSxRQUFxQjtJQUNsRSxPQUFPLCtCQUFjLENBQUMsY0FBYyxFQUFFLEVBQUUsTUFBTSxFQUFFLFFBQVEsQ0FBQyxDQUFDO0FBQzVELENBQUM7QUFGRCx3Q0FFQztBQUVEOzs7Ozs7R0FNRztBQUNILFNBQWdCLGNBQWMsQ0FBQyxNQUFjLEVBQUUsUUFBcUIsRUFBRSxPQUFpQjtJQUNyRiwrQkFBYyxDQUFDLGNBQWMsRUFBRSxFQUFFLEVBQUUsT0FBTyxTQUFBLEVBQUUsRUFBRSxNQUFNLEVBQUUsUUFBUSxDQUFDLENBQUM7QUFDbEUsQ0FBQztBQUZELHdDQUVDO0FBRUQ7Ozs7OztHQU1HO0FBQ0gsU0FBZ0IsY0FBYyxDQUFDLE1BQWMsRUFBRSxRQUFxQjtJQUNsRSxPQUFPLCtCQUFjLENBQUMsY0FBYyxFQUFFLEVBQUUsTUFBTSxFQUFFLFFBQVEsQ0FBQyxDQUFDLE9BQU8sQ0FBQztBQUNwRSxDQUFDO0FBRkQsd0NBRUM7QUFFRDs7R0FFRztBQUNILFNBQWdCLG1CQUFtQjtJQUNqQyxNQUFNLElBQUksS0FBSyxDQUFJLGNBQWMsRUFBRSw0Q0FBeUMsQ0FBQyxDQUFDO0FBQ2hGLENBQUM7QUFGRCxrREFFQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGRlZmluZU1ldGFkYXRhIH0gZnJvbSAnQGRlY29yaXplL2NvcmUvcmVmbGVjdC9kZWZpbmVNZXRhZGF0YSc7XG5pbXBvcnQgeyBnZXRPd25NZXRhZGF0YSB9IGZyb20gJ0BkZWNvcml6ZS9jb3JlL3JlZmxlY3QvZ2V0T3duTWV0YWRhdGEnO1xuaW1wb3J0IHsgaGFzT3duTWV0YWRhdGEgfSBmcm9tICdAZGVjb3JpemUvY29yZS9yZWZsZWN0L2hhc093bk1ldGFkYXRhJztcblxuLyoqXG4gKiBHZXQgdW5pcXVlIGlkZW50aWZpZXIgb2YgdGhlIGRlY29yYXRvci5cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGdldERlY29yYXRvcklkKCk6IHN0cmluZyB7XG4gIHJldHVybiAnZGVjb3JpemU6QGJpbmQnO1xufVxuXG4vKipcbiAqIERldGVybWluZSB3aGV0aGVyIHRoZSBib3VuZCBtZXRob2QgaXMgY2FjaGVkLlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgQ2xhc3MgKHByb3RvdHlwZSkuXG4gKiBAcGFyYW0gcHJvcGVydHkgTWV0aG9kIG5hbWUuXG4gKiBAcmV0dXJuIFRydWUgaW4gY2FzZSB0aGUgbWV0aG9kIGlzIGNhY2hlZDsgZmFsc2Ugb3RoZXJ3aXNlLlxuICovXG5leHBvcnQgZnVuY3Rpb24gaGFzQm91bmRNZXRob2QodGFyZ2V0OiBvYmplY3QsIHByb3BlcnR5OiBQcm9wZXJ0eUtleSk6IGJvb2xlYW4ge1xuICByZXR1cm4gaGFzT3duTWV0YWRhdGEoZ2V0RGVjb3JhdG9ySWQoKSwgdGFyZ2V0LCBwcm9wZXJ0eSk7XG59XG5cbi8qKlxuICogU2V0IHRoZSBib3VuZCBtZXRob2QgdG8gdGhlIGNhY2hlLlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgQ2xhc3MgKHByb3RvdHlwZSkuXG4gKiBAcGFyYW0gcHJvcGVydHkgTWV0aG9kIG5hbWUuXG4gKiBAcGFyYW0gYm91bmRGbiBCb3VuZCBtZXRob2QuXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBzZXRCb3VuZE1ldGhvZCh0YXJnZXQ6IG9iamVjdCwgcHJvcGVydHk6IFByb3BlcnR5S2V5LCBib3VuZEZuOiBGdW5jdGlvbik6IHZvaWQge1xuICBkZWZpbmVNZXRhZGF0YShnZXREZWNvcmF0b3JJZCgpLCB7IGJvdW5kRm4gfSwgdGFyZ2V0LCBwcm9wZXJ0eSk7XG59XG5cbi8qKlxuICogR2V0IHRoZSBib3VuZCBtZXRob2QgZnJvbSB0aGUgY2FjaGUuXG4gKlxuICogQHBhcmFtIHRhcmdldCBDbGFzcyAocHJvdG90eXBlKS5cbiAqIEBwYXJhbSBwcm9wZXJ0eSBNZXRob2QgbmFtZS5cbiAqIEByZXR1cm4gQm91bmQgbWV0aG9kLlxuICovXG5leHBvcnQgZnVuY3Rpb24gZ2V0Qm91bmRNZXRob2QodGFyZ2V0OiBvYmplY3QsIHByb3BlcnR5OiBQcm9wZXJ0eUtleSk6IEZ1bmN0aW9uIHtcbiAgcmV0dXJuIGdldE93bk1ldGFkYXRhKGdldERlY29yYXRvcklkKCksIHRhcmdldCwgcHJvcGVydHkpLmJvdW5kRm47XG59XG5cbi8qKlxuICogVGhyb3cgZXJyb3IgaW4gY2FzZSB0aGUgZGVjb3JhdG9yIHVzZWQgaW5jb3JyZWN0bHkuXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiB0aHJvd0luY29ycmVjdFVzYWdlKCk6IG5ldmVyIHtcbiAgdGhyb3cgbmV3IEVycm9yKGAke2dldERlY29yYXRvcklkKCl9IG11c3QgYmUgYXBwbGllZCB0byB0aGUgY2xhc3Mgb3IgbWV0aG9kYCk7XG59XG4iXX0=

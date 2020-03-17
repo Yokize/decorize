@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var getOwnMetadata_1 = require("../getOwnMetadata");
+/**
+ * Get designed type of property.
+ * Typescript support an experimental reflection feature which
+ * emit metadata with parameter types.
+ *
+ * @param target Object associated with metadata.
+ * @param property Property for which to get designed type.
+ * @return Lexically designed property type.
+ */
+function getDesignType(target, property) {
+    return getOwnMetadata_1.getOwnMetadata('design:type', target, property);
+}
+exports.getDesignType = getDesignType;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2V0RGVzaWduVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9yZWZsZWN0L3R5cGVzY3JpcHQvZ2V0RGVzaWduVHlwZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLG9EQUFtRDtBQUVuRDs7Ozs7Ozs7R0FRRztBQUNILFNBQWdCLGFBQWEsQ0FBQyxNQUFjLEVBQUUsUUFBcUI7SUFDakUsT0FBTywrQkFBYyxDQUFDLGFBQWEsRUFBRSxNQUFNLEVBQUUsUUFBUSxDQUFDLENBQUM7QUFDekQsQ0FBQztBQUZELHNDQUVDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgZ2V0T3duTWV0YWRhdGEgfSBmcm9tICcuLi9nZXRPd25NZXRhZGF0YSc7XG5cbi8qKlxuICogR2V0IGRlc2lnbmVkIHR5cGUgb2YgcHJvcGVydHkuXG4gKiBUeXBlc2NyaXB0IHN1cHBvcnQgYW4gZXhwZXJpbWVudGFsIHJlZmxlY3Rpb24gZmVhdHVyZSB3aGljaFxuICogZW1pdCBtZXRhZGF0YSB3aXRoIHBhcmFtZXRlciB0eXBlcy5cbiAqXG4gKiBAcGFyYW0gdGFyZ2V0IE9iamVjdCBhc3NvY2lhdGVkIHdpdGggbWV0YWRhdGEuXG4gKiBAcGFyYW0gcHJvcGVydHkgUHJvcGVydHkgZm9yIHdoaWNoIHRvIGdldCBkZXNpZ25lZCB0eXBlLlxuICogQHJldHVybiBMZXhpY2FsbHkgZGVzaWduZWQgcHJvcGVydHkgdHlwZS5cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGdldERlc2lnblR5cGUodGFyZ2V0OiBvYmplY3QsIHByb3BlcnR5OiBQcm9wZXJ0eUtleSk6IGFueSB7XG4gIHJldHVybiBnZXRPd25NZXRhZGF0YSgnZGVzaWduOnR5cGUnLCB0YXJnZXQsIHByb3BlcnR5KTtcbn1cbiJdfQ==

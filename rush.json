@@ -1,10 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-  "rushVersion": "5.20.0",
-  "yarnVersion": "1.22.1",
+  "rushVersion": "5.21.0",
+  "yarnVersion": "1.22.4",
   "projectFolderMaxDepth": 3,
   "suppressNodeLtsWarning": true,
   "ensureConsistentVersions": true,
+  "repository": {
+    "url": "https://github.com/Yokize/decorize"
+  },
+  "gitPolicy": {
+    "versionBumpCommitMessage": "Bump package"
+  },
   "projects": [
     {
       "packageName": "@decorize/core-dev",
@@ -41,33 +47,6 @@
       "projectFolder": "package/cache/dist",
       "versionPolicyName": "prerelease",
       "shouldPublish": true
-    },
-    {
-      "packageName": "@decorize/cli-dev",
-      "projectFolder": "package/cli",
-      "versionPolicyName": "prerelease",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@decorize/cli",
-      "projectFolder": "package/cli/dist",
-      "versionPolicyName": "prerelease",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@decorize/entity-dev",
-      "projectFolder": "package/entity",
-      "versionPolicyName": "prerelease",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@decorize/entity",
-      "projectFolder": "package/entity/dist",
-      "versionPolicyName": "prerelease",
-      "shouldPublish": true
     }
-  ],
-  "gitPolicy": {
-    "versionBumpCommitMessage": "Publish package"
-  }
+  ]
 }

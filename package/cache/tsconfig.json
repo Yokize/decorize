@@ -1,0 +1,9 @@
+{
+  "extends": "@toolize/script",
+  "include": ["lib"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": ".",
+    "rootDir": "lib"
+  }
+}

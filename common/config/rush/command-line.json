@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
+  "commands": [
+    {
+      "commandKind": "bulk",
+      "name": "test",
+      "summary": "JavaScript Testing Framework to execute tests.",
+      "enableParallelism": false,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "lint",
+      "summary": "Linter tool for identifying and reporting problematic patterns.",
+      "enableParallelism": false,
+      "ignoreMissingScript": true
+    }
+  ],
+  "parameters": [
+    {
+      "parameterKind": "flag",
+      "longName": "--silent",
+      "description": "Prevent from printing messages through the console.",
+      "associatedCommands": ["test"]
+    }
+  ]
+}

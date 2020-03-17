@@ -1,0 +1,30 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var decorator_1 = require("../decorator");
+var addProperty_1 = require("../registry/addProperty");
+/**
+ * Creates legacy accessor decorator which execute logic on runtime.
+ * There is no separate type for accessor decorator in lib.es5.d.ts
+ * so used MethodDecorator as it's have same signature.
+ *
+ * @param name Decorator name.
+ * @param logic Logic to execute.
+ * @param metadata Configs & params.
+ * @return Created accessor decorator.
+ */
+function accessorLegacyDecorator(name, logic, metadata) {
+    // Legacy accessor decorator.
+    return function (target, property, descriptor) {
+        // Register decorator at the property.
+        addProperty_1.addProperty(target, property, {
+            name: name,
+            metadata: metadata,
+            spec: 'legacy',
+            type: decorator_1.Decorator.Accessor
+        });
+        // Execute decorator logic at runtime.
+        return logic(target, property, descriptor, metadata);
+    };
+}
+exports.accessorLegacyDecorator = accessorLegacyDecorator;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYWNjZXNzb3JMZWdhY3lEZWNvcmF0b3IuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9saWIvbGVnYWN5L2FjY2Vzc29yTGVnYWN5RGVjb3JhdG9yLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsMENBQXlDO0FBQ3pDLHVEQUFzRDtBQWtCdEQ7Ozs7Ozs7OztHQVNHO0FBQ0gsU0FBZ0IsdUJBQXVCLENBQUMsSUFBUyxFQUFFLEtBQW9CLEVBQUUsUUFBYztJQUNyRiw2QkFBNkI7SUFDN0IsT0FBTyxVQUFDLE1BQWMsRUFBRSxRQUFxQixFQUFFLFVBQThCO1FBQzNFLHNDQUFzQztRQUN0Qyx5QkFBVyxDQUFDLE1BQU0sRUFBRSxRQUFRLEVBQUU7WUFDNUIsSUFBSSxNQUFBO1lBQ0osUUFBUSxVQUFBO1lBQ1IsSUFBSSxFQUFFLFFBQVE7WUFDZCxJQUFJLEVBQUUscUJBQVMsQ0FBQyxRQUFRO1NBQ3pCLENBQUMsQ0FBQztRQUVILHNDQUFzQztRQUN0QyxPQUFPLEtBQUssQ0FBQyxNQUFNLEVBQUUsUUFBUSxFQUFFLFVBQVUsRUFBRSxRQUFRLENBQUMsQ0FBQztJQUN2RCxDQUFDLENBQUM7QUFDSixDQUFDO0FBZEQsMERBY0MiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBEZWNvcmF0b3IgfSBmcm9tICcuLi9kZWNvcmF0b3InO1xuaW1wb3J0IHsgYWRkUHJvcGVydHkgfSBmcm9tICcuLi9yZWdpc3RyeS9hZGRQcm9wZXJ0eSc7XG5cbi8qKlxuICogRGVjb3JhdG9yIGxvZ2ljIHRvIGJlIGV4ZWN1dGVkLlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgQ2xhc3MgKHByb3RvdHlwZSkuXG4gKiBAcGFyYW0gcHJvcGVydHkgQWNjZXNzb3IgbmFtZS5cbiAqIEBwYXJhbSBkZXNjcmlwdG9yIEFjY2Vzc29yIGRlc2NyaXB0b3IuXG4gKiBAcGFyYW0gbWV0YWRhdGEgQ29uZmlncyAmIHBhcmFtcy5cbiAqIEByZXR1cm4gQWNjZXNzb3IgZGVzY3JpcHRvcjsgdW5kZWZpbmVkLlxuICovXG5leHBvcnQgdHlwZSBBY2Nlc3NvckxvZ2ljID0gKFxuICB0YXJnZXQ6IGFueSxcbiAgcHJvcGVydHk6IFByb3BlcnR5S2V5LFxuICBkZXNjcmlwdG9yOiBQcm9wZXJ0eURlc2NyaXB0b3IsXG4gIG1ldGFkYXRhOiBhbnlcbikgPT4gUHJvcGVydHlEZXNjcmlwdG9yIHwgdm9pZDtcblxuLyoqXG4gKiBDcmVhdGVzIGxlZ2FjeSBhY2Nlc3NvciBkZWNvcmF0b3Igd2hpY2ggZXhlY3V0ZSBsb2dpYyBvbiBydW50aW1lLlxuICogVGhlcmUgaXMgbm8gc2VwYXJhdGUgdHlwZSBmb3IgYWNjZXNzb3IgZGVjb3JhdG9yIGluIGxpYi5lczUuZC50c1xuICogc28gdXNlZCBNZXRob2REZWNvcmF0b3IgYXMgaXQncyBoYXZlIHNhbWUgc2lnbmF0dXJlLlxuICpcbiAqIEBwYXJhbSBuYW1lIERlY29yYXRvciBuYW1lLlxuICogQHBhcmFtIGxvZ2ljIExvZ2ljIHRvIGV4ZWN1dGUuXG4gKiBAcGFyYW0gbWV0YWRhdGEgQ29uZmlncyAmIHBhcmFtcy5cbiAqIEByZXR1cm4gQ3JlYXRlZCBhY2Nlc3NvciBkZWNvcmF0b3IuXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBhY2Nlc3NvckxlZ2FjeURlY29yYXRvcihuYW1lOiBhbnksIGxvZ2ljOiBBY2Nlc3NvckxvZ2ljLCBtZXRhZGF0YT86IGFueSk6IE1ldGhvZERlY29yYXRvciB7XG4gIC8vIExlZ2FjeSBhY2Nlc3NvciBkZWNvcmF0b3IuXG4gIHJldHVybiAodGFyZ2V0OiBvYmplY3QsIHByb3BlcnR5OiBQcm9wZXJ0eUtleSwgZGVzY3JpcHRvcjogUHJvcGVydHlEZXNjcmlwdG9yKTogUHJvcGVydHlEZXNjcmlwdG9yIHwgdm9pZCA9PiB7XG4gICAgLy8gUmVnaXN0ZXIgZGVjb3JhdG9yIGF0IHRoZSBwcm9wZXJ0eS5cbiAgICBhZGRQcm9wZXJ0eSh0YXJnZXQsIHByb3BlcnR5LCB7XG4gICAgICBuYW1lLFxuICAgICAgbWV0YWRhdGEsXG4gICAgICBzcGVjOiAnbGVnYWN5JyxcbiAgICAgIHR5cGU6IERlY29yYXRvci5BY2Nlc3NvclxuICAgIH0pO1xuXG4gICAgLy8gRXhlY3V0ZSBkZWNvcmF0b3IgbG9naWMgYXQgcnVudGltZS5cbiAgICByZXR1cm4gbG9naWModGFyZ2V0LCBwcm9wZXJ0eSwgZGVzY3JpcHRvciwgbWV0YWRhdGEpO1xuICB9O1xufVxuIl19

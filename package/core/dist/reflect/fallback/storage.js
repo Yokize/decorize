@@ -1,0 +1,61 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var getOwnProperty_1 = require("../getOwnProperty");
+var defineProperty_1 = require("../defineProperty");
+var hasOwnProperty_1 = require("../hasOwnProperty");
+/**
+ * Unique storage key.
+ */
+/* istanbul ignore next */
+var _storageKey = Symbol
+    ? // Private symbol.
+        Symbol.for('Decorize: Reflect')
+    : // Namespaced key.
+        '__decorize::reflect__';
+/**
+ * Create storage and assign it directly to the object.
+ *
+ * @param target Object to which assign storage.
+ * @return Created and assigned storage.
+ */
+function createStorage(target) {
+    // Newly created storage.
+    var storage = { root: {}, prop: {} };
+    // Define as non configurable internal property.
+    defineProperty_1.defineProperty(target, _storageKey, { value: storage });
+    // Newly assigned storage.
+    return storage;
+}
+exports.createStorage = createStorage;
+/**
+ * Determine whether storage directly defined on the object.
+ *
+ * @param target Object on which to check storage existence.
+ * @return True in case storage defined; false otherwise.
+ */
+function hasStorage(target) {
+    return hasOwnProperty_1.hasOwnProperty(target, _storageKey);
+}
+exports.hasStorage = hasStorage;
+/**
+ * Get storage which directly defined on the object.
+ *
+ * @param target Object from which to get storage.
+ * @return Storage; null in case non exist.
+ */
+function getStorage(target) {
+    return hasStorage(target) ? getOwnProperty_1.getOwnProperty(target, _storageKey) : undefined;
+}
+exports.getStorage = getStorage;
+/**
+ * Get or create storage directly on the object.
+ *
+ * @param target Object which contains storage.
+ * @return Storage defined at the object.
+ */
+function getOrCreateStorage(target) {
+    var _a;
+    return (_a = getStorage(target)) !== null && _a !== void 0 ? _a : createStorage(target);
+}
+exports.getOrCreateStorage = getOrCreateStorage;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3RvcmFnZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9yZWZsZWN0L2ZhbGxiYWNrL3N0b3JhZ2UudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxvREFBbUQ7QUFDbkQsb0RBQW1EO0FBQ25ELG9EQUFtRDtBQUVuRDs7R0FFRztBQUNILDBCQUEwQjtBQUMxQixJQUFNLFdBQVcsR0FBb0IsTUFBTTtJQUN6QyxDQUFDLENBQUMsa0JBQWtCO1FBQ2xCLE1BQU0sQ0FBQyxHQUFHLENBQUMsbUJBQW1CLENBQUM7SUFDakMsQ0FBQyxDQUFDLGtCQUFrQjtRQUNsQix1QkFBdUIsQ0FBQztBQVc1Qjs7Ozs7R0FLRztBQUNILFNBQWdCLGFBQWEsQ0FBQyxNQUFjO0lBQzFDLHlCQUF5QjtJQUN6QixJQUFNLE9BQU8sR0FBWSxFQUFFLElBQUksRUFBRSxFQUFFLEVBQUUsSUFBSSxFQUFFLEVBQUUsRUFBRSxDQUFDO0lBRWhELGdEQUFnRDtJQUNoRCwrQkFBYyxDQUFDLE1BQU0sRUFBRSxXQUFXLEVBQUUsRUFBRSxLQUFLLEVBQUUsT0FBTyxFQUFFLENBQUMsQ0FBQztJQUV4RCwwQkFBMEI7SUFDMUIsT0FBTyxPQUFPLENBQUM7QUFDakIsQ0FBQztBQVRELHNDQVNDO0FBRUQ7Ozs7O0dBS0c7QUFDSCxTQUFnQixVQUFVLENBQUMsTUFBYztJQUN2QyxPQUFPLCtCQUFjLENBQUMsTUFBTSxFQUFFLFdBQVcsQ0FBQyxDQUFDO0FBQzdDLENBQUM7QUFGRCxnQ0FFQztBQUVEOzs7OztHQUtHO0FBQ0gsU0FBZ0IsVUFBVSxDQUFDLE1BQWM7SUFDdkMsT0FBTyxVQUFVLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQyxDQUFDLCtCQUFjLENBQUMsTUFBTSxFQUFFLFdBQVcsQ0FBQyxDQUFDLENBQUMsQ0FBQyxTQUFTLENBQUM7QUFDOUUsQ0FBQztBQUZELGdDQUVDO0FBRUQ7Ozs7O0dBS0c7QUFDSCxTQUFnQixrQkFBa0IsQ0FBQyxNQUFjOztJQUMvQyxhQUFPLFVBQVUsQ0FBQyxNQUFNLENBQUMsbUNBQUksYUFBYSxDQUFDLE1BQU0sQ0FBQyxDQUFDO0FBQ3JELENBQUM7QUFGRCxnREFFQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGdldE93blByb3BlcnR5IH0gZnJvbSAnLi4vZ2V0T3duUHJvcGVydHknO1xuaW1wb3J0IHsgZGVmaW5lUHJvcGVydHkgfSBmcm9tICcuLi9kZWZpbmVQcm9wZXJ0eSc7XG5pbXBvcnQgeyBoYXNPd25Qcm9wZXJ0eSB9IGZyb20gJy4uL2hhc093blByb3BlcnR5JztcblxuLyoqXG4gKiBVbmlxdWUgc3RvcmFnZSBrZXkuXG4gKi9cbi8qIGlzdGFuYnVsIGlnbm9yZSBuZXh0ICovXG5jb25zdCBfc3RvcmFnZUtleTogc3ltYm9sIHwgc3RyaW5nID0gU3ltYm9sXG4gID8gLy8gUHJpdmF0ZSBzeW1ib2wuXG4gICAgU3ltYm9sLmZvcignRGVjb3JpemU6IFJlZmxlY3QnKVxuICA6IC8vIE5hbWVzcGFjZWQga2V5LlxuICAgICdfX2RlY29yaXplOjpyZWZsZWN0X18nO1xuXG4vKipcbiAqIFN0cnVjdHVyZSBvZiBzdG9yYWdlIHdoaWNoIHNlZ21lbnRlZCB0byBzdG9yZSBtZXRhZGF0YVxuICogYXQgdGhlIG9iamVjdCBvciBwcm9wZXJ0eS5cbiAqL1xuZXhwb3J0IGludGVyZmFjZSBTdG9yYWdlIHtcbiAgcm9vdDogYW55O1xuICBwcm9wOiBhbnk7XG59XG5cbi8qKlxuICogQ3JlYXRlIHN0b3JhZ2UgYW5kIGFzc2lnbiBpdCBkaXJlY3RseSB0byB0aGUgb2JqZWN0LlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgT2JqZWN0IHRvIHdoaWNoIGFzc2lnbiBzdG9yYWdlLlxuICogQHJldHVybiBDcmVhdGVkIGFuZCBhc3NpZ25lZCBzdG9yYWdlLlxuICovXG5leHBvcnQgZnVuY3Rpb24gY3JlYXRlU3RvcmFnZSh0YXJnZXQ6IG9iamVjdCk6IFN0b3JhZ2Uge1xuICAvLyBOZXdseSBjcmVhdGVkIHN0b3JhZ2UuXG4gIGNvbnN0IHN0b3JhZ2U6IFN0b3JhZ2UgPSB7IHJvb3Q6IHt9LCBwcm9wOiB7fSB9O1xuXG4gIC8vIERlZmluZSBhcyBub24gY29uZmlndXJhYmxlIGludGVybmFsIHByb3BlcnR5LlxuICBkZWZpbmVQcm9wZXJ0eSh0YXJnZXQsIF9zdG9yYWdlS2V5LCB7IHZhbHVlOiBzdG9yYWdlIH0pO1xuXG4gIC8vIE5ld2x5IGFzc2lnbmVkIHN0b3JhZ2UuXG4gIHJldHVybiBzdG9yYWdlO1xufVxuXG4vKipcbiAqIERldGVybWluZSB3aGV0aGVyIHN0b3JhZ2UgZGlyZWN0bHkgZGVmaW5lZCBvbiB0aGUgb2JqZWN0LlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgT2JqZWN0IG9uIHdoaWNoIHRvIGNoZWNrIHN0b3JhZ2UgZXhpc3RlbmNlLlxuICogQHJldHVybiBUcnVlIGluIGNhc2Ugc3RvcmFnZSBkZWZpbmVkOyBmYWxzZSBvdGhlcndpc2UuXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBoYXNTdG9yYWdlKHRhcmdldDogb2JqZWN0KTogYm9vbGVhbiB7XG4gIHJldHVybiBoYXNPd25Qcm9wZXJ0eSh0YXJnZXQsIF9zdG9yYWdlS2V5KTtcbn1cblxuLyoqXG4gKiBHZXQgc3RvcmFnZSB3aGljaCBkaXJlY3RseSBkZWZpbmVkIG9uIHRoZSBvYmplY3QuXG4gKlxuICogQHBhcmFtIHRhcmdldCBPYmplY3QgZnJvbSB3aGljaCB0byBnZXQgc3RvcmFnZS5cbiAqIEByZXR1cm4gU3RvcmFnZTsgbnVsbCBpbiBjYXNlIG5vbiBleGlzdC5cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIGdldFN0b3JhZ2UodGFyZ2V0OiBvYmplY3QpOiBTdG9yYWdlIHwgdW5kZWZpbmVkIHtcbiAgcmV0dXJuIGhhc1N0b3JhZ2UodGFyZ2V0KSA/IGdldE93blByb3BlcnR5KHRhcmdldCwgX3N0b3JhZ2VLZXkpIDogdW5kZWZpbmVkO1xufVxuXG4vKipcbiAqIEdldCBvciBjcmVhdGUgc3RvcmFnZSBkaXJlY3RseSBvbiB0aGUgb2JqZWN0LlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgT2JqZWN0IHdoaWNoIGNvbnRhaW5zIHN0b3JhZ2UuXG4gKiBAcmV0dXJuIFN0b3JhZ2UgZGVmaW5lZCBhdCB0aGUgb2JqZWN0LlxuICovXG5leHBvcnQgZnVuY3Rpb24gZ2V0T3JDcmVhdGVTdG9yYWdlKHRhcmdldDogb2JqZWN0KTogU3RvcmFnZSB7XG4gIHJldHVybiBnZXRTdG9yYWdlKHRhcmdldCkgPz8gY3JlYXRlU3RvcmFnZSh0YXJnZXQpO1xufVxuIl19

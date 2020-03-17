@@ -1,0 +1,16 @@
+{
+  "name": "@decorize/bind",
+  "version": "0.0.1-rc.1",
+  "license": "MIT",
+  "author": "Nojukubi <nojukubi@yokize.com>",
+  "description": "Experimental @decorize/bind",
+  "main": "./index.js",
+  "scripts": {
+    "build": "echo 'Ready package'"
+  },
+  "dependencies": {
+    "@decorize/core": "^0.0.1-rc.1",
+    "@types/lodash": "^4.14.149",
+    "lodash": "^4.17.15"
+  }
+}

@@ -5,6 +5,7 @@
 # Rush
 common/temp
 node_modules
+package-deps*
 yarn.lock
 
 # Test
