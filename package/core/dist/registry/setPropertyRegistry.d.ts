@@ -1,6 +1,6 @@
 import { PropertyRegistry } from './propertyRegistry';
 /**
- * Link registry with the class (prototype) & property.
+ * Link the registry with the class (prototype) & property.
  *
  * @param target Class (prototype).
  * @param property Property name.

@@ -1,3 +1,5 @@
-## Release: 0.0.1
+## Install
 
-Experimental @yokize
+```shell script
+npm install @decorize/core --save
+```

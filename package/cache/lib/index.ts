@@ -1,5 +1,4 @@
 /* istanbul ignore file */
+export * from './legacy';
 export * from './global';
 export * from './resolver';
-export * from './legacy/cache';
-export * from './legacy/cacheClear';

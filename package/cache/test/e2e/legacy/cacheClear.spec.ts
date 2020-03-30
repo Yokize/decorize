@@ -27,6 +27,32 @@ describe('@cacheClear', (): void => {
   });
 
   // Case::
+  test('should clear the cache after executing the getter (static)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated getter.
+    class Test {
+      @cacheClear
+      public static get prop(): any {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        return expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Opr: execute the getter and clear the cache.
+    Test.prop;
+
+    // Exp: clear have been called after getter is executed.
+    expect(globalClear).toHaveBeenCalled();
+  });
+
+  // Case::
   test('should clear the cache after executing the getter (factory)', async (): Promise<void> => {
     // Testing target.
     const { cacheClear } = await import('~legacy/cacheClear');
@@ -86,6 +112,35 @@ describe('@cacheClear', (): void => {
   });
 
   // Case::
+  test('should clear the cache after executing the getter (inherited)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated getter.
+    class Parent {
+      @cacheClear
+      public get prop(): any {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        return expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {}
+
+    // Opr: execute the getter and clear the cache.
+    new Child().prop;
+
+    // Exp: clear have been called after getter is executed.
+    expect(globalClear).toHaveBeenCalled();
+  });
+
+  // Case::
   test('should clear the cache before executing the setter', async (): Promise<void> => {
     // Testing target.
     const { cacheClear } = await import('~legacy/cacheClear');
@@ -109,6 +164,32 @@ describe('@cacheClear', (): void => {
 
     // Opr: execute the setter and clear the cache.
     new Test().prop = 'anyTxt';
+  });
+
+  // Case::
+  test('should clear the cache after executing the setter (static)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated setter.
+    class Test {
+      @cacheClear()
+      public static set prop(_: any) {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Opr: execute the setter and clear the cache.
+    Test.prop = 'anyTxt';
+
+    // Exp: clear have been called after setter is executed.
+    expect(globalClear).toHaveBeenCalled();
   });
 
   // Case::
@@ -171,6 +252,35 @@ describe('@cacheClear', (): void => {
   });
 
   // Case::
+  test('should clear the cache after executing the setter (inherited)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated setter.
+    class Parent {
+      @cacheClear
+      public set prop(_: any) {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {}
+
+    // Opr: execute the setter and clear the cache.
+    new Child().prop = 'anyTxt';
+
+    // Exp: clear have been called after setter is executed.
+    expect(globalClear).toHaveBeenCalled();
+  });
+
+  // Case::
   test('should clear the cache before executing the method', async (): Promise<void> => {
     // Testing target.
     const { cacheClear } = await import('~legacy/cacheClear');
@@ -194,6 +304,32 @@ describe('@cacheClear', (): void => {
 
     // Opr: execute the method and clear the cache.
     new Test().method();
+  });
+
+  // Case::
+  test('should clear the cache after executing the method (static)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated method.
+    class Test {
+      @cacheClear()
+      public static method(): void {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Opr: execute the method and clear the cache.
+    Test.method();
+
+    // Exp: clear have been called after method is executed.
+    expect(globalClear).toHaveBeenCalled();
   });
 
   // Case::
@@ -249,6 +385,35 @@ describe('@cacheClear', (): void => {
   });
 
   // Case::
+  test('should clear the cache after executing the method (inherited)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated method.
+    class Parent {
+      @cacheClear()
+      public method(): void {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {}
+
+    // Opr: execute the method and clear the cache.
+    new Child().method();
+
+    // Exp: clear have been called after method is executed.
+    expect(globalClear).toHaveBeenCalled();
+  });
+
+  // Case::
   test('should ignore clearing when context is undefined', async (): Promise<void> => {
     // Testing target.
     const { cacheClear } = await import('~legacy/cacheClear');
@@ -272,7 +437,7 @@ describe('@cacheClear', (): void => {
   });
 
   // Case::
-  test('should ignore clearing when executed getter from the prototype', async (): Promise<void> => {
+  test('should ignore clearing when executed getter via prototype', async (): Promise<void> => {
     // Testing target.
     const { cacheClear } = await import('~legacy/cacheClear');
 
@@ -298,7 +463,74 @@ describe('@cacheClear', (): void => {
   });
 
   // Case::
-  test('should ignore clearing when executed setter from the prototype', async (): Promise<void> => {
+  test('should ignore clearing when executed getter via super', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated getter.
+    class Parent {
+      @cacheClear
+      public get prop(): any {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        return expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {
+      public get prop(): string {
+        return super.prop;
+      }
+    }
+
+    // Opr: try to clear the cache.
+    new Child().prop;
+
+    // Exp: clear have been not called.
+    expect(globalClear).not.toHaveBeenCalled();
+  });
+
+  // Case::
+  test('should ignore clearing when executed getter via super (decorated)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated getter.
+    class Parent {
+      @cacheClear
+      public get prop(): any {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        return expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {
+      @cacheClear
+      public get prop(): string {
+        return super.prop;
+      }
+    }
+
+    // Opr: try to clear the cache.
+    new Child().prop;
+
+    // Exp: clear have been called only once.
+    expect(globalClear).toHaveBeenCalledTimes(1);
+  });
+
+  // Case::
+  test('should ignore clearing when executed setter via prototype', async (): Promise<void> => {
     // Testing target.
     const { cacheClear } = await import('~legacy/cacheClear');
 
@@ -324,7 +556,74 @@ describe('@cacheClear', (): void => {
   });
 
   // Case::
-  test('should ignore clearing when accessing method from the prototype', async (): Promise<void> => {
+  test('should ignore clearing when executed setter via super', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated setter.
+    class Parent {
+      @cacheClear
+      public set prop(_: any) {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {
+      public set prop(_: any) {
+        super.prop = _;
+      }
+    }
+
+    // Opr: try to clear the cache.
+    new Child().prop = 'anyTxt';
+
+    // Exp: clear have been not called.
+    expect(globalClear).not.toHaveBeenCalled();
+  });
+
+  // Case::
+  test('should ignore clearing when executed setter via super (decorated)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated setter.
+    class Parent {
+      @cacheClear
+      public set prop(_: any) {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {
+      @cacheClear
+      public set prop(_: any) {
+        super.prop = _;
+      }
+    }
+
+    // Opr: try to clear the cache.
+    new Child().prop = 'anyTxt';
+
+    // Exp: clear have been called only once.
+    expect(globalClear).toHaveBeenCalledTimes(1);
+  });
+
+  // Case::
+  test('should ignore clearing when accessing method via prototype', async (): Promise<void> => {
     // Testing target.
     const { cacheClear } = await import('~legacy/cacheClear');
 
@@ -335,15 +634,85 @@ describe('@cacheClear', (): void => {
 
     // Var: class with the decorated method.
     class Test {
-      @cacheClear({ before: true })
+      @cacheClear
       public method(): void {
-        // Exp: clear have been not called as executed from the prototype.
-        expect(globalClear).not.toHaveBeenCalled();
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        return expect(globalClear).not.toHaveBeenCalled();
       }
     }
 
     // Opr: try to clear the cache.
     Test.prototype.method();
+
+    // Exp: clear have been not called.
+    expect(globalClear).not.toHaveBeenCalled();
+  });
+
+  // Case::
+  test('should ignore clearing when accessing method via super', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated method.
+    class Parent {
+      @cacheClear
+      public method(): void {
+        // Exp: clear have been not called as implicitly defaulted to <after>.
+        return expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {
+      public method(): void {
+        super.method();
+      }
+    }
+
+    // Opr: try to clear the cache.
+    new Child().method();
+
+    // Exp: clear have been not called.
+    expect(globalClear).not.toHaveBeenCalled();
+  });
+
+  // Case::
+  test('should ignore clearing when accessing method via super (decorated)', async (): Promise<void> => {
+    // Testing target.
+    const { cacheClear } = await import('~legacy/cacheClear');
+
+    // Mock: global clear.
+    const globalClear: jest.SpyInstance = jest
+      // Manually mock global cache.
+      .spyOn((await import('~global')).Global, 'clear');
+
+    // Var: class with the decorated method.
+    class Parent {
+      @cacheClear
+      public method(): void {
+        // Exp: clear have been not called.
+        expect(globalClear).not.toHaveBeenCalled();
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {
+      @cacheClear
+      public method(): void {
+        super.method();
+      }
+    }
+
+    // Opr: try to clear the cache.
+    new Child().method();
+
+    // Exp: clear have been called only once.
+    expect(globalClear).toHaveBeenCalledTimes(1);
   });
 
   // Case::
@@ -387,7 +756,7 @@ describe('@cacheClear', (): void => {
     // Exp: throw error as tried to decorate the invalid getter.
     expect((): any => cacheClear({}, 'test', <any>{ get: 1 }).get()).toThrow(Error);
 
-    // Fake the helper to check whether decorated property was originally the method.
+    // Fake the helper to check whether property was originally the method.
     jest.spyOn(await import('@decorize/core/original/isOriginallyMethod'), 'isOriginallyMethod').mockReturnValue(true);
 
     // Exp: throw error as tried to decorate the invalid method.

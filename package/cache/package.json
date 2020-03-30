@@ -1,24 +1,23 @@
 {
   "name": "@decorize/cache-dev",
-  "version": "0.0.1-rc.1",
-  "license": "MIT",
-  "author": "Nojukubi <nojukubi@yokize.com>",
-  "description": "Experimental @decorize/cache",
+  "version": "0.0.1-rc.2",
   "directories": {
+    "doc": "README.md",
     "lib": "lib",
     "test": "test"
   },
   "scripts": {
-    "lint": "tool-script lint",
-    "test": "tool-script test",
-    "build": "tool-script build"
+    "lint": "tScript lint",
+    "test": "tScript test",
+    "perf": "tScript perf",
+    "build": "tScript build"
   },
   "dependencies": {
-    "@decorize/core": "^0.0.1-rc.1",
+    "@decorize/core": "^0.0.1-rc.2",
     "@types/lodash": "^4.14.149",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@toolize/script": "^0.0.1-rc.2"
+    "@toolize/script": "^0.0.1-rc.3"
   }
 }

@@ -11,7 +11,7 @@ import { PropertyRegistry, PropertyRegistryEntry } from './propertyRegistry';
  * @param entry Decorator data.
  */
 export function addProperty(target: object, property: PropertyKey, entry: PropertyRegistryEntry): void {
-  // Get the registry or create new.
+  // Get the register or create a new one.
   const registry: PropertyRegistry = getOrCreatePropertyRegistry(target, property);
 
   // Add directly to the registry.

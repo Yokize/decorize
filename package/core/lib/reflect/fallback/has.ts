@@ -1,5 +1,4 @@
 import isUndefined from 'lodash/isUndefined';
-import { hasOwnProperty } from '../hasOwnProperty';
 import { getStorage, Storage } from './storage';
 
 /**
@@ -28,7 +27,7 @@ export function hasInStorage(key: any, target: object, property?: PropertyKey): 
   // Determine whenever metadata defined.
   return storage
     ? isUndefined(property)
-      ? hasOwnProperty(storage.root, key)
-      : !isUndefined(storage.prop[property]) && hasOwnProperty(storage.prop[property], key)
+      ? Object.hasOwnProperty.call(storage.root, key)
+      : !isUndefined(storage.prop[property]) && Object.hasOwnProperty.call(storage.prop[property], key)
     : false;
 }

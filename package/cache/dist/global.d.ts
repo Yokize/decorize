@@ -1,9 +1,19 @@
 /**
- * Determine whether there is an entry.
+ * The interface describes the basic structure of the cache entry,
+ * which contains the result of the method or getter, the maximum
+ * age (ms) and the date of its addition (ms).
+ */
+export interface CacheEntry {
+    value: any;
+    maxAge?: number;
+    timestamp: number;
+}
+/**
+ * Determine whether there's an entry in the cache.
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key Key used to store and retrieve the entry.
+ * @param key The key used to store and retrieve the entry.
  * @return True in case the entry is stored; false otherwise.
  */
 declare function has(target: object, property: PropertyKey, key: any): boolean;
@@ -12,16 +22,16 @@ declare function has(target: object, property: PropertyKey, key: any): boolean;
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key Key used to retrieve the entry.
+ * @param key The key used to retrieve the entry.
  * @return Stored entry; undefined otherwise.
  */
-declare function get(target: object, property: PropertyKey, key: any): any | undefined;
+declare function get(target: object, property: PropertyKey, key: any): any;
 /**
  * Set the entry to the cache.
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key Key used to store entry.
+ * @param key The key used to store entry.
  * @param entry Entry to store.
  */
 declare function set(target: object, property: PropertyKey, key: any, entry: any): void;
@@ -30,7 +40,7 @@ declare function set(target: object, property: PropertyKey, key: any, entry: any
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key Key used to store and retrieve the entry.
+ * @param key The key used to store and retrieve the entry.
  */
 declare function remove(target: object, property: PropertyKey, key: any): void;
 /**
@@ -41,7 +51,8 @@ declare function remove(target: object, property: PropertyKey, key: any): void;
  */
 declare function clear(target: any, property?: PropertyKey): void;
 /**
- * Global cache manager used by decorators.
+ * The exposed and overridable helpers used by `@cache` and `@cacheClear`
+ * decorators to manage cache.
  */
 export declare const Global: {
     resolver: import("./resolver").Resolver;

@@ -1,6 +1,4 @@
 import isObject from 'lodash/isObject';
-import isUndefined from 'lodash/isUndefined';
-import { getOwnPropertyDescriptor } from './getOwnPropertyDescriptor';
 
 /**
  * Determine whether an object has own property (opposed to inheriting it).
@@ -13,6 +11,6 @@ export function hasOwnProperty(target: object, property: PropertyKey): boolean {
   // Verify whether target is object.
   if (isObject(target))
     // Check whether own property descriptor exist.
-    return !isUndefined(getOwnPropertyDescriptor(target, property));
+    return Object.hasOwnProperty.call(target, property);
   else throw new TypeError('Existence of the own property can be checked only on the object');
 }

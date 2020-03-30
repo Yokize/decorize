@@ -1,5 +1,5 @@
 /**
- * Decorator logic to be executed.
+ * Decorator's logic to be executed.
  *
  * @param target Class (prototype).
  * @param property Method name.
@@ -9,7 +9,7 @@
  */
 export declare type MethodLogic = (target: any, property: PropertyKey, descriptor: PropertyDescriptor, metadata: any) => PropertyDescriptor | void;
 /**
- * Creates legacy method decorator which execute logic on runtime.
+ * Creates legacy method decorator that executes logic at runtime.
  *
  * @param name Decorator name.
  * @param logic Logic to execute.

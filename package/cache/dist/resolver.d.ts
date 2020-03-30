@@ -1,9 +1,9 @@
 /**
- * Default resolver used by decorators.
+ * The resolver to create default key.
  */
 export declare const resolver: Resolver;
 /**
- * Resolver is plain function that used to generate the key to
+ * Resolver is a plain function that used to generate the key to
  * store and access the cached value. Arguments can be used to
  * create argument-dependent keys.
  */

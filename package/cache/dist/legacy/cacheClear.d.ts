@@ -2,7 +2,7 @@ import { ClearConfig } from '../clear';
 /**
  * Clear the cached results of the method or getter.
  *
- * @param config Configuration.
+ * @param config Config.
  * @return Method or accessor decorator.
  */
 export declare function CacheClear(config?: ClearConfig): MethodDecorator;
@@ -18,7 +18,7 @@ export declare function CacheClear(target: object, property: PropertyKey, descri
 /**
  * Clear the cached results of the method or getter.
  *
- * @param config Configuration.
+ * @param config Config.
  * @return Method or accessor decorator.
  */
 export declare function cacheClear(config?: ClearConfig): MethodDecorator;

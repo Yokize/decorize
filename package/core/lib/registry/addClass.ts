@@ -10,7 +10,7 @@ import { ClassRegistry, ClassRegistryEntry } from './classRegistry';
  * @param entry Decorator data.
  */
 export function addClass(target: object, entry: ClassRegistryEntry): void {
-  // Get the registry or create new.
+  // Get the register or create a new one.
   const registry: ClassRegistry = getOrCreateClassRegistry(target);
 
   // Add directly to the registry.

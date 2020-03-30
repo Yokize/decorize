@@ -14,13 +14,6 @@ export interface Storage {
  */
 export declare function createStorage(target: object): Storage;
 /**
- * Determine whether storage directly defined on the object.
- *
- * @param target Object on which to check storage existence.
- * @return True in case storage defined; false otherwise.
- */
-export declare function hasStorage(target: object): boolean;
-/**
  * Get storage which directly defined on the object.
  *
  * @param target Object from which to get storage.

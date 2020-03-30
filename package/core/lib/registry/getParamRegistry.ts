@@ -1,5 +1,4 @@
 import { ParamRegistry } from './paramRegistry';
-import { createRegistry } from './createRegistry';
 import { getPropertyRegistry } from './getPropertyRegistry';
 
 /**
@@ -11,7 +10,7 @@ import { getPropertyRegistry } from './getPropertyRegistry';
  * @return Registry in case is defined; undefined otherwise.
  */
 export function getParamRegistry(target: object, method: PropertyKey, paramIdx: number): ParamRegistry | undefined {
-  // Retrieve from parameter registry in case it's exist.
+  // Retrieve from the parameter registry in case it's exist.
   return getPropertyRegistry(target, method)?.parameter[paramIdx];
 }
 
@@ -24,5 +23,5 @@ export function getParamRegistry(target: object, method: PropertyKey, paramIdx: 
  * @return Existing or newly created registry.
  */
 export function getOrCreateParamRegistry(target: object, method: PropertyKey, paramIdx: number): ParamRegistry {
-  return getParamRegistry(target, method, paramIdx) ?? createRegistry();
+  return getParamRegistry(target, method, paramIdx) ?? { decorator: [] };
 }

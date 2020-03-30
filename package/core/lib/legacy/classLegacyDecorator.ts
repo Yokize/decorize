@@ -2,7 +2,7 @@ import { Decorator } from '../decorator';
 import { addClass } from '../registry/addClass';
 
 /**
- * Decorator logic to be executed.
+ * Decorator's logic to be executed.
  *
  * @param target Class.
  * @param metadata Configs & params.
@@ -11,7 +11,7 @@ import { addClass } from '../registry/addClass';
 export type ClassLogic = (target: any, metadata: any) => any | void;
 
 /**
- * Creates legacy class decorator which execute logic on runtime.
+ * Creates legacy class decorator that executes logic at runtime.
  *
  * @param name Decorator name.
  * @param logic Logic to execute.
@@ -21,7 +21,7 @@ export type ClassLogic = (target: any, metadata: any) => any | void;
 export function classLegacyDecorator(name: any, logic: ClassLogic, metadata?: any): ClassDecorator {
   // Legacy class decorator.
   return (target: any): any | void => {
-    // Register decorator at the class.
+    // Register class decorator.
     addClass(target, {
       name,
       metadata,

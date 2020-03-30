@@ -1,7 +1,7 @@
 import { ParamRegistry } from './paramRegistry';
 import { BaseRegistry, BaseRegistryEntry } from './baseRegistry';
 /**
- * Structure of the property registry.
+ * The interface describes the structure of the property registry.
  */
 export interface PropertyRegistry extends BaseRegistry {
     parameter: {
@@ -9,7 +9,7 @@ export interface PropertyRegistry extends BaseRegistry {
     };
 }
 /**
- * Structure of the parameter registry entry.
+ * The interface describes the structure of the property registry entry.
  */
 export interface PropertyRegistryEntry extends BaseRegistryEntry {
 }

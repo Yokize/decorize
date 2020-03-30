@@ -2,7 +2,7 @@ import { Decorator } from '../decorator';
 import { addParam } from '../registry/addParam';
 
 /**
- * Decorator logic to be executed.
+ * Decorator's logic to be executed.
  *
  * @param target Class (prototype).
  * @param property Method name.
@@ -12,7 +12,7 @@ import { addParam } from '../registry/addParam';
 export type ParameterLogic = (target: any, property: PropertyKey, paramIndex: number, metadata: any) => void;
 
 /**
- * Creates legacy parameter decorator which execute logic on runtime.
+ * Creates legacy parameter decorator that executes logic at runtime.
  *
  * @param name Decorator name.
  * @param logic Logic to execute.
@@ -22,7 +22,7 @@ export type ParameterLogic = (target: any, property: PropertyKey, paramIndex: nu
 export function parameterLegacyDecorator(name: any, logic: ParameterLogic, metadata?: any): ParameterDecorator {
   // Legacy parameter decorator.
   return (target: object, property: PropertyKey, paramIndex: number): void => {
-    // Register decorator at the param.
+    // Register parameter decorator.
     addParam(target, property, paramIndex, {
       name,
       metadata,

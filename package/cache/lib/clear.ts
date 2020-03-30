@@ -1,38 +1,26 @@
 /**
- * Get unique identifier of the decorator.
+ * Unique decorator ID.
  */
-export function getDecoratorId(): string {
-  return 'decorize:cache:@clear';
-}
+export const uniqueId: string = 'decorize:cache:@clear';
 
 /**
- * Structure of the clear config.
+ * The interface describes the structure of the decorator's configuration,
+ * which defines how the caching process should be done. The `before` and
+ * `after` configuration options defines whether cleaning should be done
+ * before or after the method or accessor execution. The decorator cannot
+ * be applied to both the getter and setter of the same property, so its
+ * possible to specify explicitly the `getter` or `setter`
  */
 export interface ClearConfig {
-  /**
-   * Before execution.
-   */
   before?: boolean;
-
-  /**
-   * After execution.
-   */
   after?: boolean;
-
-  /**
-   * On getter execution.
-   */
   getter?: boolean;
-
-  /**
-   * On setter execution.
-   */
   setter?: boolean;
 }
 
 /**
  * Throw error in case the decorator used incorrectly.
  */
-export function throwIncorrectUsage(): never {
-  throw new Error(`${getDecoratorId()} must be applied to method or accessor`);
+export function throwUsageError(): never {
+  throw new Error(`${uniqueId} must be applied to method or accessor`);
 }

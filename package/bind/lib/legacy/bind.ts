@@ -1,55 +1,93 @@
-import pick from 'lodash/pick';
+import isObject from 'lodash/isObject';
 import isFunction from 'lodash/isFunction';
-import isPlainObject from 'lodash/isPlainObject';
+import isUndefined from 'lodash/isUndefined';
 import { getOwnKeys } from '@decorize/core/reflect/getOwnKeys';
-import { createSetter } from '@decorize/core/accessor/createSetter';
+import { ContextType } from '@decorize/core/context/contextType';
+import { defineMetadata } from '@decorize/core/reflect/defineMetadata';
+import { getOwnMetadata } from '@decorize/core/reflect/getOwnMetadata';
 import { hasOwnProperty } from '@decorize/core/reflect/hasOwnProperty';
 import { defineProperty } from '@decorize/core/reflect/defineProperty';
+import { getPrototypeOf } from '@decorize/core/reflect/getPrototypeOf';
+import { toAccessorType } from '@decorize/core/descriptor/toAccessorType';
 import { isOriginallyMethod } from '@decorize/core/original/isOriginallyMethod';
 import { classLegacyDecorator } from '@decorize/core/legacy/classLegacyDecorator';
 import { methodLegacyDecorator } from '@decorize/core/legacy/methodLegacyDecorator';
+import { getInstanceContextType } from '@decorize/core/context/getContextType';
 import { getOwnPropertyDescriptor } from '@decorize/core/reflect/getOwnPropertyDescriptor';
-import { getDecoratorId, hasBoundMethod, getBoundMethod, setBoundMethod, throwIncorrectUsage } from '../bind';
+import { Metadata, throwUsageError, uniqueId } from '../bind';
 
 /**
  * Decorate the method to make it context-bound.
  *
- * @param target Class (prototype).
+ * @param target Prototype.
  * @param property Method name.
  * @param descriptor Method descriptor.
  * @return Descriptor with bind logic.
  */
-function decorateMethod(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor {
-  // Attributes used to create new behaviour.
-  const { get, set, value }: PropertyDescriptor = descriptor;
+function methodDecoratorLogic(
+  target: object,
+  property: PropertyKey,
+  descriptor: PropertyDescriptor
+): PropertyDescriptor {
+  // Create the new accessor descriptor based on the existing `descriptor`
+  // with respect to already assigned attributes.
+  const { get, ...newDescriptor }: any = toAccessorType(property, descriptor);
 
-  // New descriptor with predefined bind logic.
-  const newDescriptor: PropertyDescriptor = pick(descriptor, ['configurable', 'enumerable']);
-
-  // Create new setter or use from an existing descriptor.
-  newDescriptor.set = isFunction(get) || isFunction(set) ? set : createSetter(property);
-
-  // Create new getter to bind the function on the fly or get it from the cache.
+  // Create the new getter with enhanced logic to wrap the original method
+  // and bind it on the fly. The bound function is cached to avoid double
+  // bindings and to increase performance on re-access.
   newDescriptor.get = function bindLogic(this: object): Function {
-    // Function which will be bound to the context.
-    const fn: Function = get?.call(this) ?? value;
+    // The function which should be bound can be obtained from the accessor
+    // descriptor by executing `get` with context.
+    const fn: Function = get.call(this);
 
-    // Verify that the function is the correct type.
-    if (!isFunction(fn)) throwIncorrectUsage();
+    // Ensure the result obtained from `get` is the correct type.
+    if (!isFunction(fn)) throwUsageError();
 
-    // Return the original function in case its accessed from the prototype.
-    if (hasOwnProperty(this, 'constructor')) return fn;
+    // In case the `constructor` property directly belongs to the context,
+    // it is reasonable to conclude that the context is the prototype and
+    // not an instance of the class.
+    if (hasOwnProperty(this, 'constructor'))
+      // Returns the original function.
+      return fn;
 
-    // Determine whether the bound function is already cached.
-    if (!hasBoundMethod(this, property))
-      // Create the bound function and cache it.
-      setBoundMethod(this, property, fn.bind(this));
+    // Binding is done only for the instance methods, so it is important to
+    // determine whether an instance is initiated directly from the `target`
+    // or the descendant class.
+    const ctxType: ContextType = getInstanceContextType(this, target, property);
 
-    // Get the bound function from the cache.
-    return getBoundMethod(this, property);
+    // The ES2015+ specification defines `super` as the reference to the context
+    // of the outer method. There is no need to bind an overridden method that
+    // is accessed via `super` to support ES5 compatibility.
+    if (ctxType === ContextType.Inheritor && hasOwnProperty(getPrototypeOf(this), property))
+      // Returns the original function.
+      return fn;
+
+    // Binding the method to the context with unknown origin is not reasonable,
+    // as it can lead to unexpected behavior, so developers must manage the
+    // binding themselves.
+    if (ctxType === ContextType.Unknown)
+      // Returns the original function.
+      return fn;
+
+    // Create blank or get already existing own metadata that contains cached
+    // context-dependent bound function.
+    let { bound }: Metadata = getOwnMetadata(uniqueId, this, property) ?? {};
+
+    // Determine whether the bound function is missing in the metadata.
+    if (isUndefined(bound)) {
+      // Bind the original function to the context.
+      bound = fn.bind(this);
+
+      // Define the metadata with context-dependent bound function.
+      defineMetadata(uniqueId, { bound }, this, property);
+    }
+
+    // Returns the bound function.
+    return bound;
   };
 
-  // Return new descriptor with bind logic.
+  // Returns the descriptor with the bind logic.
   return newDescriptor;
 }
 
@@ -59,52 +97,61 @@ function decorateMethod(target: object, property: PropertyKey, descriptor: Prope
  * @param target Class to decorate.
  * @return Class with decorated methods.
  */
-function decorateClass(target: Function): Function {
-  // Bind is limited to methods from the prototype.
+function classDecoratorLogic(target: Function): Function {
+  // Binding is limited only to the instance methods, so its necessary
+  // to get a `prototype` of the class.
   const { prototype } = target;
 
   // Iterate properties and determine which of them can be decorated.
   getOwnKeys(prototype).forEach((property: PropertyKey): void => {
-    // Ignore the built-in reserved property.
-    if (property === 'constructor') return;
-
-    // Descriptor to verify whether the property contains the function.
+    // The property is already defined on the `prototype`, so can get
+    // the descriptor to check its suitability for decoration.
     const descriptor: PropertyDescriptor = getOwnPropertyDescriptor(prototype, property);
 
-    // Proceed to decoration only in case property has been verified.
-    if ((isPlainObject(descriptor) && isFunction(descriptor.value)) || isOriginallyMethod(prototype, property))
-      // Create and define the function with bind logic based on the existing class method.
-      defineProperty(prototype, property, decorateMethod(prototype, property, descriptor));
+    // Ignore built-in reserved or non-configurable properties.
+    if (property === 'constructor' || !descriptor.configurable) return;
+
+    // Proceed to decoration only in case the property has been verified
+    // as the method. The easiest way to do this is just to check that the
+    // value is a function type. The more complex case is when the property
+    // is already decorated and the descriptor is modified, so the original
+    // type must be checked.
+    if (isFunction(descriptor.value) || isOriginallyMethod(prototype, property))
+      // Override existing method to an enhanced function.
+      defineProperty(prototype, property, methodDecoratorLogic(prototype, property, descriptor));
   });
 
-  // Return the decorated class.
+  // Returns the decorated class.
   return target;
 }
 
 /**
- * Universal decorator (without type checking).
+ * Universal decoration (without type checking).
  */
-function decorateUniversal(args: any[]): any {
+function bindDecorator(args: any[]): any {
   if (args.length === 0)
-    // Decorator is used as the factory.
-    return (...args2: any[]): any => decorateUniversal(args2);
+    // If there are no arguments, the decorator was used as a factory.
+    return (...args2: any[]): any => bindDecorator(args2);
 
-  if (args.length === 1)
-    // Decorator is applied to the class.
-    return classLegacyDecorator(getDecoratorId(), decorateClass).call(null, ...args);
+  if (args.length === 1 && args[0])
+    // If there is one argument, the decorator was applied to the class.
+    return classLegacyDecorator(uniqueId, classDecoratorLogic).call(null, ...args);
 
   // Destructuring of dynamic arguments.
   const [target, property, descriptor] = args;
 
-  // Verify that the decorator is used correctly.
-  if (!isPlainObject(descriptor)) throwIncorrectUsage();
+  // Avoid decoration of static properties.
+  if (isFunction(target)) return;
 
-  // Decorator is applied to the method.
-  if (isFunction(descriptor.value) || isOriginallyMethod(target, property))
-    return methodLegacyDecorator(getDecoratorId(), decorateMethod).call(null, ...args);
+  // Ensure the decorator is used correctly.
+  if (!isObject(descriptor)) throwUsageError();
+
+  // If there are three arguments, the decorator was applied to the method.
+  if (isFunction((<any>descriptor).value) || isOriginallyMethod(target, property))
+    return methodLegacyDecorator(uniqueId, methodDecoratorLogic).call(null, ...args);
 
   // Error in case the decorator used incorrectly.
-  throwIncorrectUsage();
+  throwUsageError();
 }
 
 /**
@@ -132,7 +179,7 @@ export function Bind(): ClassDecorator & MethodDecorator;
  */
 export function Bind(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 export function Bind(...args: any[]): any {
-  return decorateUniversal(args);
+  return bindDecorator(args);
 }
 
 /**
@@ -160,5 +207,5 @@ export function bind(): ClassDecorator & MethodDecorator;
  */
 export function bind(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 export function bind(...args: any[]): any {
-  return decorateUniversal(args);
+  return bindDecorator(args);
 }

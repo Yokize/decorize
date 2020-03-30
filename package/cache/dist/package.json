@@ -1,15 +1,28 @@
 {
   "name": "@decorize/cache",
-  "version": "0.0.1-rc.1",
+  "version": "0.0.1-rc.2",
   "license": "MIT",
   "author": "Nojukubi <nojukubi@yokize.com>",
-  "description": "Experimental @decorize/cache",
+  "homepage": "https://github.com/Yokize/decorize",
+  "description": "Decorator to cache the result of the method or getter",
   "main": "./index.js",
+  "keywords": [
+    "cache",
+    "method",
+    "getter",
+    "decorator",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yokize/decorize",
+    "directory": "package/cache"
+  },
   "scripts": {
     "build": "echo 'Ready package'"
   },
   "dependencies": {
-    "@decorize/core": "^0.0.1-rc.1",
+    "@decorize/core": "^0.0.1-rc.2",
     "@types/lodash": "^4.14.149",
     "lodash": "^4.17.15"
   }

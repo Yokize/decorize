@@ -1,5 +1,4 @@
 import isObject from 'lodash/isObject';
-import { hasOwnProperty } from './hasOwnProperty';
 
 /* istanbul ignore next */
 const builtInReflect: any = Reflect?.deleteProperty;
@@ -15,7 +14,7 @@ const _deleteProperty: (target: object, property: PropertyKey) => boolean =
     // Verify whether target is object.
     if (isObject(target))
       try {
-        return hasOwnProperty(target, property) ? delete target[property] : false;
+        return Object.hasOwnProperty.call(target, property) ? delete target[property] : false;
       } catch {
         return false;
       }

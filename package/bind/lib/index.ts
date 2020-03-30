@@ -1,2 +1,2 @@
 /* istanbul ignore file */
-export * from './legacy/bind';
+export * from './legacy';

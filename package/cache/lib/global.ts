@@ -16,15 +16,26 @@ const _globalKey: string | symbol = Symbol
     '__decorize::cache__';
 
 /**
- * Determine whether there is an entry.
+ * The interface describes the basic structure of the cache entry,
+ * which contains the result of the method or getter, the maximum
+ * age (ms) and the date of its addition (ms).
+ */
+export interface CacheEntry {
+  value: any;
+  maxAge?: number;
+  timestamp: number;
+}
+
+/**
+ * Determine whether there's an entry in the cache.
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key Key used to store and retrieve the entry.
+ * @param key The key used to store and retrieve the entry.
  * @return True in case the entry is stored; false otherwise.
  */
 function has(target: object, property: PropertyKey, key: any): boolean {
-  // Get the cache linked to the target.
+  // Get the cache that's associated with the target.
   const cache: any = getOwnMetadata(_globalKey, target);
 
   // Ensure the cache exist and has the entry associated with the key.
@@ -36,11 +47,11 @@ function has(target: object, property: PropertyKey, key: any): boolean {
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key Key used to retrieve the entry.
+ * @param key The key used to retrieve the entry.
  * @return Stored entry; undefined otherwise.
  */
-function get(target: object, property: PropertyKey, key: any): any | undefined {
-  // Get the cache linked to the target.
+function get(target: object, property: PropertyKey, key: any): any {
+  // Get the cache that's associated with the target.
   const cache: any = getOwnMetadata(_globalKey, target);
 
   // Ensure the cache exist and retrieve the entry associated with the key.
@@ -52,11 +63,11 @@ function get(target: object, property: PropertyKey, key: any): any | undefined {
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key Key used to store entry.
+ * @param key The key used to store entry.
  * @param entry Entry to store.
  */
 function set(target: object, property: PropertyKey, key: any, entry: any): void {
-  // Get the cache linked to the target.
+  // Get the cache that's associated with the target.
   let cache: any = getOwnMetadata(_globalKey, target);
 
   // Defaulting general cache.
@@ -77,10 +88,10 @@ function set(target: object, property: PropertyKey, key: any, entry: any): void 
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key Key used to store and retrieve the entry.
+ * @param key The key used to store and retrieve the entry.
  */
 function remove(target: object, property: PropertyKey, key: any): void {
-  // Get the cache linked to the target.
+  // Get the cache that's associated with the target.
   const cache: any = getOwnMetadata(_globalKey, target);
 
   // Ensure the cache exist and remove the entry associated with the key.
@@ -94,7 +105,7 @@ function remove(target: object, property: PropertyKey, key: any): void {
  * @param property Property name.
  */
 function clear(target: any, property?: PropertyKey): void {
-  // Get the cache linked to the target.
+  // Get the cache that's associated with the target.
   const cache: any = getOwnMetadata(_globalKey, target);
 
   // Remove the cache in case it's exists.
@@ -106,6 +117,7 @@ function clear(target: any, property?: PropertyKey): void {
 }
 
 /**
- * Global cache manager used by decorators.
+ * The exposed and overridable helpers used by `@cache` and `@cacheClear`
+ * decorators to manage cache.
  */
 export const Global = { resolver, has, get, set, remove, clear };

@@ -1,24 +1,23 @@
 {
   "name": "@decorize/core-dev",
-  "version": "0.0.1-rc.1",
-  "license": "MIT",
-  "author": "Nojukubi <nojukubi@yokize.com>",
-  "description": "Experimental @decorize/core",
+  "version": "0.0.1-rc.2",
   "directories": {
+    "doc": "README.md",
     "lib": "lib",
     "test": "test"
   },
   "scripts": {
-    "lint": "tool-script lint",
-    "test": "tool-script test",
-    "build": "tool-script build"
+    "lint": "tScript lint",
+    "test": "tScript test",
+    "perf": "tScript perf",
+    "build": "tScript build"
   },
   "dependencies": {
     "@types/lodash": "^4.14.149",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@toolize/script": "^0.0.1-rc.2",
+    "@toolize/script": "^0.0.1-rc.3",
     "reflect-metadata": "^0.1.13"
   }
 }

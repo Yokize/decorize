@@ -1,5 +1,5 @@
 /**
- * Decorator logic to be executed.
+ * Decorator's logic to be executed.
  *
  * @param target Class.
  * @param metadata Configs & params.
@@ -7,7 +7,7 @@
  */
 export declare type ClassLogic = (target: any, metadata: any) => any | void;
 /**
- * Creates legacy class decorator which execute logic on runtime.
+ * Creates legacy class decorator that executes logic at runtime.
  *
  * @param name Decorator name.
  * @param logic Logic to execute.

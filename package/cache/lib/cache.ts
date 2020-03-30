@@ -1,69 +1,41 @@
 import isFunction from 'lodash/isFunction';
-import { Global } from './global';
 import { Resolver } from './resolver';
+import { CacheEntry, Global } from './global';
 
 /**
- * Get unique identifier of the decorator.
+ * Unique decorator ID.
  */
-export function getDecoratorId(): string {
-  return 'decorize:@cache';
-}
+export const uniqueId: string = 'decorize:@cache';
 
 /**
- * Structure of the cache config.
+ * The interface describes the structure of the decorator configuration,
+ * which defines how the caching process should be done. The configuration
+ * specify the maximum age (ms) of the cache result, argument-dependent
+ * key resolver and expiration manual logic.
  */
 export interface CacheConfig {
-  /**
-   * Max age (ms).
-   */
   maxAge?: number;
-
-  /**
-   * Create key based on the args.
-   */
   resolver?: Resolver;
-
-  /**
-   * Manual logic to expire the cache.
-   */
   expire?: (entry: CacheEntry, context: any) => boolean | void;
 }
 
 /**
- * Structure of the cache entry.
- */
-export interface CacheEntry {
-  /**
-   * Result.
-   */
-  value: any;
-
-  /**
-   * Max age (ms).
-   */
-  maxAge?: number;
-
-  /**
-   * Timestamp when entry is added (ms).
-   */
-  timestamp: number;
-}
-
-/**
- * Check the expiration of the cache.
+ * Check the expiration of the cache entry by executing manual expire logic
+ * or comparing max age against current date. In case entry is expired its
+ * directly removed from the cache.
  *
  * @param target Class (prototype).
  * @param property Property name.
  * @param cacheKey Cache key.
- * @param cacheConfig Configuration.
+ * @param cacheConfig Cache config.
  */
 export function checkExpiration(target: object, property: PropertyKey, cacheKey: any, cacheConfig: CacheConfig): void {
-  // In case maxAge specified need to check the expiration.
+  // In case maxAge is specified, the expiration must be checked.
   if (cacheConfig?.maxAge >= 0 && Global.has(target, property, cacheKey))
     if (Global.get(target, property, cacheKey).timestamp + cacheConfig.maxAge <= Date.now())
       Global.remove(target, property, cacheKey);
 
-  // In case manual logic specified need to check the expiration.
+  // In case manual logic is specified, the expiration must be checked.
   if (isFunction(cacheConfig?.expire) && Global.has(target, property, cacheKey))
     if (cacheConfig.expire.call(target, Global.get(target, property, cacheKey), target))
       Global.remove(target, property, cacheKey);
@@ -72,6 +44,6 @@ export function checkExpiration(target: object, property: PropertyKey, cacheKey:
 /**
  * Throw error in case the decorator used incorrectly.
  */
-export function throwIncorrectUsage(): never {
-  throw new Error(`${getDecoratorId()} must be applied to method or getter`);
+export function throwUsageError(): never {
+  throw new Error(`${uniqueId} must be applied to method or getter`);
 }

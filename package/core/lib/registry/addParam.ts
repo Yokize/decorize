@@ -12,7 +12,7 @@ import { ParamRegistry, ParamRegistryEntry } from './paramRegistry';
  * @param entry Decorator data.
  */
 export function addParam(target: object, method: PropertyKey, paramIdx: number, entry: ParamRegistryEntry): void {
-  // Get the registry or create new.
+  // Get the register or create a new one.
   const registry: ParamRegistry = getOrCreateParamRegistry(target, method, paramIdx);
 
   // Add directly to the registry.

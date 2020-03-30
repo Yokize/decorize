@@ -1,32 +1,16 @@
 /**
- * Get unique identifier of the decorator.
+ * Unique decorator ID.
  */
-export declare function getDecoratorId(): string;
+export declare const uniqueId: string;
 /**
- * Determine whether the bound method is cached.
- *
- * @param target Class (prototype).
- * @param property Method name.
- * @return True in case the method is cached; false otherwise.
+ * The interface describes the basic metadata structure which contains
+ * the bound function. The main reason for caching the bound function
+ * is to avoid unnecessary bindings and increase performance.
  */
-export declare function hasBoundMethod(target: object, property: PropertyKey): boolean;
-/**
- * Set the bound method to the cache.
- *
- * @param target Class (prototype).
- * @param property Method name.
- * @param boundFn Bound method.
- */
-export declare function setBoundMethod(target: object, property: PropertyKey, boundFn: Function): void;
-/**
- * Get the bound method from the cache.
- *
- * @param target Class (prototype).
- * @param property Method name.
- * @return Bound method.
- */
-export declare function getBoundMethod(target: object, property: PropertyKey): Function;
+export interface Metadata {
+    bound?: Function;
+}
 /**
  * Throw error in case the decorator used incorrectly.
  */
-export declare function throwIncorrectUsage(): never;
+export declare function throwUsageError(): never;

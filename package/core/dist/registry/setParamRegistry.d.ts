@@ -1,6 +1,6 @@
 import { ParamRegistry } from './paramRegistry';
 /**
- * Link registry with the class (prototype), method & param.
+ * Link the registry with the class (prototype), method & param.
  *
  * @param target Class (prototype).
  * @param method Method name.

@@ -11,3 +11,6 @@ printWidth: 120
 
 # Single quotes for string literal.
 singleQuote: true
+
+# No trailing commas on multi-line.
+trailingComma: none

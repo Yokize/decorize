@@ -2,7 +2,7 @@ import { Decorator } from '../decorator';
 import { addProperty } from '../registry/addProperty';
 
 /**
- * Decorator logic to be executed.
+ * Decorator's logic to be executed.
  *
  * @param target Class (prototype).
  * @param property Property name.
@@ -11,7 +11,7 @@ import { addProperty } from '../registry/addProperty';
 export type PropertyLogic = (target: any, property: PropertyKey, metadata: any) => void;
 
 /**
- * Creates legacy property decorator which execute logic on runtime.
+ * Creates legacy property decorator that executes logic at runtime.
  *
  * @param name Decorator name.
  * @param logic Logic to execute.
@@ -21,7 +21,7 @@ export type PropertyLogic = (target: any, property: PropertyKey, metadata: any) 
 export function propertyLegacyDecorator(name: any, logic: PropertyLogic, metadata?: any): PropertyDecorator {
   // Legacy property decorator.
   return (target: object, property: PropertyKey): void => {
-    // Register decorator at the property.
+    // Register property decorator.
     addProperty(target, property, {
       name,
       metadata,

@@ -1,6 +1,4 @@
 import { getOwnProperty } from '../getOwnProperty';
-import { defineProperty } from '../defineProperty';
-import { hasOwnProperty } from '../hasOwnProperty';
 
 /**
  * Unique storage key.
@@ -32,20 +30,12 @@ export function createStorage(target: object): Storage {
   const storage: Storage = { root: {}, prop: {} };
 
   // Define as non configurable internal property.
-  defineProperty(target, _storageKey, { value: storage });
+  Object.defineProperty(target, _storageKey, {
+    value: storage
+  });
 
   // Newly assigned storage.
   return storage;
-}
-
-/**
- * Determine whether storage directly defined on the object.
- *
- * @param target Object on which to check storage existence.
- * @return True in case storage defined; false otherwise.
- */
-export function hasStorage(target: object): boolean {
-  return hasOwnProperty(target, _storageKey);
 }
 
 /**
@@ -55,7 +45,7 @@ export function hasStorage(target: object): boolean {
  * @return Storage; null in case non exist.
  */
 export function getStorage(target: object): Storage | undefined {
-  return hasStorage(target) ? getOwnProperty(target, _storageKey) : undefined;
+  return getOwnProperty(target, _storageKey);
 }
 
 /**

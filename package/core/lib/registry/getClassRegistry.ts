@@ -1,7 +1,6 @@
 import { getOwnMetadata } from '../reflect/getOwnMetadata';
 import { _registryKey } from './baseRegistry';
 import { ClassRegistry } from './classRegistry';
-import { createRegistry } from './createRegistry';
 
 /**
  * Get registry linked with the class (prototype).
@@ -20,5 +19,5 @@ export function getClassRegistry(target: object): ClassRegistry | undefined {
  * @return Existing or newly created registry.
  */
 export function getOrCreateClassRegistry(target: object): ClassRegistry {
-  return getClassRegistry(target) ?? { ...createRegistry(), property: {} };
+  return getClassRegistry(target) ?? { decorator: [], property: {} };
 }

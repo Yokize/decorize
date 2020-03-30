@@ -3,19 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var setClassRegistry_1 = require("./setClassRegistry");
 var getClassRegistry_1 = require("./getClassRegistry");
 /**
- * Link registry with the class (prototype) & property.
+ * Link the registry with the class (prototype) & property.
  *
  * @param target Class (prototype).
  * @param property Property name.
  * @param registry Registry to link.
  */
 function setPropertyRegistry(target, property, registry) {
-    // Get or create registry associated with the class.
+    // Receive or create the register associated with the class.
     var classRegistry = getClassRegistry_1.getOrCreateClassRegistry(target);
-    // Assign registry to into property section.
+    // Assign the registry to into the property section.
     classRegistry.property[property] = registry;
-    // Link registry with the class (prototype).
+    // Link the registry with the class (prototype).
     setClassRegistry_1.setClassRegistry(target, classRegistry);
 }
 exports.setPropertyRegistry = setPropertyRegistry;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2V0UHJvcGVydHlSZWdpc3RyeS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uL2xpYi9yZWdpc3RyeS9zZXRQcm9wZXJ0eVJlZ2lzdHJ5LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRUEsdURBQXNEO0FBQ3RELHVEQUE4RDtBQUU5RDs7Ozs7O0dBTUc7QUFDSCxTQUFnQixtQkFBbUIsQ0FBQyxNQUFjLEVBQUUsUUFBcUIsRUFBRSxRQUEwQjtJQUNuRyxvREFBb0Q7SUFDcEQsSUFBTSxhQUFhLEdBQWtCLDJDQUF3QixDQUFDLE1BQU0sQ0FBQyxDQUFDO0lBRXRFLDRDQUE0QztJQUM1QyxhQUFhLENBQUMsUUFBUSxDQUFNLFFBQVEsQ0FBQyxHQUFHLFFBQVEsQ0FBQztJQUVqRCw0Q0FBNEM7SUFDNUMsbUNBQWdCLENBQUMsTUFBTSxFQUFFLGFBQWEsQ0FBQyxDQUFDO0FBQzFDLENBQUM7QUFURCxrREFTQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IENsYXNzUmVnaXN0cnkgfSBmcm9tICcuL2NsYXNzUmVnaXN0cnknO1xuaW1wb3J0IHsgUHJvcGVydHlSZWdpc3RyeSB9IGZyb20gJy4vcHJvcGVydHlSZWdpc3RyeSc7XG5pbXBvcnQgeyBzZXRDbGFzc1JlZ2lzdHJ5IH0gZnJvbSAnLi9zZXRDbGFzc1JlZ2lzdHJ5JztcbmltcG9ydCB7IGdldE9yQ3JlYXRlQ2xhc3NSZWdpc3RyeSB9IGZyb20gJy4vZ2V0Q2xhc3NSZWdpc3RyeSc7XG5cbi8qKlxuICogTGluayByZWdpc3RyeSB3aXRoIHRoZSBjbGFzcyAocHJvdG90eXBlKSAmIHByb3BlcnR5LlxuICpcbiAqIEBwYXJhbSB0YXJnZXQgQ2xhc3MgKHByb3RvdHlwZSkuXG4gKiBAcGFyYW0gcHJvcGVydHkgUHJvcGVydHkgbmFtZS5cbiAqIEBwYXJhbSByZWdpc3RyeSBSZWdpc3RyeSB0byBsaW5rLlxuICovXG5leHBvcnQgZnVuY3Rpb24gc2V0UHJvcGVydHlSZWdpc3RyeSh0YXJnZXQ6IG9iamVjdCwgcHJvcGVydHk6IFByb3BlcnR5S2V5LCByZWdpc3RyeTogUHJvcGVydHlSZWdpc3RyeSk6IHZvaWQge1xuICAvLyBHZXQgb3IgY3JlYXRlIHJlZ2lzdHJ5IGFzc29jaWF0ZWQgd2l0aCB0aGUgY2xhc3MuXG4gIGNvbnN0IGNsYXNzUmVnaXN0cnk6IENsYXNzUmVnaXN0cnkgPSBnZXRPckNyZWF0ZUNsYXNzUmVnaXN0cnkodGFyZ2V0KTtcblxuICAvLyBBc3NpZ24gcmVnaXN0cnkgdG8gaW50byBwcm9wZXJ0eSBzZWN0aW9uLlxuICBjbGFzc1JlZ2lzdHJ5LnByb3BlcnR5Wzxhbnk+cHJvcGVydHldID0gcmVnaXN0cnk7XG5cbiAgLy8gTGluayByZWdpc3RyeSB3aXRoIHRoZSBjbGFzcyAocHJvdG90eXBlKS5cbiAgc2V0Q2xhc3NSZWdpc3RyeSh0YXJnZXQsIGNsYXNzUmVnaXN0cnkpO1xufVxuIl19
+//# sourceMappingURL=setPropertyRegistry.js.map

@@ -1,10 +1,16 @@
 {
   "name": "@decorize/core",
-  "version": "0.0.1-rc.1",
+  "version": "0.0.1-rc.2",
   "license": "MIT",
   "author": "Nojukubi <nojukubi@yokize.com>",
+  "homepage": "https://github.com/Yokize/decorize",
   "description": "Experimental @decorize/core",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yokize/decorize",
+    "directory": "package/core"
+  },
   "scripts": {
     "build": "echo 'Ready package'"
   },

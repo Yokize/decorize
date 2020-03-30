@@ -1,6 +1,4 @@
 import isObject from 'lodash/isObject';
-import { getProperty } from './getProperty';
-import { hasOwnProperty } from './hasOwnProperty';
 
 /**
  * Get value under own property from the object.
@@ -14,6 +12,6 @@ export function getOwnProperty(target: object, property: PropertyKey): any {
   // Verify whether target is object.
   if (isObject(target))
     // Get only in case it's defined directly on object.
-    return hasOwnProperty(target, property) ? getProperty(target, property) : undefined;
+    return Object.hasOwnProperty.call(target, property) ? target[property] : undefined;
   else throw new TypeError('Own property can be retrieved only from the object');
 }

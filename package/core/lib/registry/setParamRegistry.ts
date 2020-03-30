@@ -4,7 +4,7 @@ import { setPropertyRegistry } from './setPropertyRegistry';
 import { getOrCreatePropertyRegistry } from './getPropertyRegistry';
 
 /**
- * Link registry with the class (prototype), method & param.
+ * Link the registry with the class (prototype), method & param.
  *
  * @param target Class (prototype).
  * @param method Method name.
@@ -12,12 +12,12 @@ import { getOrCreatePropertyRegistry } from './getPropertyRegistry';
  * @param registry Registry to link.
  */
 export function setParamRegistry(target: object, method: PropertyKey, paramIdx: number, registry: ParamRegistry): void {
-  // Get or create registry associated with the method.
+  // Receive or create the register associated with the method.
   const propertyRegistry: PropertyRegistry = getOrCreatePropertyRegistry(target, method);
 
-  // Assign registry into parameter section.
+  // Assign the registry into the parameter section.
   propertyRegistry.parameter[paramIdx] = registry;
 
-  // Link registry with the class (prototype), method & param.
+  // Link the registry with the class (prototype), method & param.
   setPropertyRegistry(target, method, propertyRegistry);
 }

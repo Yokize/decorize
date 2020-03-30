@@ -3,7 +3,7 @@ import { _registryKey } from './baseRegistry';
 import { ClassRegistry } from './classRegistry';
 
 /**
- * Link registry with the class (prototype).
+ * Link the registry with the class (prototype).
  *
  * @param target Class (prototype).
  * @param registry Registry to link.

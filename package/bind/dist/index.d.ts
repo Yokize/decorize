@@ -1,1 +1,1 @@
-export * from './legacy/bind';
+export * from './legacy';

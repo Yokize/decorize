@@ -1,52 +1,32 @@
 import { Resolver } from './resolver';
+import { CacheEntry } from './global';
 /**
- * Get unique identifier of the decorator.
+ * Unique decorator ID.
  */
-export declare function getDecoratorId(): string;
+export declare const uniqueId: string;
 /**
- * Structure of the cache config.
+ * The interface describes the structure of the decorator configuration,
+ * which defines how the caching process should be done. The configuration
+ * specify the maximum age (ms) of the cache result, argument-dependent
+ * key resolver and expiration manual logic.
  */
 export interface CacheConfig {
-    /**
-     * Max age (ms).
-     */
     maxAge?: number;
-    /**
-     * Create key based on the args.
-     */
     resolver?: Resolver;
-    /**
-     * Manual logic to expire the cache.
-     */
     expire?: (entry: CacheEntry, context: any) => boolean | void;
 }
 /**
- * Structure of the cache entry.
- */
-export interface CacheEntry {
-    /**
-     * Result.
-     */
-    value: any;
-    /**
-     * Max age (ms).
-     */
-    maxAge?: number;
-    /**
-     * Timestamp when entry is added (ms).
-     */
-    timestamp: number;
-}
-/**
- * Check the expiration of the cache.
+ * Check the expiration of the cache entry by executing manual expire logic
+ * or comparing max age against current date. In case entry is expired its
+ * directly removed from the cache.
  *
  * @param target Class (prototype).
  * @param property Property name.
  * @param cacheKey Cache key.
- * @param cacheConfig Configuration.
+ * @param cacheConfig Cache config.
  */
 export declare function checkExpiration(target: object, property: PropertyKey, cacheKey: any, cacheConfig: CacheConfig): void;
 /**
  * Throw error in case the decorator used incorrectly.
  */
-export declare function throwIncorrectUsage(): never;
+export declare function throwUsageError(): never;

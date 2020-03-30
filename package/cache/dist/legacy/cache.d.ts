@@ -2,7 +2,7 @@ import { CacheConfig } from '../cache';
 /**
  * Cache the result of the method or getter.
  *
- * @param config Configuration.
+ * @param config Config.
  * @return Method or getter decorator.
  */
 export declare function Cache(config?: CacheConfig): MethodDecorator;
@@ -18,7 +18,7 @@ export declare function Cache(target: object, property: PropertyKey, descriptor:
 /**
  * Cache the result of the method or getter.
  *
- * @param config Configuration.
+ * @param config Config.
  * @return Method or getter decorator.
  */
 export declare function cache(config?: CacheConfig): MethodDecorator;

@@ -1,4 +1,5 @@
-// Global cache manager used by decorators.
+// The exposed and overridable helpers used by `@cache` and `@cacheClear`
+// decorators to manage cache.
 describe('Cache global', (): void => {
   // Case::
   test('should contain the default resolver', async (): Promise<void> => {
@@ -10,7 +11,7 @@ describe('Cache global', (): void => {
   });
 
   // Case::
-  test('should determine whether there is entry', async (): Promise<void> => {
+  test('should determine whether there is the entry', async (): Promise<void> => {
     // Testing target.
     const { Global } = await import('~global');
 
@@ -20,10 +21,10 @@ describe('Cache global', (): void => {
       .mockReturnValueOnce({ prop: {} })
       .mockReturnValueOnce({ prop: { test: 'result' } });
 
-    // Exp: false as cache is empty.
+    // Exp: false as the cache is empty.
     expect(Global.has({}, 'prop', 'test')).toBe(false);
 
-    // Exp: true as entry associated with the key exists.
+    // Exp: true as the entry associated with the key exists.
     expect(Global.has({}, 'prop', 'test')).toBe(true);
 
     // Exp: helper to get own metadata have been called.
@@ -41,10 +42,10 @@ describe('Cache global', (): void => {
       .mockReturnValueOnce({ prop: {} })
       .mockReturnValueOnce({ prop: { test: 'result' } });
 
-    // Exp: undefined as cache is empty.
+    // Exp: undefined as the cache is empty.
     expect(Global.get({}, 'prop', 'test')).toBe(undefined);
 
-    // Exp: entry associated with the key.
+    // Exp: the entry associated with the key.
     expect(Global.get({}, 'prop', 'test')).toBe('result');
 
     // Exp: helper to get own metadata have been called.
@@ -62,7 +63,7 @@ describe('Cache global', (): void => {
       'defineMetadata'
     );
 
-    // Opr: set entry to the cache and associate it with the key.
+    // Opr: set the entry to the cache and associate it with the key.
     Global.set({}, 'prop', 'test', 'result');
 
     // Exp: helper to define metadata have been called with correct args.
@@ -86,10 +87,10 @@ describe('Cache global', (): void => {
       .spyOn(await import('@decorize/core/reflect/getOwnMetadata'), 'getOwnMetadata')
       .mockReturnValue(cache);
 
-    // Opr: set entry to the cache and associate it with the key.
+    // Opr: set the entry to the cache and associate it with the key.
     Global.set({}, 'prop', 'test', 'result2');
 
-    // Exp: cache is overridden by the new entry.
+    // Exp: the cache is overridden by the new entry.
     expect(cache).toEqual({ prop: { test: 'result2' } });
 
     // Exp: helper to get own metadata have been called.
@@ -112,7 +113,7 @@ describe('Cache global', (): void => {
     // Opr: remove the entry associated with the key.
     Global.remove({}, 'prop', 'test');
 
-    // Exp: entry is removed from the mocked cache.
+    // Exp: the entry is removed from the mocked cache.
     expect(cache).toEqual({ prop: {} });
 
     // Exp: helper to get own metadata have been called.
@@ -173,7 +174,7 @@ describe('Cache global', (): void => {
   });
 
   // Case::
-  test('should ignore <has> in case cache not exist', async (): Promise<void> => {
+  test('should ignore <has> in case the cache not exist', async (): Promise<void> => {
     // Testing target.
     const { Global } = await import('~global');
 
@@ -182,7 +183,7 @@ describe('Cache global', (): void => {
       .spyOn(await import('@decorize/core/reflect/getOwnMetadata'), 'getOwnMetadata')
       .mockReturnValue(undefined);
 
-    // Exp: false as cache is not defined.
+    // Exp: false as the cache is not defined.
     expect(Global.has({}, 'prop', 'test')).toBe(false);
 
     // Exp: helper to get own metadata have been called.
@@ -190,7 +191,7 @@ describe('Cache global', (): void => {
   });
 
   // Case::
-  test('should ignore <get> in case cache not exist', async (): Promise<void> => {
+  test('should ignore <get> in case the cache not exist', async (): Promise<void> => {
     // Testing target.
     const { Global } = await import('~global');
 
@@ -199,7 +200,7 @@ describe('Cache global', (): void => {
       .spyOn(await import('@decorize/core/reflect/getOwnMetadata'), 'getOwnMetadata')
       .mockReturnValue(undefined);
 
-    // Exp: undefined as cache is not defined.
+    // Exp: undefined as the cache is not defined.
     expect(Global.get({}, 'prop', 'test')).toBe(undefined);
 
     // Exp: helper to get own metadata have been called.
@@ -207,7 +208,7 @@ describe('Cache global', (): void => {
   });
 
   // Case::
-  test('should ignore <remove> in case cache not exist', async (): Promise<void> => {
+  test('should ignore <remove> in case the cache not exist', async (): Promise<void> => {
     // Testing target.
     const { Global } = await import('~global');
 
@@ -232,7 +233,7 @@ describe('Cache global', (): void => {
   });
 
   // Case::
-  test('should ignore <clear> in case cache not exist', async (): Promise<void> => {
+  test('should ignore <clear> in case the cache not exist', async (): Promise<void> => {
     // Testing target.
     const { Global } = await import('~global');
 
@@ -246,7 +247,7 @@ describe('Cache global', (): void => {
       .spyOn(await import('@decorize/core/reflect/deleteProperty'), 'deleteProperty')
       .mockReturnValue(undefined);
 
-    // Opr: clear cache.
+    // Opr: clear the cache.
     Global.clear({}, 'prop');
 
     // Exp: helper to get own metadata have been called.

@@ -2,7 +2,7 @@ import { Decorator } from '../decorator';
 import { addProperty } from '../registry/addProperty';
 
 /**
- * Decorator logic to be executed.
+ * Decorator's logic to be executed.
  *
  * @param target Class (prototype).
  * @param property Accessor name.
@@ -18,7 +18,7 @@ export type AccessorLogic = (
 ) => PropertyDescriptor | void;
 
 /**
- * Creates legacy accessor decorator which execute logic on runtime.
+ * Creates legacy accessor decorator that executes logic at runtime.
  * There is no separate type for accessor decorator in lib.es5.d.ts
  * so used MethodDecorator as it's have same signature.
  *
@@ -30,7 +30,7 @@ export type AccessorLogic = (
 export function accessorLegacyDecorator(name: any, logic: AccessorLogic, metadata?: any): MethodDecorator {
   // Legacy accessor decorator.
   return (target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor | void => {
-    // Register decorator at the property.
+    // Register accessor decorator.
     addProperty(target, property, {
       name,
       metadata,

@@ -1,14 +1,16 @@
-import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
+import isObject from 'lodash/isObject';
 import isFunction from 'lodash/isFunction';
-import isPlainObject from 'lodash/isPlainObject';
-import { createSetter } from '@decorize/core/accessor/createSetter';
+import { ContextType } from '@decorize/core/context/contextType';
+import { getContextType } from '@decorize/core/context/getContextType';
 import { hasOwnProperty } from '@decorize/core/reflect/hasOwnProperty';
+import { getPrototypeOf } from '@decorize/core/reflect/getPrototypeOf';
+import { toAccessorType } from '@decorize/core/descriptor/toAccessorType';
 import { isOriginallyMethod } from '@decorize/core/original/isOriginallyMethod';
 import { methodLegacyDecorator } from '@decorize/core/legacy/methodLegacyDecorator';
 import { accessorLegacyDecorator } from '@decorize/core/legacy/accessorLegacyDecorator';
-import { getDecoratorId, CacheConfig, CacheEntry, checkExpiration, throwIncorrectUsage } from '../cache';
-import { Global } from '../global';
+import { CacheConfig, checkExpiration, throwUsageError, uniqueId } from '../cache';
+import { CacheEntry, Global } from '../global';
 
 /**
  * Decorate the method to cache its result.
@@ -19,53 +21,68 @@ import { Global } from '../global';
  * @param configuration Configuration.
  * @return Descriptor with cache logic.
  */
-function decorateMethod(
+function methodDecoratorLogic(
   target: object,
   property: PropertyKey,
   descriptor: PropertyDescriptor,
   configuration?: CacheConfig
 ): PropertyDescriptor {
-  // Attributes used to create new behaviour.
-  const { get, set, value }: PropertyDescriptor = descriptor;
+  // Create the new accessor descriptor based on the existing `descriptor`
+  // with respect to already assigned attributes.
+  const { get, ...newDescriptor }: any = toAccessorType(property, descriptor);
 
-  // New descriptor with predefined cache logic.
-  const newDescriptor: PropertyDescriptor = pick(descriptor, ['configurable', 'enumerable']);
-
-  // Create new setter or use from an existing descriptor.
-  newDescriptor.set = isFunction(get) || isFunction(set) ? set : createSetter(property);
-
-  // Create new getter which generate function with cache logic.
+  // Create the new getter with enhanced logic to wrap the original method
+  // and cache its results.
   newDescriptor.get = function cacheGetter(this: object): Function {
-    // Function whose result has to be cached.
-    const fn: Function = get?.call(this) ?? value;
+    // The function whose result has to be cached can be obtained from the
+    // accessor descriptor by executing `get` with context.
+    const fn: Function = get.call(this);
 
-    // Verify that the function is the correct type.
-    if (!isFunction(fn)) throwIncorrectUsage();
+    // Ensure the result obtained from `get` is the correct type.
+    if (!isFunction(fn)) throwUsageError();
 
-    // Return the original function in case its accessed from the prototype.
-    if (hasOwnProperty(this, 'constructor')) return fn;
+    // In case the `constructor` property directly belongs to the context,
+    // it is reasonable to conclude that the context is the prototype and
+    // not the class or its instance.
+    if (hasOwnProperty(this, 'constructor'))
+      // Returns the original function.
+      return fn;
 
-    // Create new method with cache logic.
+    // It's important to determine whether the context is the original
+    // or descendant class (its instance).
+    const ctxType: ContextType = getContextType(this, target, property);
+
+    // The ES2015+ specification defines `super` as the reference to the
+    // context of the outer method. There is no need to cache result of
+    // an overridden method that is accessed via `super` to support ES5
+    // compatibility.
+    if (ctxType === ContextType.Inheritor && hasOwnProperty(getPrototypeOf(this), property))
+      // Returns the original function.
+      return fn;
+
+    // Create the wrapper with the logic to cache the result of the
+    // original method.
     return function cacheLogic(this: object, ...args: any[]): any {
       // Execute without cache in case the context is nil.
       if (isNil(this)) return fn.apply(this, args);
 
-      // Generate the key which used to store and access the result.
+      // Create the key using the global or custom resolver with arguments
+      // that are passed to the wrapper.
       const cacheKey: PropertyKey = (configuration?.resolver ?? Global.resolver)(...args);
 
-      // Need to check cache expiration.
+      // Check expiration of the cache entry.
       checkExpiration(this, property, cacheKey, configuration);
 
-      // Determine whether the result is already in the cache.
+      // Determine whether the entry is missing in the cache.
       if (!Global.has(this, property, cacheKey)) {
-        // Cache entry with the result.
+        // Entry with the result and additional configs.
         const cacheEntry: CacheEntry = {
           value: fn.apply(this, args),
           maxAge: configuration?.maxAge,
           timestamp: Date.now()
         };
 
-        //  Cache the result of the method.
+        // Store the entry to the global cache.
         Global.set(this, property, cacheKey, cacheEntry);
       }
 
@@ -74,7 +91,7 @@ function decorateMethod(
     };
   };
 
-  // Return new descriptor with cache logic.
+  // Returns the descriptor with the cache logic.
   return newDescriptor;
 }
 
@@ -87,42 +104,54 @@ function decorateMethod(
  * @param configuration Configuration.
  * @return Descriptor with cache logic.
  */
-function decorateGetter(
+function getterDecoratorLogic(
   target: object,
   property: PropertyKey,
   descriptor: PropertyDescriptor,
   configuration?: CacheConfig
 ): PropertyDescriptor {
-  // Attributes used to create new behaviour.
-  const { get, set }: PropertyDescriptor = descriptor;
+  // Create the new accessor descriptor based on the existing `descriptor`
+  // with respect to already assigned attributes.
+  const { get, ...newDescriptor }: any = toAccessorType(property, descriptor);
 
-  // New descriptor with predefined cache logic.
-  const newDescriptor: PropertyDescriptor = pick(descriptor, ['configurable', 'enumerable']);
-
-  // Use setter from an existing descriptor.
-  newDescriptor.set = set;
-
-  // Create new getter to cache its result.
+  // Create the new getter with enhanced logic to wrap the original getter
+  // and cache its result.
   newDescriptor.get = function cacheLogic(this: object): any {
-    // Execute without cache in case its accessed from the prototype.
-    if (hasOwnProperty(this, 'constructor')) return get.call(this);
+    // In case the `constructor` property directly belongs to the context,
+    // it is reasonable to conclude that the context is the prototype and
+    // not the class or its instance.
+    if (hasOwnProperty(this, 'constructor'))
+      // Returns the result of the original getter.
+      return get.call(this);
 
-    // Generate the key which used to store and access the result.
+    // It's important to determine whether the context is the original
+    // or descendant class (its instance).
+    const ctxType: ContextType = getContextType(this, target, property);
+
+    // The ES2015+ specification defines `super` as the reference to the
+    // context of the outer getter. There is no need to cache result of
+    // an overridden getter that is accessed via `super` to support ES5
+    // compatibility.
+    if (ctxType === ContextType.Inheritor && hasOwnProperty(getPrototypeOf(this), property))
+      // Returns the result of the original getter.
+      return get.call(this);
+
+    // Create the key using the global or custom resolver without arguments.
     const cacheKey: PropertyKey = (configuration?.resolver ?? Global.resolver)();
 
-    // Need to check cache expiration.
+    // Check expiration of the cache entry.
     checkExpiration(this, property, cacheKey, configuration);
 
-    // Determine whether the result is already in the cache.
+    // Determine whether the entry is missing in the cache.
     if (!Global.has(this, property, cacheKey)) {
-      // Cache entry with the result.
+      // Entry with the result and additional configs.
       const cacheEntry: CacheEntry = {
         value: get.call(this),
         maxAge: configuration?.maxAge,
         timestamp: Date.now()
       };
 
-      // Cache the result of the getter.
+      // Store the entry to the global cache.
       Global.set(this, property, cacheKey, cacheEntry);
     }
 
@@ -130,35 +159,35 @@ function decorateGetter(
     return Global.get(this, property, cacheKey).value;
   };
 
-  // Return new descriptor with cache logic.
+  // Returns the descriptor with the cache logic.
   return newDescriptor;
 }
 
 /**
- * Universal decorator (without type checking).
+ * Universal decoration (without type checking).
  */
-function decorateUniversal(args: any[]): any {
+function cacheDecorator(args: any[]): any {
   if (args.length === 0)
-    // Decorator is used as the factory.
-    return (...args2: any[]): any => decorateUniversal(args2);
+    // If there are no arguments, the decorator was used as a factory.
+    return (...args2: any[]): any => cacheDecorator(args2);
 
   if (args.length === 1)
-    // Decorator is applied with config.
-    return (...args2: any[]): any => decorateUniversal([...args2, ...args]);
+    // If there is one argument, the decorator was applied with config.
+    return (...args2: any[]): any => cacheDecorator([...args2, ...args]);
 
   // Destructuring of dynamic arguments.
   const [target, property, descriptor, configuration] = args;
 
-  // Verify that the decorator is used correctly.
-  if (!isPlainObject(descriptor)) throwIncorrectUsage();
+  // Ensure the decorator is used correctly.
+  if (!isObject(descriptor)) throwUsageError();
 
-  // Create new decorator based on the property (method / getter).
+  // If there are three arguments, the decorator was applied to the method or getter.
   const newlyCreatedDecorator: any =
-    isFunction(descriptor.value) || isOriginallyMethod(target, property)
-      ? methodLegacyDecorator(getDecoratorId(), decorateMethod, configuration)
-      : isFunction(descriptor.get)
-      ? accessorLegacyDecorator(getDecoratorId(), decorateGetter, configuration)
-      : throwIncorrectUsage();
+    isFunction((<any>descriptor).value) || isOriginallyMethod(target, property)
+      ? methodLegacyDecorator(uniqueId, methodDecoratorLogic, configuration)
+      : isFunction((<any>descriptor).get)
+      ? accessorLegacyDecorator(uniqueId, getterDecoratorLogic, configuration)
+      : throwUsageError();
 
   // Execute newly created decorator.
   return newlyCreatedDecorator(target, property, descriptor);
@@ -167,7 +196,7 @@ function decorateUniversal(args: any[]): any {
 /**
  * Cache the result of the method or getter.
  *
- * @param config Configuration.
+ * @param config Config.
  * @return Method or getter decorator.
  */
 export function Cache(config?: CacheConfig): MethodDecorator;
@@ -182,13 +211,13 @@ export function Cache(config?: CacheConfig): MethodDecorator;
  */
 export function Cache(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 export function Cache(...args: any[]): any {
-  return decorateUniversal.call(null, args);
+  return cacheDecorator.call(null, args);
 }
 
 /**
  * Cache the result of the method or getter.
  *
- * @param config Configuration.
+ * @param config Config.
  * @return Method or getter decorator.
  */
 export function cache(config?: CacheConfig): MethodDecorator;
@@ -203,5 +232,5 @@ export function cache(config?: CacheConfig): MethodDecorator;
  */
 export function cache(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 export function cache(...args: any[]): any {
-  return decorateUniversal.call(null, args);
+  return cacheDecorator.call(null, args);
 }

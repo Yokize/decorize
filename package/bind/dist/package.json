@@ -1,15 +1,30 @@
 {
   "name": "@decorize/bind",
-  "version": "0.0.1-rc.1",
+  "version": "0.0.1-rc.2",
   "license": "MIT",
   "author": "Nojukubi <nojukubi@yokize.com>",
-  "description": "Experimental @decorize/bind",
+  "homepage": "https://github.com/Yokize/decorize",
+  "description": "Decorator to bind the method or all methods of the class to the context used to access it",
   "main": "./index.js",
+  "keywords": [
+    "bind",
+    "bound",
+    "autobind",
+    "class",
+    "method",
+    "decorator",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yokize/decorize",
+    "directory": "package/bind"
+  },
   "scripts": {
     "build": "echo 'Ready package'"
   },
   "dependencies": {
-    "@decorize/core": "^0.0.1-rc.1",
+    "@decorize/core": "^0.0.1-rc.2",
     "@types/lodash": "^4.14.149",
     "lodash": "^4.17.15"
   }

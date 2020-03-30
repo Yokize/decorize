@@ -1,5 +1,5 @@
 /**
- * Decorator logic to be executed.
+ * Decorator's logic to be executed.
  *
  * @param target Class (prototype).
  * @param property Accessor name.
@@ -9,7 +9,7 @@
  */
 export declare type AccessorLogic = (target: any, property: PropertyKey, descriptor: PropertyDescriptor, metadata: any) => PropertyDescriptor | void;
 /**
- * Creates legacy accessor decorator which execute logic on runtime.
+ * Creates legacy accessor decorator that executes logic at runtime.
  * There is no separate type for accessor decorator in lib.es5.d.ts
  * so used MethodDecorator as it's have same signature.
  *

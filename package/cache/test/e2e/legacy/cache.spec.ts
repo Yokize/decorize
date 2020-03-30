@@ -317,7 +317,7 @@ describe('@cache', (): void => {
     class Test {
       public constructor(public state: string) {}
 
-      @cache({ resolver: key => key })
+      @cache({ resolver: (key) => key })
       public method(_id: number): string {
         return this.state;
       }
@@ -344,7 +344,7 @@ describe('@cache', (): void => {
     // Testing target.
     const { cache } = await import('~legacy/cache');
 
-    // Mock: helper to check whether decorated property was originally the method.
+    // Mock: helper to check whether property was originally the method.
     const isOriginallyMethod: jest.SpyInstance = jest
       .spyOn(await import('@decorize/core/original/isOriginallyMethod'), 'isOriginallyMethod')
       .mockReturnValue(true);
@@ -355,7 +355,7 @@ describe('@cache', (): void => {
 
       @cache
       public get method(): Function {
-        return function(this: Test): string {
+        return function (this: Test): string {
           return this.state;
         };
       }
@@ -409,7 +409,7 @@ describe('@cache', (): void => {
   });
 
   // Case::
-  test('should clear the cache based on the specified expire config', async (): Promise<void> => {
+  test('should clear the cache based on the expire logic', async (): Promise<void> => {
     // Testing target.
     const { cache } = await import('~legacy/cache');
 
@@ -477,7 +477,7 @@ describe('@cache', (): void => {
   });
 
   // Case::
-  test('should ignore caching when executed getter from the prototype', async (): Promise<void> => {
+  test('should ignore caching when executed getter via prototype', async (): Promise<void> => {
     // Testing target.
     const { cache } = await import('~legacy/cache');
 
@@ -502,7 +502,42 @@ describe('@cache', (): void => {
   });
 
   // Case::
-  test('should ignore caching when accessing method from the prototype', async (): Promise<void> => {
+  test('should ignore caching when executed getter via super', async (): Promise<void> => {
+    // Testing target.
+    const { cache } = await import('~legacy/cache');
+
+    // Var: class with the decorated getter.
+    class Parent {
+      public constructor(public state: string) {}
+
+      @cache
+      public get prop(): string {
+        return this.state;
+      }
+    }
+
+    // Var: inherited class.
+    class Child extends Parent {
+      public get prop(): string {
+        return super.prop;
+      }
+    }
+
+    // Var: instance with the overridden getter.
+    const test: Child = new Child('anyTxt');
+
+    // Var: getter result which should not be cached.
+    const cached: string = test.prop;
+
+    // Opr: assign the new value to the internal state.
+    test.state = 'changedTxt';
+
+    // Exp: different as caching is not done.
+    expect(cached).not.toBe(test.prop);
+  });
+
+  // Case::
+  test('should ignore caching when accessing method via prototype', async (): Promise<void> => {
     // Testing target.
     const { cache } = await import('~legacy/cache');
 
@@ -527,7 +562,7 @@ describe('@cache', (): void => {
   });
 
   // Case::
-  test('should ignore caching when accessing method from the prototype (super)', async (): Promise<void> => {
+  test('should ignore caching when accessing method via super', async (): Promise<void> => {
     // Testing target.
     const { cache } = await import('~legacy/cache');
 
@@ -548,7 +583,7 @@ describe('@cache', (): void => {
       }
     }
 
-    // Var: instance with the decorated method.
+    // Var: instance with the overridden method.
     const test: Child = new Child('anyTxt');
 
     // Var: method result which should not be cached.
@@ -604,10 +639,10 @@ describe('@cache', (): void => {
     // Exp: throw error as tried to decorate the invalid getter.
     expect((): any => cache({}, 'test', { get: <any>1 })).toThrow(Error);
 
-    // Fake the helper to check whether decorated property was originally the method.
+    // Fake the helper to check whether property was originally the method.
     jest.spyOn(await import('@decorize/core/original/isOriginallyMethod'), 'isOriginallyMethod').mockReturnValue(true);
 
-    // Exp: throw error as tried to decorate the invalid decorated method.
+    // Exp: throw error as tried to decorate the invalid method.
     expect((): any => cache({}, 'test', { get: (): null => null }).get()).toThrow(Error);
   });
 });
