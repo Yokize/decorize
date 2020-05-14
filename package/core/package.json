@@ -1,23 +1,25 @@
 {
   "name": "@decorize/core-dev",
-  "version": "0.0.1-rc.2",
+  "version": "1.0.0",
   "directories": {
-    "doc": "README.md",
+    "doc": "doc",
     "lib": "lib",
     "test": "test"
   },
   "scripts": {
+    "doc": "tScript doc",
     "lint": "tScript lint",
     "test": "tScript test",
     "perf": "tScript perf",
     "build": "tScript build"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.149",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "tslib": "^1.13.0"
   },
   "devDependencies": {
-    "@toolize/script": "^0.0.1-rc.3",
+    "@toolize/script": "^0.0.3",
+    "@types/lodash": "^4.14.150",
     "reflect-metadata": "^0.1.13"
   }
 }

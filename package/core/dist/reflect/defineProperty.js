@@ -1,20 +1,18 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isObject_1 = __importDefault(require("lodash/isObject"));
+exports.defineProperty = void 0;
+var tslib_1 = require("tslib");
+var isObject_1 = tslib_1.__importDefault(require("lodash/isObject"));
 /* istanbul ignore next */
-var builtInReflect = Reflect === null || Reflect === void 0 ? void 0 : Reflect.defineProperty;
+var ReflectBuiltIn = Reflect === null || Reflect === void 0 ? void 0 : Reflect.defineProperty;
 /**
- * Reflect and Object built-in is differ in return value of operation. Object
- * built-in function returns the target object when its successful, otherwise
- * it throws a TypeError. Reflect returns the operation status. Fallback is
- * aligned to return boolean, which determine whether the execution is successful.
- * Exceptional case is aligned and violation of target type throws a TypeError.
+ * Reflect and Object built-in functions differs in the return value of the
+ * operation. The built-in function of the Object returns the `target` when
+ * its successful, otherwise it throws a TypeError. Reflect returns operation
+ * status. The fallback implementation is aligned to return the Boolean, which
+ * determines the success of the operation.
  */
-var _defineProperty = builtInReflect !== null && builtInReflect !== void 0 ? builtInReflect : function definePropertyFk(target, property, descriptor) {
-    // Verify whether target is object.
+var _defineProperty = ReflectBuiltIn !== null && ReflectBuiltIn !== void 0 ? ReflectBuiltIn : function definePropertyFk(target, property, descriptor) {
     if (isObject_1.default(target))
         try {
             Object.defineProperty(target, property, descriptor);
@@ -27,13 +25,13 @@ var _defineProperty = builtInReflect !== null && builtInReflect !== void 0 ? bui
         throw new TypeError('Property can be defined only on the object');
 };
 /**
- * Add property to an object or change the attributes of existing property.
+ * Add `property` to the `target` or change the attributes of an existing `property`.
  *
- * @param target Object in which to add or modify the property.
- * @param property Name of the property to be added or modified.
- * @param descriptor Descriptor for the property.
+ * @param target The object in which to add or modify the property.
+ * @param property The name of the property to be added or modified.
+ * @param descriptor The descriptor which determine the property.
  * @return True in case operation is successful; false otherwise.
- * @throws TypeError in case of non-object target.
+ * @throws TypeError in case of target type violation.
  */
 function defineProperty(target, property, descriptor) {
     return _defineProperty(target, property, descriptor);

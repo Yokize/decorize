@@ -1,19 +1,18 @@
 import isObject from 'lodash/isObject';
 
 /* istanbul ignore next */
-const builtInReflect: any = Reflect?.defineProperty;
+const ReflectBuiltIn: any = Reflect?.defineProperty;
 
 /**
- * Reflect and Object built-in is differ in return value of operation. Object
- * built-in function returns the target object when its successful, otherwise
- * it throws a TypeError. Reflect returns the operation status. Fallback is
- * aligned to return boolean, which determine whether the execution is successful.
- * Exceptional case is aligned and violation of target type throws a TypeError.
+ * Reflect and Object built-in functions differs in the return value of the
+ * operation. The built-in function of the Object returns the `target` when
+ * its successful, otherwise it throws a TypeError. Reflect returns operation
+ * status. The fallback implementation is aligned to return the Boolean, which
+ * determines the success of the operation.
  */
 const _defineProperty: (target: object, property: PropertyKey, descriptor: PropertyDescriptor) => boolean =
-  builtInReflect ??
+  ReflectBuiltIn ??
   function definePropertyFk(target: object, property: PropertyKey, descriptor: PropertyDescriptor): boolean {
-    // Verify whether target is object.
     if (isObject(target))
       try {
         Object.defineProperty(target, property, descriptor);
@@ -25,13 +24,13 @@ const _defineProperty: (target: object, property: PropertyKey, descriptor: Prope
   };
 
 /**
- * Add property to an object or change the attributes of existing property.
+ * Add `property` to the `target` or change the attributes of an existing `property`.
  *
- * @param target Object in which to add or modify the property.
- * @param property Name of the property to be added or modified.
- * @param descriptor Descriptor for the property.
+ * @param target The object in which to add or modify the property.
+ * @param property The name of the property to be added or modified.
+ * @param descriptor The descriptor which determine the property.
  * @return True in case operation is successful; false otherwise.
- * @throws TypeError in case of non-object target.
+ * @throws TypeError in case of target type violation.
  */
 export function defineProperty(target: object, property: PropertyKey, descriptor: PropertyDescriptor): boolean {
   return _defineProperty(target, property, descriptor);

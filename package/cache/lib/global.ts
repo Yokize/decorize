@@ -64,7 +64,7 @@ function get(target: object, property: PropertyKey, key: any): any {
  * @param target Class (prototype).
  * @param property Property name.
  * @param key The key used to store entry.
- * @param entry Entry to store.
+ * @param entry Entry to be added to cache.
  */
 function set(target: object, property: PropertyKey, key: any, entry: any): void {
   // Get the cache that's associated with the target.
@@ -88,7 +88,7 @@ function set(target: object, property: PropertyKey, key: any, entry: any): void 
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key The key used to store and retrieve the entry.
+ * @param key The key used to retrieve the entry.
  */
 function remove(target: object, property: PropertyKey, key: any): void {
   // Get the cache that's associated with the target.

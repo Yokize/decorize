@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addParam = void 0;
 var setParamRegistry_1 = require("./setParamRegistry");
 var getParamRegistry_1 = require("./getParamRegistry");
 /**
@@ -9,10 +10,10 @@ var getParamRegistry_1 = require("./getParamRegistry");
  * @param target Class (prototype).
  * @param method Method name.
  * @param paramIdx Parameter index.
- * @param entry Decorator data.
+ * @param entry Decorator metadata.
  */
 function addParam(target, method, paramIdx, entry) {
-    // Get the register or create a new one.
+    // Get the registry or create the new one.
     var registry = getParamRegistry_1.getOrCreateParamRegistry(target, method, paramIdx);
     // Add directly to the registry.
     registry.decorator.push(entry);

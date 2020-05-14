@@ -1,20 +1,19 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getOwnMetadata = void 0;
+var tslib_1 = require("tslib");
 /// <reference types="reflect-metadata" />
-var isObject_1 = __importDefault(require("lodash/isObject"));
+var isObject_1 = tslib_1.__importDefault(require("lodash/isObject"));
 var hasOwnMetadata_1 = require("./hasOwnMetadata");
 var get_1 = require("./fallback/get");
 /* istanbul ignore next */
-var builtInReflect = Reflect === null || Reflect === void 0 ? void 0 : Reflect.getOwnMetadata;
+var ReflectBuiltIn = Reflect === null || Reflect === void 0 ? void 0 : Reflect.getOwnMetadata;
 /**
- * Reflect retrieves metadata by key from map related to the object or property.
- * Fallback get metadata from private storage defined directly at the object.
- * Fallback approach have limitation to get metadata from non-object target.
+ * Reflect retrieves metadata by the key from the map, which relates to the `target`
+ * or its `property`. The fallback implementation retrieves metadata from the private
+ * storage, which defined directly on the `target`.
  */
-var _getOwnMetadata = builtInReflect !== null && builtInReflect !== void 0 ? builtInReflect : function getOwnMetadataFk(key, target, property) {
+var _getOwnMetadata = ReflectBuiltIn !== null && ReflectBuiltIn !== void 0 ? ReflectBuiltIn : function getOwnMetadataFk(key, target, property) {
     return isObject_1.default(target)
         ? hasOwnMetadata_1.hasOwnMetadata(key, target, property)
             ? get_1.getFromStorage(key, target, property)

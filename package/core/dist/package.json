@@ -1,6 +1,6 @@
 {
   "name": "@decorize/core",
-  "version": "0.0.1-rc.2",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Nojukubi <nojukubi@yokize.com>",
   "homepage": "https://github.com/Yokize/decorize",
@@ -8,14 +8,11 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yokize/decorize",
-    "directory": "package/core"
-  },
-  "scripts": {
-    "build": "echo 'Ready package'"
+    "directory": "package/core",
+    "url": "git+https://github.com/Yokize/decorize.git"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.149",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "tslib": "^1.13.0"
   }
 }

@@ -3,25 +3,24 @@
   "commands": [
     {
       "commandKind": "bulk",
+      "name": "build",
+      "summary": "Building projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "test",
-      "summary": "JavaScript Testing Framework to execute tests.",
-      "enableParallelism": false,
+      "summary": "Testing projects",
+      "enableParallelism": true,
       "ignoreMissingScript": true
     },
     {
       "commandKind": "bulk",
       "name": "lint",
-      "summary": "Linter tool for identifying and reporting problematic patterns.",
-      "enableParallelism": false,
+      "summary": "Linting projects",
+      "enableParallelism": true,
       "ignoreMissingScript": true
-    }
-  ],
-  "parameters": [
-    {
-      "parameterKind": "flag",
-      "longName": "--silent",
-      "description": "Prevent from printing messages through the console.",
-      "associatedCommands": ["test"]
     }
   ]
 }

@@ -1,28 +1,27 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isObject_1 = __importDefault(require("lodash/isObject"));
+exports.getProperty = void 0;
+var tslib_1 = require("tslib");
+var isObject_1 = tslib_1.__importDefault(require("lodash/isObject"));
 /* istanbul ignore next */
-var builtInReflect = Reflect === null || Reflect === void 0 ? void 0 : Reflect.get;
+var ReflectBuiltIn = Reflect === null || Reflect === void 0 ? void 0 : Reflect.get;
 /**
- * Reflect function works like getting a property from the object.
+ * Reflect function works the same as directly accessing the `property`
+ * from the `target`.
  */
-var _getProperty = builtInReflect !== null && builtInReflect !== void 0 ? builtInReflect : function getPropertyFk(target, property) {
-    // Verify whether target is object.
+var _getProperty = ReflectBuiltIn !== null && ReflectBuiltIn !== void 0 ? ReflectBuiltIn : function getPropertyFk(target, property) {
     if (isObject_1.default(target))
-        // Get from object or prototype chain.
         return target[property];
     else
         throw new TypeError('Property can be retrieved only from the object');
 };
 /**
- * Get value under the property from the object or its prototype chain.
+ * Get the value under the `property` from the `target` or its prototype chain.
  *
- * @param target Object in which to look for the property.
- * @param property Name of the property to find.
- * @return Retrieved property value; undefined otherwise.
+ * @param target The object in which to look for the property.
+ * @param property The name of the property used to look up.
+ * @return The retrieved value; undefined otherwise.
+ * @throws TypeError in case of target type violation.
  */
 function getProperty(target, property) {
     return _getProperty(target, property);

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addClass = void 0;
 var setClassRegistry_1 = require("./setClassRegistry");
 var getClassRegistry_1 = require("./getClassRegistry");
 /**
@@ -7,10 +8,10 @@ var getClassRegistry_1 = require("./getClassRegistry");
  * decoration and inspection.
  *
  * @param target Class (prototype).
- * @param entry Decorator data.
+ * @param entry Decorator metadata.
  */
 function addClass(target, entry) {
-    // Get the register or create a new one.
+    // Get the registry or create the new one.
     var registry = getClassRegistry_1.getOrCreateClassRegistry(target);
     // Add directly to the registry.
     registry.decorator.push(entry);

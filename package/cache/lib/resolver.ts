@@ -1,5 +1,5 @@
 /**
- * The resolver to create default key.
+ * The resolver to create the default key.
  */
 export const resolver: Resolver = (): any => 'default';
 

@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getOrCreateStorage = exports.getStorage = exports.createStorage = void 0;
 var getOwnProperty_1 = require("../getOwnProperty");
-/**
- * Unique storage key.
- */
 /* istanbul ignore next */
 var _storageKey = Symbol
     ? // Private symbol.
@@ -11,10 +9,10 @@ var _storageKey = Symbol
     : // Namespaced key.
         '__decorize::reflect__';
 /**
- * Create storage and assign it directly to the object.
+ * Create the storage and assign it directly to the object.
  *
- * @param target Object to which assign storage.
- * @return Created and assigned storage.
+ * @param target The object to which the storage should be assigned.
+ * @return The storage is created and assigned to the object.
  */
 function createStorage(target) {
     // Newly created storage.
@@ -28,20 +26,20 @@ function createStorage(target) {
 }
 exports.createStorage = createStorage;
 /**
- * Get storage which directly defined on the object.
+ * Get the storage which directly defined on the object.
  *
- * @param target Object from which to get storage.
- * @return Storage; null in case non exist.
+ * @param target The object from which to get the storage.
+ * @return The storage; null in case non exist.
  */
 function getStorage(target) {
     return getOwnProperty_1.getOwnProperty(target, _storageKey);
 }
 exports.getStorage = getStorage;
 /**
- * Get or create storage directly on the object.
+ * Get or create the storage directly on the object.
  *
- * @param target Object which contains storage.
- * @return Storage defined at the object.
+ * @param target The object from which to get the storage.
+ * @return The storage defined at the object.
  */
 function getOrCreateStorage(target) {
     var _a;

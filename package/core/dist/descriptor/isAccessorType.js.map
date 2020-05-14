@@ -1,0 +1,1 @@
+{"version":3,"file":"isAccessorType.js","sourceRoot":"","sources":["../../lib/descriptor/isAccessorType.ts"],"names":[],"mappings":";;;;AAAA,yEAA2C;AAE3C;;;;;GAKG;AACH,SAAgB,cAAc,CAAC,UAA8B;IAC3D,OAAO,oBAAU,CAAC,UAAU,aAAV,UAAU,uBAAV,UAAU,CAAE,GAAG,CAAC,IAAI,oBAAU,CAAC,UAAU,aAAV,UAAU,uBAAV,UAAU,CAAE,GAAG,CAAC,CAAC;AACpE,CAAC;AAFD,wCAEC"}

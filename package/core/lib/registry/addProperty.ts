@@ -8,10 +8,10 @@ import { PropertyRegistry, PropertyRegistryEntry } from './propertyRegistry';
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param entry Decorator data.
+ * @param entry Decorator metadata.
  */
 export function addProperty(target: object, property: PropertyKey, entry: PropertyRegistryEntry): void {
-  // Get the register or create a new one.
+  // Get the registry or create the new one.
   const registry: PropertyRegistry = getOrCreatePropertyRegistry(target, property);
 
   // Add directly to the registry.

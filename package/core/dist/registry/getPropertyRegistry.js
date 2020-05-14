@@ -1,21 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getOrCreatePropertyRegistry = exports.getPropertyRegistry = void 0;
 var getClassRegistry_1 = require("./getClassRegistry");
 /**
- * Get registry linked with the class (prototype) & property.
+ * Get the registry associated with the class (prototype) & property.
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @return Registry in case is defined; undefined otherwise.
+ * @return Registry in case it's defined; undefined otherwise.
  */
 function getPropertyRegistry(target, property) {
     var _a;
-    // Retrieve from the property registry in case it's exist.
+    // Retrieve from the property registry in case it exists.
     return (_a = getClassRegistry_1.getClassRegistry(target)) === null || _a === void 0 ? void 0 : _a.property[property];
 }
 exports.getPropertyRegistry = getPropertyRegistry;
 /**
- * Get or create registry linked with the class (prototype) & property.
+ * Get or create the registry associated with the the class (prototype) & property.
  *
  * @param target Class (prototype).
  * @param property Property name.

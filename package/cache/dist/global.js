@@ -1,10 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isNil_1 = __importDefault(require("lodash/isNil"));
-var isObject_1 = __importDefault(require("lodash/isObject"));
+exports.Global = void 0;
+var tslib_1 = require("tslib");
+var isNil_1 = tslib_1.__importDefault(require("lodash/isNil"));
+var isObject_1 = tslib_1.__importDefault(require("lodash/isObject"));
 var defineMetadata_1 = require("@decorize/core/reflect/defineMetadata");
 var getOwnMetadata_1 = require("@decorize/core/reflect/getOwnMetadata");
 var hasOwnProperty_1 = require("@decorize/core/reflect/hasOwnProperty");
@@ -52,7 +51,7 @@ function get(target, property, key) {
  * @param target Class (prototype).
  * @param property Property name.
  * @param key The key used to store entry.
- * @param entry Entry to store.
+ * @param entry Entry to be added to cache.
  */
 function set(target, property, key, entry) {
     // Get the cache that's associated with the target.
@@ -73,7 +72,7 @@ function set(target, property, key, entry) {
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param key The key used to store and retrieve the entry.
+ * @param key The key used to retrieve the entry.
  */
 function remove(target, property, key) {
     // Get the cache that's associated with the target.

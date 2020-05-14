@@ -1,1 +1,1 @@
-{"version":3,"file":"bind.js","sourceRoot":"","sources":["../lib/bind.ts"],"names":[],"mappings":";;AAAA;;GAEG;AACU,QAAA,QAAQ,GAAW,gBAAgB,CAAC;AAWjD;;GAEG;AACH,SAAgB,eAAe;IAC7B,MAAM,IAAI,KAAK,CAAI,gBAAQ,4CAAyC,CAAC,CAAC;AACxE,CAAC;AAFD,0CAEC"}
+{"version":3,"file":"bind.js","sourceRoot":"","sources":["../lib/bind.ts"],"names":[],"mappings":";;;AAAA;;GAEG;AACU,QAAA,QAAQ,GAAW,gBAAgB,CAAC;AAWjD;;GAEG;AACH,SAAgB,eAAe;IAC7B,MAAM,IAAI,KAAK,CAAI,gBAAQ,4CAAyC,CAAC,CAAC;AACxE,CAAC;AAFD,0CAEC"}

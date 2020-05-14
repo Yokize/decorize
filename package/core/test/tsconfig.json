@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig",
-  "include": ["unit", "e2e"],
+  "include": ["e2e", "unit"],
   "compilerOptions": {
     "paths": {
       "~*": ["lib/*"]

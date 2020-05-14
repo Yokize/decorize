@@ -7,7 +7,7 @@ export declare const uniqueId: string;
 /**
  * The interface describes the structure of the decorator configuration,
  * which defines how the caching process should be done. The configuration
- * specify the maximum age (ms) of the cache result, argument-dependent
+ * specify the maximum age (ms) of the cached result, argument-dependent
  * key resolver and expiration manual logic.
  */
 export interface CacheConfig {
@@ -16,9 +16,9 @@ export interface CacheConfig {
     expire?: (entry: CacheEntry, context: any) => boolean | void;
 }
 /**
- * Check the expiration of the cache entry by executing manual expire logic
- * or comparing max age against current date. In case entry is expired its
- * directly removed from the cache.
+ * Check the expiration of the cache entry by comparing max age against
+ * current date or executing manual expire logic. In case entry is expired
+ * its directly removed from the cache.
  *
  * @param target Class (prototype).
  * @param property Property name.

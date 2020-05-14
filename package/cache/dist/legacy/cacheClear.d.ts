@@ -12,7 +12,7 @@ export declare function CacheClear(config?: ClearConfig): MethodDecorator;
  * @param target Class (prototype).
  * @param property Property name.
  * @param descriptor Property Descriptor.
- * @return Descriptor with clear logic.
+ * @return The descriptor with the clear logic.
  */
 export declare function CacheClear(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 /**
@@ -28,6 +28,6 @@ export declare function cacheClear(config?: ClearConfig): MethodDecorator;
  * @param target Class (prototype).
  * @param property Property name.
  * @param descriptor Property Descriptor.
- * @return Descriptor with clear logic.
+ * @return The descriptor with the clear logic.
  */
 export declare function cacheClear(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;

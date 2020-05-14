@@ -5,6 +5,6 @@ import { PropertyRegistryEntry } from './propertyRegistry';
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @param entry Decorator data.
+ * @param entry Decorator metadata.
  */
 export declare function addProperty(target: object, property: PropertyKey, entry: PropertyRegistryEntry): void;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports._registryKey = void 0;
 /* istanbul ignore next */
 exports._registryKey = Symbol
     ? // Private symbol.

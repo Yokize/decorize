@@ -1,17 +1,15 @@
 import isObject from 'lodash/isObject';
 
 /* istanbul ignore next */
-const builtInReflect: any = Reflect?.deleteProperty;
+const ReflectBuiltIn: any = Reflect?.deleteProperty;
 
 /**
- * Reflect deletes the property from the object and behave identical to
- * non-strict delete operator. Exceptional case is aligned and violation
- * of target type throws a TypeError.
+ * Reflect deletes the property from the `target` and behave identical to the
+ * non-strict delete operator.
  */
 const _deleteProperty: (target: object, property: PropertyKey) => boolean =
-  builtInReflect ??
+  ReflectBuiltIn ??
   function deletePropertyFk(target: object, property: PropertyKey): boolean {
-    // Verify whether target is object.
     if (isObject(target))
       try {
         return Object.hasOwnProperty.call(target, property) ? delete target[property] : false;
@@ -22,12 +20,12 @@ const _deleteProperty: (target: object, property: PropertyKey) => boolean =
   };
 
 /**
- * Removes a given property from an object.
+ * Removes the given `property` from the `target`.
  *
- * @param target Object from which to delete the property.
- * @param property Name of the property to be deleted.
+ * @param target The object from which to delete the property.
+ * @param property The name of the property to be deleted.
  * @return True in case operation is successful; false otherwise.
- * @throws TypeError in case of non-object target.
+ * @throws TypeError in case of target type violation.
  */
 export function deleteProperty(target: object, property: PropertyKey): boolean {
   return _deleteProperty(target, property);

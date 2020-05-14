@@ -1,8 +1,6 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
 /* istanbul ignore file */
-__export(require("./bind"));
+tslib_1.__exportStar(require("./bind"), exports);
 //# sourceMappingURL=index.js.map

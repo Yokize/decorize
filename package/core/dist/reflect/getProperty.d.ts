@@ -1,8 +1,9 @@
 /**
- * Get value under the property from the object or its prototype chain.
+ * Get the value under the `property` from the `target` or its prototype chain.
  *
- * @param target Object in which to look for the property.
- * @param property Name of the property to find.
- * @return Retrieved property value; undefined otherwise.
+ * @param target The object in which to look for the property.
+ * @param property The name of the property used to look up.
+ * @return The retrieved value; undefined otherwise.
+ * @throws TypeError in case of target type violation.
  */
 export declare function getProperty(target: object, property: PropertyKey): any;

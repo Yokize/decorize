@@ -1,12 +1,12 @@
 import { getOwnMetadata } from '../getOwnMetadata';
 
 /**
- * Get designed type of method return.
- * Typescript support an experimental reflection feature which
- * emit metadata with parameter types.
+ * Get the designed type of method return.
+ * TypeScript supports an experimental reflection feature that
+ * emits metadata with return value type.
  *
- * @param target Object associated with metadata.
- * @param method Method for which to get designed return type.
+ * @param target The object associated with metadata.
+ * @param method The method for which to get the return type.
  * @return Lexically designed return type.
  */
 export function getDesignReturnType(target: object, method: PropertyKey): any {

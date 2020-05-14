@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.throwUsageError = exports.uniqueId = void 0;
 /**
  * Unique decorator ID.
  */

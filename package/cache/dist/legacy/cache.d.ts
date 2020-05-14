@@ -12,7 +12,7 @@ export declare function Cache(config?: CacheConfig): MethodDecorator;
  * @param target Class (prototype).
  * @param property Property name.
  * @param descriptor Property Descriptor.
- * @return Descriptor with cache logic.
+ * @return The descriptor with the cache logic.
  */
 export declare function Cache(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 /**
@@ -28,6 +28,6 @@ export declare function cache(config?: CacheConfig): MethodDecorator;
  * @param target Class (prototype).
  * @param property Property name.
  * @param descriptor Property Descriptor.
- * @return Descriptor with cache logic.
+ * @return The descriptor with the cache logic.
  */
 export declare function cache(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;

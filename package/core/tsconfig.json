@@ -2,8 +2,13 @@
   "extends": "@toolize/script",
   "include": ["lib"],
   "compilerOptions": {
-    "outDir": "dist",
     "baseUrl": ".",
+    "outDir": "dist",
     "rootDir": "lib"
+  },
+  "typedocOptions": {
+    "inputFiles": ["lib"],
+    "mode": "modules",
+    "out": "doc"
   }
 }

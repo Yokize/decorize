@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setPropertyRegistry = void 0;
 var setClassRegistry_1 = require("./setClassRegistry");
 var getClassRegistry_1 = require("./getClassRegistry");
 /**
@@ -10,9 +11,9 @@ var getClassRegistry_1 = require("./getClassRegistry");
  * @param registry Registry to link.
  */
 function setPropertyRegistry(target, property, registry) {
-    // Receive or create the register associated with the class.
+    // Receive or create the registry associated with the class.
     var classRegistry = getClassRegistry_1.getOrCreateClassRegistry(target);
-    // Assign the registry to into the property section.
+    // Assign the registry into the property section.
     classRegistry.property[property] = registry;
     // Link the registry with the class (prototype).
     setClassRegistry_1.setClassRegistry(target, classRegistry);
