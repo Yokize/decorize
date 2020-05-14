@@ -1,8 +1,7 @@
 import isNil from 'lodash/isNil';
 import isObject from 'lodash/isObject';
 import isFunction from 'lodash/isFunction';
-import { ContextType } from '@decorize/core/context/contextType';
-import { getContextType } from '@decorize/core/context/getContextType';
+import { isEqualClass } from '@decorize/core/class/isEqualClass';
 import { hasOwnProperty } from '@decorize/core/reflect/hasOwnProperty';
 import { getPrototypeOf } from '@decorize/core/reflect/getPrototypeOf';
 import { toAccessorType } from '@decorize/core/descriptor/toAccessorType';
@@ -19,7 +18,8 @@ import { CacheEntry, Global } from '../global';
  * @param property Method name.
  * @param descriptor Method descriptor.
  * @param configuration Configuration.
- * @return Descriptor with cache logic.
+ * @return The descriptor with the cache logic.
+ * @ignore
  */
 function methodDecoratorLogic(
   target: object,
@@ -32,7 +32,7 @@ function methodDecoratorLogic(
   const { get, ...newDescriptor }: any = toAccessorType(property, descriptor);
 
   // Create the new getter with enhanced logic to wrap the original method
-  // and cache its results.
+  // and cache its results on the fly.
   newDescriptor.get = function cacheGetter(this: object): Function {
     // The function whose result has to be cached can be obtained from the
     // accessor descriptor by executing `get` with context.
@@ -44,19 +44,17 @@ function methodDecoratorLogic(
     // In case the `constructor` property directly belongs to the context,
     // it is reasonable to conclude that the context is the prototype and
     // not the class or its instance.
-    if (hasOwnProperty(this, 'constructor'))
+    if (!this || hasOwnProperty(this, 'constructor'))
       // Returns the original function.
       return fn;
 
-    // It's important to determine whether the context is the original
-    // or descendant class (its instance).
-    const ctxType: ContextType = getContextType(this, target, property);
-
     // The ES2015+ specification defines `super` as the reference to the
-    // context of the outer method. There is no need to cache result of
-    // an overridden method that is accessed via `super` to support ES5
-    // compatibility.
-    if (ctxType === ContextType.Inheritor && hasOwnProperty(getPrototypeOf(this), property))
+    // context of the outer method, and there is no need to cache result in
+    // case is accessed via `super` to support ES5 compatibility. In case
+    // the class (constructor) of the context and the decorator target are
+    // different and the context has its own method with same name, it can
+    // be concluded that the access to the method was done via `super`.
+    if (!isEqualClass(this, target) && hasOwnProperty(getPrototypeOf(this), property))
       // Returns the original function.
       return fn;
 
@@ -102,7 +100,8 @@ function methodDecoratorLogic(
  * @param property Property name.
  * @param descriptor Property descriptor.
  * @param configuration Configuration.
- * @return Descriptor with cache logic.
+ * @return The descriptor with the cache logic.
+ * @ignore
  */
 function getterDecoratorLogic(
   target: object,
@@ -115,24 +114,22 @@ function getterDecoratorLogic(
   const { get, ...newDescriptor }: any = toAccessorType(property, descriptor);
 
   // Create the new getter with enhanced logic to wrap the original getter
-  // and cache its result.
+  // and cache its result on the fly.
   newDescriptor.get = function cacheLogic(this: object): any {
     // In case the `constructor` property directly belongs to the context,
     // it is reasonable to conclude that the context is the prototype and
     // not the class or its instance.
-    if (hasOwnProperty(this, 'constructor'))
+    if (!this || hasOwnProperty(this, 'constructor'))
       // Returns the result of the original getter.
       return get.call(this);
 
-    // It's important to determine whether the context is the original
-    // or descendant class (its instance).
-    const ctxType: ContextType = getContextType(this, target, property);
-
     // The ES2015+ specification defines `super` as the reference to the
-    // context of the outer getter. There is no need to cache result of
-    // an overridden getter that is accessed via `super` to support ES5
-    // compatibility.
-    if (ctxType === ContextType.Inheritor && hasOwnProperty(getPrototypeOf(this), property))
+    // context of the outer method, and there is no need to cache result in
+    // case is accessed via `super` to support ES5 compatibility. In case
+    // the class (constructor) of the context and the decorator target are
+    // different and the context has its own method with same name, it can
+    // be concluded that the access to the method was done via `super`.
+    if (!isEqualClass(this, target) && hasOwnProperty(getPrototypeOf(this), property))
       // Returns the result of the original getter.
       return get.call(this);
 
@@ -165,6 +162,9 @@ function getterDecoratorLogic(
 
 /**
  * Universal decoration (without type checking).
+ *
+ * @param args Dynamic arguments.
+ * @ignore
  */
 function cacheDecorator(args: any[]): any {
   if (args.length === 0)
@@ -175,7 +175,7 @@ function cacheDecorator(args: any[]): any {
     // If there is one argument, the decorator was applied with config.
     return (...args2: any[]): any => cacheDecorator([...args2, ...args]);
 
-  // Destructuring of dynamic arguments.
+  // Destructuring the dynamic arguments.
   const [target, property, descriptor, configuration] = args;
 
   // Ensure the decorator is used correctly.
@@ -207,7 +207,7 @@ export function Cache(config?: CacheConfig): MethodDecorator;
  * @param target Class (prototype).
  * @param property Property name.
  * @param descriptor Property Descriptor.
- * @return Descriptor with cache logic.
+ * @return The descriptor with the cache logic.
  */
 export function Cache(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 export function Cache(...args: any[]): any {
@@ -228,7 +228,7 @@ export function cache(config?: CacheConfig): MethodDecorator;
  * @param target Class (prototype).
  * @param property Property name.
  * @param descriptor Property Descriptor.
- * @return Descriptor with cache logic.
+ * @return The descriptor with the cache logic.
  */
 export function cache(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 export function cache(...args: any[]): any {

@@ -1,17 +1,18 @@
 /**
- * Determine whether the metadata associated with object is defined.
+ * Determine whether the metadata associated with the `target` is defined.
  *
- * @param key Key used to store and retrieve metadata.
- * @param target Object associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
  * @return True in case the metadata defined; false otherwise.
  */
 export declare function hasOwnMetadata(key: any, target: object): boolean;
 /**
- * Determine whether the metadata associated with property is defined.
+ * Determine whether the metadata associated with the `target` and `property`
+ * is defined.
  *
- * @param key Key used to store and retrieve metadata.
- * @param target Object which contains property.
- * @param property Property associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
+ * @param property The property associated with metadata.
  * @return True in case the metadata defined; false otherwise.
  */
 export declare function hasOwnMetadata(key: any, target: object, property: PropertyKey): boolean;

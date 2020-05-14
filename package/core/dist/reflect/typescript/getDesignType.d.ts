@@ -1,10 +1,10 @@
 /**
- * Get designed type of property.
- * Typescript support an experimental reflection feature which
- * emit metadata with parameter types.
+ * Get the designed type of property.
+ * TypeScript supports an experimental reflection feature that
+ * emits metadata with parameters types.
  *
- * @param target Object associated with metadata.
- * @param property Property for which to get designed type.
+ * @param target The object associated with metadata.
+ * @param property The property for which to get the type.
  * @return Lexically designed property type.
  */
 export declare function getDesignType(target: object, property: PropertyKey): any;

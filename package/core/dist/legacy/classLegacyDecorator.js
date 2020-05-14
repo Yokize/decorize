@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.classLegacyDecorator = void 0;
 var decorator_1 = require("../decorator");
 var addClass_1 = require("../registry/addClass");
 /**

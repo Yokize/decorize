@@ -3,17 +3,17 @@ import { _registryKey } from './baseRegistry';
 import { ClassRegistry } from './classRegistry';
 
 /**
- * Get registry linked with the class (prototype).
+ * Get the registry associated with the class (prototype).
  *
  * @param target Class (prototype).
- * @return Registry in case is defined; undefined otherwise.
+ * @return Registry in case it's defined; undefined otherwise.
  */
 export function getClassRegistry(target: object): ClassRegistry | undefined {
   return getOwnMetadata(_registryKey, target);
 }
 
 /**
- * Get or create registry linked with the class (prototype).
+ * Get or create the registry associated with the class (prototype).
  *
  * @param target Class (prototype).
  * @return Existing or newly created registry.

@@ -1,1 +1,1 @@
-{"version":3,"file":"baseRegistry.js","sourceRoot":"","sources":["../../lib/registry/baseRegistry.ts"],"names":[],"mappings":";;AAEA,0BAA0B;AACb,QAAA,YAAY,GAAgB,MAAM;IAC7C,CAAC,CAAC,kBAAkB;QAClB,MAAM,CAAC,GAAG,CAAC,oBAAoB,CAAC;IAClC,CAAC,CAAC,kBAAkB;QAClB,wBAAwB,CAAC"}
+{"version":3,"file":"baseRegistry.js","sourceRoot":"","sources":["../../lib/registry/baseRegistry.ts"],"names":[],"mappings":";;;AAEA,0BAA0B;AACb,QAAA,YAAY,GAAgB,MAAM;IAC7C,CAAC,CAAC,kBAAkB;QAClB,MAAM,CAAC,GAAG,CAAC,oBAAoB,CAAC;IAClC,CAAC,CAAC,kBAAkB;QAClB,wBAAwB,CAAC"}

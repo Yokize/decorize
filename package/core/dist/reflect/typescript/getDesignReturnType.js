@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getDesignReturnType = void 0;
 var getOwnMetadata_1 = require("../getOwnMetadata");
 /**
- * Get designed type of method return.
- * Typescript support an experimental reflection feature which
- * emit metadata with parameter types.
+ * Get the designed type of method return.
+ * TypeScript supports an experimental reflection feature that
+ * emits metadata with return value type.
  *
- * @param target Object associated with metadata.
- * @param method Method for which to get designed return type.
+ * @param target The object associated with metadata.
+ * @param method The method for which to get the return type.
  * @return Lexically designed return type.
  */
 function getDesignReturnType(target, method) {

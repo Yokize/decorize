@@ -1,49 +1,46 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isFunction_1 = __importDefault(require("lodash/isFunction"));
+exports.getProtoOf = void 0;
+var tslib_1 = require("tslib");
+var isFunction_1 = tslib_1.__importDefault(require("lodash/isFunction"));
 var getPrototypeOf_1 = require("../getPrototypeOf");
 /**
- * Guess class inheritance by deeper analyze of super.
+ * Guess class inheritance by deeper analysis of the super.
  *
- * @param clazz Class to be analyzed.
+ * @param clazz Class for analysis.
  * @return Prototype; null in case of non existing parent.
  */
 function guessClassInheritance(clazz) {
-    // Try to determine heritage by checking super prototype.
+    // Try to determine the heritage by checking super prototype.
     var superProto = getPrototypeOf_1.getPrototypeOf(clazz.prototype);
-    // In case prototype is empty or Object.prototype
-    // inheritance is unclear.
+    // In case the prototype is empty or Object.prototype inheritance is unclear.
     if (!superProto || superProto === Object.prototype)
         return getPrototypeOf_1.getPrototypeOf(clazz);
-    // In case constructor not function or self reference
-    // inheritance is unclear.
+    // In case the constructor is not a function or exist self reference, inheritance is unclear.
     if (!isFunction_1.default(superProto.constructor) || superProto.constructor === clazz)
         return getPrototypeOf_1.getPrototypeOf(clazz);
-    // Guessing can be done only by constructor.
+    // Guessing can be done only by the constructor.
     return superProto.constructor;
 }
 /**
- * Get proto of the object to support feature to access metadata by chain.
+ * Get proto of the object to support feature to access the metadata by chain.
  * Using built-in getPrototypeOf or custom logic to get the proto of the object.
- * Custom logic aligned with Reflect polyfill way of getting prototype.
+ * Custom logic aligned with Reflect polyfill way of retrieving the prototype.
  *
- * @param target Object used to get the proto.
+ * @param target The object used to get the proto.
  * @return Prototype; null in case of non existing prototype.
  */
 function getProtoOf(target) {
-    // Retrieve prototype using native getPrototypeOf.
+    // Retrieve the prototype using native getPrototypeOf.
     var prototype = getPrototypeOf_1.getPrototypeOf(target);
-    // Can rely purely on native getPrototypeOf in case target
+    // Can rely purely on native getPrototypeOf in case the target
     // is not a class or already on top of chain.
     if (!isFunction_1.default(target) || target === Function.prototype)
         return prototype;
     // In case retrieved prototype is super class.
     if (prototype !== Function.prototype)
         return prototype;
-    // Try to guess class inheritance by deep analyze.
+    // Try to guess the class inheritance by deep analysis.
     return guessClassInheritance(target);
 }
 exports.getProtoOf = getProtoOf;

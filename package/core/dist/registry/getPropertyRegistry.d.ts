@@ -1,14 +1,14 @@
 import { PropertyRegistry } from './propertyRegistry';
 /**
- * Get registry linked with the class (prototype) & property.
+ * Get the registry associated with the class (prototype) & property.
  *
  * @param target Class (prototype).
  * @param property Property name.
- * @return Registry in case is defined; undefined otherwise.
+ * @return Registry in case it's defined; undefined otherwise.
  */
 export declare function getPropertyRegistry(target: object, property: PropertyKey): PropertyRegistry | undefined;
 /**
- * Get or create registry linked with the class (prototype) & property.
+ * Get or create the registry associated with the the class (prototype) & property.
  *
  * @param target Class (prototype).
  * @param property Property name.

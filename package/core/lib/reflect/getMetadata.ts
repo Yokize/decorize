@@ -5,17 +5,17 @@ import { getProtoOf } from './fallback/proto';
 import { getFromStorage } from './fallback/get';
 
 /* istanbul ignore next */
-const builtInReflect: any = Reflect?.getMetadata;
+const ReflectBuiltIn: any = Reflect?.getMetadata;
 
 /**
- * Reflect retrieves metadata by key from map related to the object or property
- * with additional checking on prototype chain. Fallback get the metadata from
- * private storage defined directly on the object or its prototype chain. Reflect
- * and Fallback is aligned to get prototype chain in same way. Fallback approach
- * have limitation to check metadata existence on non-object target.
+ * Reflect retrieves metadata by the key from the map, which relates to the `target`
+ * or its `property` with additional checking on the prototype chain. The fallback
+ * implementation retrieves metadata from the private storage, which defined directly
+ * on the `target` or its prototype chain. Reflect and Fallback is aligned to get
+ * prototype chain in same way.
  */
 const _getMetadata: (key: any, target: object, property?: PropertyKey) => any | undefined =
-  builtInReflect ??
+  ReflectBuiltIn ??
   function getMetadataFk(key: any, target: object, property?: PropertyKey): any | undefined {
     return isObject(target)
       ? hasOwnMetadata(key, target, property)
@@ -25,21 +25,24 @@ const _getMetadata: (key: any, target: object, property?: PropertyKey) => any | 
   };
 
 /**
- * Get the metadata associated with object or its prototype chain.
+ * Get the metadata associated with `target` or its prototype chain.
  *
- * @param key Key used to retrieve metadata.
- * @param target Object associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
  * @return Metadata for the key when found; undefined otherwise.
+ * @throws TypeError in case of target type violation.
  */
 export function getMetadata(key: any, target: object): any;
 
 /**
- * Get the metadata associated with property or its prototype chain.
+ * Get the metadata associated with `target` and `property` or its
+ * prototype chain.
  *
- * @param key Key used to retrieve metadata.
- * @param target Object which contains property.
- * @param property Property associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
+ * @param property The property associated with metadata.
  * @return Metadata for the key when found; undefined otherwise.
+ * @throws TypeError in case of target type violation.
  */
 export function getMetadata(key: any, target: object, property: PropertyKey): any;
 export function getMetadata(key: any, target: object, property?: PropertyKey): any {

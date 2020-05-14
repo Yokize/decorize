@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 export * from './decorator';
+export * from './class/isEqualClass';
 export * from './registry/addClass';
 export * from './registry/addParam';
 export * from './registry/addProperty';
@@ -13,8 +14,6 @@ export * from './registry/propertyRegistry';
 export * from './registry/setClassRegistry';
 export * from './registry/setParamRegistry';
 export * from './registry/setPropertyRegistry';
-export * from './context/contextType';
-export * from './context/getContextType';
 export * from './descriptor/toAccessorType';
 export * from './original/getOriginalType';
 export * from './original/isOriginallyMethod';
@@ -43,4 +42,3 @@ export * from './reflect/hasMetadata';
 export * from './reflect/hasOwnMetadata';
 export * from './reflect/hasProperty';
 export * from './reflect/hasOwnProperty';
-

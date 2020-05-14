@@ -6,7 +6,7 @@ describe('Cache global', (): void => {
     // Testing target.
     const { Global } = await import('~global');
 
-    // Exp: default cache key.
+    // Exp: default cache key is defined.
     expect(typeof Global.resolver()).toBe('string');
   });
 

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@decorize/bind",
+      "comment": "Improve logic and initial release",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@decorize/bind",
+  "email": "nojukubi@yokize.com"
+}

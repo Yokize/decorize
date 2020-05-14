@@ -1,17 +1,17 @@
 /**
- * Get the metadata associated with object.
+ * Get the metadata associated with `target`.
  *
- * @param key Key used to retrieve metadata.
- * @param target Object associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
  * @return Metadata for the key when found; undefined otherwise.
  */
 export declare function getOwnMetadata(key: any, target: object): any;
 /**
- * Get the metadata associated with property.
+ * Get the metadata associated with `target` and `property`.
  *
- * @param key Key used to retrieve metadata.
- * @param target Object which contains property.
- * @param property Property associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
+ * @param property The property associated with metadata.
  * @return Metadata for the key when found; undefined otherwise.
  */
 export declare function getOwnMetadata(key: any, target: object, property: PropertyKey): any;

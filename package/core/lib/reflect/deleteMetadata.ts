@@ -4,43 +4,41 @@ import { hasOwnMetadata } from './hasOwnMetadata';
 import { deleteFromStorage } from './fallback/delete';
 
 /* istanbul ignore next */
-const builtInReflect: any = Reflect?.deleteMetadata;
+const ReflectBuiltIn: any = Reflect?.deleteMetadata;
 
 /**
- * Reflect and Fallback removes corresponding metadata by specified key and return
+ * Reflect and Fallback removes corresponding metadata by the specified key and return
  * status whether metadata have been found and successfully removed. Reflect removes
- * metadata from map defined for an object or property. Fallback removes metadata
- * from the storage defined on the object. Fallback approach have limitation to
- * delete metadata from non-object target.
+ * metadata from the map, which relates to the `target` or its `property`. The fallback
+ * implementation removes metadata from the private storage, which defined directly on
+ * the `target`.
  */
 const _deleteMetadata: (key: any, target: object, property?: PropertyKey) => boolean =
-  builtInReflect ??
+  ReflectBuiltIn ??
   function deleteMetadataFk(key: any, target: object, property?: PropertyKey): boolean {
-    // Verify whether target is object.
     if (isObject(target))
-      // Delete metadata associated with target or property.
       return hasOwnMetadata(key, target, property) ? deleteFromStorage(key, target, property) : false;
     else throw new TypeError('Metadata can be deleted only from the object');
   };
 
 /**
- * Delete the metadata associated with object.
+ * Delete the metadata associated with the `target`.
  *
- * @param key Key used to find and remove metadata.
- * @param target Object associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
  * @return True in case the metadata has been found and deleted; false otherwise.
- * @throws TypeError in case of non-object target.
+ * @throws TypeError in case of target type violation.
  */
 export function deleteMetadata(key: any, target: object): boolean;
 
 /**
- * Delete the metadata associated with property.
+ * Delete the metadata associated with the `target` and `property`.
  *
- * @param key Key used to find and remove metadata.
- * @param target Object which contains property.
- * @param property Property associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
+ * @param property The property associated with metadata.
  * @return True in case the metadata has been found and deleted; false otherwise.
- * @throws TypeError in case of non-object target.
+ * @throws TypeError in case of target type violation.
  */
 export function deleteMetadata(key: any, target: object, property: PropertyKey): boolean;
 export function deleteMetadata(key: any, target: object, property?: PropertyKey): boolean {

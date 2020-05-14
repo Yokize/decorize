@@ -1,31 +1,27 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isObject_1 = __importDefault(require("lodash/isObject"));
+exports.getOwnPropertyDescriptor = void 0;
+var tslib_1 = require("tslib");
+var isObject_1 = tslib_1.__importDefault(require("lodash/isObject"));
 /* istanbul ignore next */
-var builtInReflect = Reflect === null || Reflect === void 0 ? void 0 : Reflect.getOwnPropertyDescriptor;
+var ReflectBuiltIn = Reflect === null || Reflect === void 0 ? void 0 : Reflect.getOwnPropertyDescriptor;
 /**
- * Reflect and Object build-in function returns a descriptor of the given property
- * if it exists, undefined otherwise. Exceptional case is aligned and violation of
- * target type throws a TypeError.
+ * Reflect and Object build-in function returns a descriptor of the given `property`
+ * if it exists, otherwise undefined.
  */
-var _getOwnPropertyDescriptor = builtInReflect !== null && builtInReflect !== void 0 ? builtInReflect : function getOwnPropertyDescriptorFk(target, property) {
-    // Verify whether target is object.
+var _getOwnPropertyDescriptor = ReflectBuiltIn !== null && ReflectBuiltIn !== void 0 ? ReflectBuiltIn : function getOwnPropertyDescriptorFk(target, property) {
     if (isObject_1.default(target))
-        // Use built-in helper to get own property descriptor.
         return Object.getOwnPropertyDescriptor(target, property);
     else
         throw new TypeError('Property descriptor can be retrieved only from the object');
 };
 /**
- * Get own property descriptor of the object.
+ * Get own `property` descriptor from the `target`.
  *
- * @param target Object in which to look for the property.
- * @param property Name of the property to find and retrieve descriptor.
- * @return Descriptor for the property; undefined in case property not defined.
- * @throws TypeError in case of non-object target.
+ * @param target The object in which to look for the property.
+ * @param property The name of the property used to retrieve a descriptor.
+ * @return Property descriptor; undefined in case the property not defined.
+ * @throws TypeError in case of target type violation.
  */
 function getOwnPropertyDescriptor(target, property) {
     return _getOwnPropertyDescriptor(target, property);

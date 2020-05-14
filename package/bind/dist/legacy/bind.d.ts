@@ -14,10 +14,10 @@ export declare function Bind(): ClassDecorator & MethodDecorator;
 /**
  * Bind the method to the context used to access it.
  *
- * @param target Class (prototype).
+ * @param target Prototype.
  * @param property Method name.
  * @param descriptor Method descriptor.
- * @return Descriptor with bind logic.
+ * @return The descriptor with the bind logic.
  */
 export declare function Bind(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 /**
@@ -36,9 +36,9 @@ export declare function bind(): ClassDecorator & MethodDecorator;
 /**
  * Bind the method to the context used to access it.
  *
- * @param target Class (prototype).
+ * @param target Prototype.
  * @param property Method name.
  * @param descriptor Method descriptor.
- * @return Descriptor with bind logic.
+ * @return The descriptor with the bind logic.
  */
-export declare function bind(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
+export declare function bind(target: object, property: PropertyKey, descriptor: PropertyDescriptor): any;

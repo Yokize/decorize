@@ -1,0 +1,68 @@
+# The name of the workflow which is displayed by GitHub on
+# the action page of the repository.
+name: build
+
+# The names of events used by GitHub to trigger the workflow.
+# Workflows can use more than one webhook events for trigger.
+on:
+  # Trigger on push.
+  push:
+    branches: [master]
+
+  # Trigger on pull request.
+  pull_request:
+    branches: [master]
+
+# The workflow run is made up of one or more parallel jobs.
+# Jobs can be run sequentially by defining dependencies.
+jobs:
+  build:
+    # The type of machine to run the job on.
+    runs-on: ubuntu-latest
+
+    # A job contains a sequence of tasks called steps.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Changelog
+        run: node common/scripts/install-run-rush.js change -v
+
+      - name: Install
+        run: node common/scripts/install-run-rush.js update
+
+      - name: Build
+        run: node common/scripts/install-run-rush.js build
+
+      - name: Lint
+        run: node common/scripts/install-run-rush.js lint
+
+      - name: Test
+        run: node common/scripts/install-run-rush.js test
+
+      - name: Report
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: >-
+            ./package/core/coverage/lcov.info,
+            ./package/cache/coverage/lcov.info,
+            ./package/bind/coverage/lcov.info
+
+  release:
+    need: build
+
+    if: github.event_name == 'push'
+
+    # The type of machine to run the job on.
+    runs-on: ubuntu-latest
+
+    # A job contains a sequence of tasks called steps.
+    steps:
+      - name: Lint
+        run: node common/scripts/install-run-rush.js lint

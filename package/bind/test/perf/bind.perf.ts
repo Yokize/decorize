@@ -15,7 +15,7 @@ const suite: Suite = new Suite('@bind', {
 });
 
 // Testing native bind.
-suite.add('Native bind', function (): void {
+suite.add('Native bind', (): void => {
   class Test {
     public method(): Test {
       return this;
@@ -26,7 +26,7 @@ suite.add('Native bind', function (): void {
 });
 
 // Testing decorator bind.
-suite.add('Decorator bind', function (): void {
+suite.add('Decorator bind', (): void => {
   class Test {
     @bind
     public method(): Test {
@@ -38,4 +38,4 @@ suite.add('Decorator bind', function (): void {
 });
 
 // Run async tests.
-suite.run({ async: true });
+suite.run();

@@ -1,18 +1,17 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isFunction_1 = __importDefault(require("lodash/isFunction"));
+exports.throwUsageError = exports.checkExpiration = exports.uniqueId = void 0;
+var tslib_1 = require("tslib");
+var isFunction_1 = tslib_1.__importDefault(require("lodash/isFunction"));
 var global_1 = require("./global");
 /**
  * Unique decorator ID.
  */
 exports.uniqueId = 'decorize:@cache';
 /**
- * Check the expiration of the cache entry by executing manual expire logic
- * or comparing max age against current date. In case entry is expired its
- * directly removed from the cache.
+ * Check the expiration of the cache entry by comparing max age against
+ * current date or executing manual expire logic. In case entry is expired
+ * its directly removed from the cache.
  *
  * @param target Class (prototype).
  * @param property Property name.

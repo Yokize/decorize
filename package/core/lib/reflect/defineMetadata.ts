@@ -3,43 +3,40 @@ import isObject from 'lodash/isObject';
 import { defineInStorage } from './fallback/define';
 
 /* istanbul ignore next */
-const builtInReflect: any = Reflect?.defineMetadata;
+const ReflectBuiltIn: any = Reflect?.defineMetadata;
 
 /**
- * Reflect and Fallback differs in a way how metadata is stored. Reflect creates
- * for each object and property separate map to store keys and corresponding
- * metadata. Fallback store metadata directly on the object under special non
- * configurable property. Fallback have limitation to define metadata at
- * non-object target.
+ * The implementation of Reflect and Fallback differs in the way metadata is
+ * stored. Reflect creates a separate map for each `target` and its `property`,
+ * which stores the keys and corresponding metadata. The fallback implementation
+ * stores metadata directly on the `target` under a special non-configurable
+ * property.
  */
 const _defineMetadata: (key: any, value: any, target: object, property?: PropertyKey) => void =
-  builtInReflect ??
+  ReflectBuiltIn ??
   function defineMetadataFk(key: any, value: any, target: object, property?: PropertyKey): void {
-    // Verify whether target is object.
-    if (isObject(target))
-      // Define metadata associated with target or property.
-      defineInStorage(key, value, target, property);
-    else throw new TypeError('Metadata can be defined only on the object');
+    if (isObject(target)) defineInStorage(key, value, target, property);
+    else throw new TypeError('Metadata can only be defined on the object');
   };
 
 /**
- * Define the metadata associated with object.
+ * Define the metadata associated with the `target`.
  *
- * @param key Key used to store and retrieve metadata.
- * @param value Value which contains metadata.
- * @param target Object to be associated with metadata.
- * @throws TypeError in case of non-object target.
+ * @param key The key used to store metadata.
+ * @param value The value that contains metadata.
+ * @param target The object to be associated with metadata.
+ * @throws TypeError in case of target type violation.
  */
 export function defineMetadata(key: any, value: any, target: object): void;
 
 /**
- * Define the metadata associated with property.
+ * Define the metadata associated with the `target` and `property`.
  *
- * @param key Key used to store and retrieve metadata.
- * @param value Value which contains metadata.
- * @param target Object which contains property.
- * @param property Property to be associated with metadata.
- * @throws TypeError in case of non-object target.
+ * @param key The key used to store metadata.
+ * @param value The value that contains metadata.
+ * @param target The object to be associated with metadata.
+ * @param property The property to be associated with metadata.
+ * @throws TypeError in case of target type violation.
  */
 export function defineMetadata(key: any, value: any, target: object, property: PropertyKey): void;
 export function defineMetadata(key: any, value: any, target: object, property?: PropertyKey): void {

@@ -1,30 +1,26 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isObject_1 = __importDefault(require("lodash/isObject"));
+exports.getPrototypeOf = void 0;
+var tslib_1 = require("tslib");
+var isObject_1 = tslib_1.__importDefault(require("lodash/isObject"));
 /* istanbul ignore next */
-var builtInReflect = Reflect === null || Reflect === void 0 ? void 0 : Reflect.getPrototypeOf;
+var ReflectBuiltIn = Reflect === null || Reflect === void 0 ? void 0 : Reflect.getPrototypeOf;
 /**
- * Reflect and Object built-in function returns the prototype of the object
- * (value of the internal [[Prototype]]). Exceptional case is aligned and
- * violation of target type throws a TypeError.
+ * Reflect and Object built-in function returns the prototype of the `target`
+ * (value of the internal [[Prototype]]).
  */
-var _getPrototypeOf = builtInReflect !== null && builtInReflect !== void 0 ? builtInReflect : function getPrototypeOfFk(target) {
-    // Verify whether target is object.
+var _getPrototypeOf = ReflectBuiltIn !== null && ReflectBuiltIn !== void 0 ? ReflectBuiltIn : function getPrototypeOfFk(target) {
     if (isObject_1.default(target))
-        // Use built-in helper to get prototype.
         return Object.getPrototypeOf(target);
     else
         throw new TypeError('Prototype can be retrieved only from the object');
 };
 /**
- * Get the prototype of the object.
+ * Get the prototype of the `target`.
  *
- * @param target Object referring to the prototype.
+ * @param target The object referring to the prototype.
  * @return Prototype; null in case of missing prototype.
- * @throws TypeError in case of non-object target.
+ * @throws TypeError in case of target type violation.
  */
 function getPrototypeOf(target) {
     return _getPrototypeOf(target);

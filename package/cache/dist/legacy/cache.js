@@ -1,31 +1,11 @@
 "use strict";
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isNil_1 = __importDefault(require("lodash/isNil"));
-var isObject_1 = __importDefault(require("lodash/isObject"));
-var isFunction_1 = __importDefault(require("lodash/isFunction"));
-var contextType_1 = require("@decorize/core/context/contextType");
-var getContextType_1 = require("@decorize/core/context/getContextType");
+exports.cache = exports.Cache = void 0;
+var tslib_1 = require("tslib");
+var isNil_1 = tslib_1.__importDefault(require("lodash/isNil"));
+var isObject_1 = tslib_1.__importDefault(require("lodash/isObject"));
+var isFunction_1 = tslib_1.__importDefault(require("lodash/isFunction"));
+var isEqualClass_1 = require("@decorize/core/class/isEqualClass");
 var hasOwnProperty_1 = require("@decorize/core/reflect/hasOwnProperty");
 var getPrototypeOf_1 = require("@decorize/core/reflect/getPrototypeOf");
 var toAccessorType_1 = require("@decorize/core/descriptor/toAccessorType");
@@ -41,14 +21,15 @@ var global_1 = require("../global");
  * @param property Method name.
  * @param descriptor Method descriptor.
  * @param configuration Configuration.
- * @return Descriptor with cache logic.
+ * @return The descriptor with the cache logic.
+ * @ignore
  */
 function methodDecoratorLogic(target, property, descriptor, configuration) {
     // Create the new accessor descriptor based on the existing `descriptor`
     // with respect to already assigned attributes.
-    var _a = toAccessorType_1.toAccessorType(property, descriptor), get = _a.get, newDescriptor = __rest(_a, ["get"]);
+    var _a = toAccessorType_1.toAccessorType(property, descriptor), get = _a.get, newDescriptor = tslib_1.__rest(_a, ["get"]);
     // Create the new getter with enhanced logic to wrap the original method
-    // and cache its results.
+    // and cache its results on the fly.
     newDescriptor.get = function cacheGetter() {
         // The function whose result has to be cached can be obtained from the
         // accessor descriptor by executing `get` with context.
@@ -59,27 +40,26 @@ function methodDecoratorLogic(target, property, descriptor, configuration) {
         // In case the `constructor` property directly belongs to the context,
         // it is reasonable to conclude that the context is the prototype and
         // not the class or its instance.
-        if (hasOwnProperty_1.hasOwnProperty(this, 'constructor'))
+        if (!this || hasOwnProperty_1.hasOwnProperty(this, 'constructor'))
             // Returns the original function.
             return fn;
-        // It's important to determine whether the context is the original
-        // or descendant class (its instance).
-        var ctxType = getContextType_1.getContextType(this, target, property);
         // The ES2015+ specification defines `super` as the reference to the
-        // context of the outer method. There is no need to cache result of
-        // an overridden method that is accessed via `super` to support ES5
-        // compatibility.
-        if (ctxType === contextType_1.ContextType.Inheritor && hasOwnProperty_1.hasOwnProperty(getPrototypeOf_1.getPrototypeOf(this), property))
+        // context of the outer method, and there is no need to cache result in
+        // case is accessed via `super` to support ES5 compatibility. In case
+        // the class (constructor) of the context and the decorator target are
+        // different and the context has its own method with same name, it can
+        // be concluded that the access to the method was done via `super`.
+        if (!isEqualClass_1.isEqualClass(this, target) && hasOwnProperty_1.hasOwnProperty(getPrototypeOf_1.getPrototypeOf(this), property))
             // Returns the original function.
             return fn;
         // Create the wrapper with the logic to cache the result of the
         // original method.
         return function cacheLogic() {
+            var _a;
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            var _a;
             // Execute without cache in case the context is nil.
             if (isNil_1.default(this))
                 return fn.apply(this, args);
@@ -113,30 +93,30 @@ function methodDecoratorLogic(target, property, descriptor, configuration) {
  * @param property Property name.
  * @param descriptor Property descriptor.
  * @param configuration Configuration.
- * @return Descriptor with cache logic.
+ * @return The descriptor with the cache logic.
+ * @ignore
  */
 function getterDecoratorLogic(target, property, descriptor, configuration) {
     // Create the new accessor descriptor based on the existing `descriptor`
     // with respect to already assigned attributes.
-    var _a = toAccessorType_1.toAccessorType(property, descriptor), get = _a.get, newDescriptor = __rest(_a, ["get"]);
+    var _a = toAccessorType_1.toAccessorType(property, descriptor), get = _a.get, newDescriptor = tslib_1.__rest(_a, ["get"]);
     // Create the new getter with enhanced logic to wrap the original getter
-    // and cache its result.
+    // and cache its result on the fly.
     newDescriptor.get = function cacheLogic() {
         var _a;
         // In case the `constructor` property directly belongs to the context,
         // it is reasonable to conclude that the context is the prototype and
         // not the class or its instance.
-        if (hasOwnProperty_1.hasOwnProperty(this, 'constructor'))
+        if (!this || hasOwnProperty_1.hasOwnProperty(this, 'constructor'))
             // Returns the result of the original getter.
             return get.call(this);
-        // It's important to determine whether the context is the original
-        // or descendant class (its instance).
-        var ctxType = getContextType_1.getContextType(this, target, property);
         // The ES2015+ specification defines `super` as the reference to the
-        // context of the outer getter. There is no need to cache result of
-        // an overridden getter that is accessed via `super` to support ES5
-        // compatibility.
-        if (ctxType === contextType_1.ContextType.Inheritor && hasOwnProperty_1.hasOwnProperty(getPrototypeOf_1.getPrototypeOf(this), property))
+        // context of the outer method, and there is no need to cache result in
+        // case is accessed via `super` to support ES5 compatibility. In case
+        // the class (constructor) of the context and the decorator target are
+        // different and the context has its own method with same name, it can
+        // be concluded that the access to the method was done via `super`.
+        if (!isEqualClass_1.isEqualClass(this, target) && hasOwnProperty_1.hasOwnProperty(getPrototypeOf_1.getPrototypeOf(this), property))
             // Returns the result of the original getter.
             return get.call(this);
         // Create the key using the global or custom resolver without arguments.
@@ -162,6 +142,9 @@ function getterDecoratorLogic(target, property, descriptor, configuration) {
 }
 /**
  * Universal decoration (without type checking).
+ *
+ * @param args Dynamic arguments.
+ * @ignore
  */
 function cacheDecorator(args) {
     if (args.length === 0)
@@ -180,9 +163,9 @@ function cacheDecorator(args) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args2[_i] = arguments[_i];
             }
-            return cacheDecorator(__spreadArrays(args2, args));
+            return cacheDecorator(tslib_1.__spreadArrays(args2, args));
         };
-    // Destructuring of dynamic arguments.
+    // Destructuring the dynamic arguments.
     var target = args[0], property = args[1], descriptor = args[2], configuration = args[3];
     // Ensure the decorator is used correctly.
     if (!isObject_1.default(descriptor))

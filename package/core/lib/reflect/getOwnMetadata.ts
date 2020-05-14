@@ -4,15 +4,15 @@ import { hasOwnMetadata } from './hasOwnMetadata';
 import { getFromStorage } from './fallback/get';
 
 /* istanbul ignore next */
-const builtInReflect: any = Reflect?.getOwnMetadata;
+const ReflectBuiltIn: any = Reflect?.getOwnMetadata;
 
 /**
- * Reflect retrieves metadata by key from map related to the object or property.
- * Fallback get metadata from private storage defined directly at the object.
- * Fallback approach have limitation to get metadata from non-object target.
+ * Reflect retrieves metadata by the key from the map, which relates to the `target`
+ * or its `property`. The fallback implementation retrieves metadata from the private
+ * storage, which defined directly on the `target`.
  */
 const _getOwnMetadata: (key: any, target: object, property?: PropertyKey) => any | undefined =
-  builtInReflect ??
+  ReflectBuiltIn ??
   function getOwnMetadataFk(key: any, target: object, property?: PropertyKey): any | undefined {
     return isObject(target)
       ? hasOwnMetadata(key, target, property)
@@ -22,20 +22,20 @@ const _getOwnMetadata: (key: any, target: object, property?: PropertyKey) => any
   };
 
 /**
- * Get the metadata associated with object.
+ * Get the metadata associated with `target`.
  *
- * @param key Key used to retrieve metadata.
- * @param target Object associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
  * @return Metadata for the key when found; undefined otherwise.
  */
 export function getOwnMetadata(key: any, target: object): any;
 
 /**
- * Get the metadata associated with property.
+ * Get the metadata associated with `target` and `property`.
  *
- * @param key Key used to retrieve metadata.
- * @param target Object which contains property.
- * @param property Property associated with metadata.
+ * @param key The key used to retrieve metadata.
+ * @param target The object associated with metadata.
+ * @param property The property associated with metadata.
  * @return Metadata for the key when found; undefined otherwise.
  */
 export function getOwnMetadata(key: any, target: object, property: PropertyKey): any;

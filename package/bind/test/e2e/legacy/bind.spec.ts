@@ -138,7 +138,7 @@ describe('@bind', (): void => {
     // Exp: method is automatically bound to the instance.
     expect(test.method.call({ state: 'otherTxt' })).toBe(test.state);
 
-    // Exp: setter not defined as method is readonly.
+    // Exp: setter not defined as method is read only.
     expect(Object.getOwnPropertyDescriptor(Test.prototype, 'method').set).toBeUndefined();
   });
 
@@ -232,7 +232,7 @@ describe('@bind', (): void => {
 
     // Var: class with the decorated method.
     class Parent {
-      public constructor(public state: string) {}
+      public constructor(public state: string = 'parentTxt') {}
 
       @bind
       public method(): string {
@@ -274,6 +274,9 @@ describe('@bind', (): void => {
     class Child extends Parent {
       @bind
       public method(): string {
+        // Exp: method itself is bound to instance context.
+        expect(this.state).toBe('anyTxt');
+
         // Not bound as accessed via `super`.
         return super.method.call(null);
       }
@@ -406,7 +409,7 @@ describe('@bind', (): void => {
     // Exp: throw error as tried to decorate the getter.
     expect((): any => bind({}, 'test', { get: (): any => jest.fn() }).get()).toThrow(Error);
 
-    // Fake the helper to check whether property was originally the method.
+    // Mock: helper to check whether property was originally the method.
     jest.spyOn(await import('@decorize/core/original/isOriginallyMethod'), 'isOriginallyMethod').mockReturnValue(true);
 
     // Exp: throw error as tried to decorate the invalid method.

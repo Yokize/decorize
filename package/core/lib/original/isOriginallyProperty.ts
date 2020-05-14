@@ -6,8 +6,8 @@ import { OriginalType, getOriginalType } from './getOriginalType';
  * so in particular cases it is essential to determine the original type.
  * Logic working only with registered decorators.
  *
- * @param target Object which contain property.
- * @param property Property name.
+ * @param target The object which contains the property.
+ * @param property The name of the property to check.
  * @return True/false in case originally described as method; undefined in case not
  * determined original type.
  */

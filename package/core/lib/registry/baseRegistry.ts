@@ -8,7 +8,7 @@ export const _registryKey: PropertyKey = Symbol
     '__decorize::registry__';
 
 /**
- * The interface describes the base structure of the registry
+ * The interface describes the base structure of the registry,
  * which contains applied decorators.
  */
 export interface BaseRegistry {
@@ -17,7 +17,7 @@ export interface BaseRegistry {
 
 /**
  * The interface describes the base structure of the decorator
- * entry which contains name, type, spec and other metadata.
+ * entry, which contains the name, type, spec and other metadata.
  */
 export interface BaseRegistryEntry {
   name: string | symbol;

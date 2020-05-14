@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setClassRegistry = void 0;
 var defineMetadata_1 = require("../reflect/defineMetadata");
 var baseRegistry_1 = require("./baseRegistry");
 /**

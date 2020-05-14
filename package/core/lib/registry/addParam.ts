@@ -9,10 +9,10 @@ import { ParamRegistry, ParamRegistryEntry } from './paramRegistry';
  * @param target Class (prototype).
  * @param method Method name.
  * @param paramIdx Parameter index.
- * @param entry Decorator data.
+ * @param entry Decorator metadata.
  */
 export function addParam(target: object, method: PropertyKey, paramIdx: number, entry: ParamRegistryEntry): void {
-  // Get the register or create a new one.
+  // Get the registry or create the new one.
   const registry: ParamRegistry = getOrCreateParamRegistry(target, method, paramIdx);
 
   // Add directly to the registry.

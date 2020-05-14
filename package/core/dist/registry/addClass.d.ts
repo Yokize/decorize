@@ -4,6 +4,6 @@ import { ClassRegistryEntry } from './classRegistry';
  * decoration and inspection.
  *
  * @param target Class (prototype).
- * @param entry Decorator data.
+ * @param entry Decorator metadata.
  */
 export declare function addClass(target: object, entry: ClassRegistryEntry): void;

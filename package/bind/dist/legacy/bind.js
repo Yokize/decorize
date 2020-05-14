@@ -1,31 +1,12 @@
 "use strict";
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var isObject_1 = __importDefault(require("lodash/isObject"));
-var isFunction_1 = __importDefault(require("lodash/isFunction"));
-var isUndefined_1 = __importDefault(require("lodash/isUndefined"));
+exports.bind = exports.Bind = void 0;
+var tslib_1 = require("tslib");
+var isObject_1 = tslib_1.__importDefault(require("lodash/isObject"));
+var isFunction_1 = tslib_1.__importDefault(require("lodash/isFunction"));
+var isUndefined_1 = tslib_1.__importDefault(require("lodash/isUndefined"));
 var getOwnKeys_1 = require("@decorize/core/reflect/getOwnKeys");
-var contextType_1 = require("@decorize/core/context/contextType");
+var isEqualClass_1 = require("@decorize/core/class/isEqualClass");
 var defineMetadata_1 = require("@decorize/core/reflect/defineMetadata");
 var getOwnMetadata_1 = require("@decorize/core/reflect/getOwnMetadata");
 var hasOwnProperty_1 = require("@decorize/core/reflect/hasOwnProperty");
@@ -35,7 +16,6 @@ var toAccessorType_1 = require("@decorize/core/descriptor/toAccessorType");
 var isOriginallyMethod_1 = require("@decorize/core/original/isOriginallyMethod");
 var classLegacyDecorator_1 = require("@decorize/core/legacy/classLegacyDecorator");
 var methodLegacyDecorator_1 = require("@decorize/core/legacy/methodLegacyDecorator");
-var getContextType_1 = require("@decorize/core/context/getContextType");
 var getOwnPropertyDescriptor_1 = require("@decorize/core/reflect/getOwnPropertyDescriptor");
 var bind_1 = require("../bind");
 /**
@@ -44,15 +24,16 @@ var bind_1 = require("../bind");
  * @param target Prototype.
  * @param property Method name.
  * @param descriptor Method descriptor.
- * @return Descriptor with bind logic.
+ * @return The descriptor with the bind logic.
+ * @ignore
  */
 function methodDecoratorLogic(target, property, descriptor) {
     // Create the new accessor descriptor based on the existing `descriptor`
     // with respect to already assigned attributes.
-    var _a = toAccessorType_1.toAccessorType(property, descriptor), get = _a.get, newDescriptor = __rest(_a, ["get"]);
+    var _a = toAccessorType_1.toAccessorType(property, descriptor), get = _a.get, newDescriptor = tslib_1.__rest(_a, ["get"]);
     // Create the new getter with enhanced logic to wrap the original method
     // and bind it on the fly. The bound function is cached to avoid double
-    // bindings and to increase performance on re-access.
+    // bindings and increase performance on re-access.
     newDescriptor.get = function bindLogic() {
         var _a;
         // The function which should be bound can be obtained from the accessor
@@ -63,27 +44,21 @@ function methodDecoratorLogic(target, property, descriptor) {
             bind_1.throwUsageError();
         // In case the `constructor` property directly belongs to the context,
         // it is reasonable to conclude that the context is the prototype and
-        // not an instance of the class.
-        if (hasOwnProperty_1.hasOwnProperty(this, 'constructor'))
+        // not an instance of the class. There is no need to bind in case the
+        // context is undefined or the method is accessed via prototype.
+        if (!this || hasOwnProperty_1.hasOwnProperty(this, 'constructor'))
             // Returns the original function.
             return fn;
-        // Binding is done only for the instance methods, so it is important to
-        // determine whether an instance is initiated directly from the `target`
-        // or the descendant class.
-        var ctxType = getContextType_1.getInstanceContextType(this, target, property);
-        // The ES2015+ specification defines `super` as the reference to the context
-        // of the outer method. There is no need to bind an overridden method that
-        // is accessed via `super` to support ES5 compatibility.
-        if (ctxType === contextType_1.ContextType.Inheritor && hasOwnProperty_1.hasOwnProperty(getPrototypeOf_1.getPrototypeOf(this), property))
+        // The ES2015+ specification defines `super` as the reference to the
+        // context of the outer method, and there is no need to bind in case
+        // method is accessed via `super` to support ES5 compatibility. In case
+        // the class (constructor) of the context and the decorator target are
+        // different and the context has its own method with same name, it can
+        // be concluded that the access to the method was done via `super`.
+        if (!isEqualClass_1.isEqualClass(this, target) && hasOwnProperty_1.hasOwnProperty(getPrototypeOf_1.getPrototypeOf(this), property))
             // Returns the original function.
             return fn;
-        // Binding the method to the context with unknown origin is not reasonable,
-        // as it can lead to unexpected behavior, so developers must manage the
-        // binding themselves.
-        if (ctxType === contextType_1.ContextType.Unknown)
-            // Returns the original function.
-            return fn;
-        // Create blank or get already existing own metadata that contains cached
+        // Create blank or get own already existing metadata, which contains
         // context-dependent bound function.
         var bound = ((_a = getOwnMetadata_1.getOwnMetadata(bind_1.uniqueId, this, property)) !== null && _a !== void 0 ? _a : {}).bound;
         // Determine whether the bound function is missing in the metadata.
@@ -104,6 +79,7 @@ function methodDecoratorLogic(target, property, descriptor) {
  *
  * @param target Class to decorate.
  * @return Class with decorated methods.
+ * @ignore
  */
 function classDecoratorLogic(target) {
     // Binding is limited only to the instance methods, so its necessary
@@ -131,6 +107,9 @@ function classDecoratorLogic(target) {
 }
 /**
  * Universal decoration (without type checking).
+ *
+ * @param args Dynamic arguments.
+ * @ignore
  */
 function bindDecorator(args) {
     var _a, _b;
@@ -145,10 +124,10 @@ function bindDecorator(args) {
         };
     if (args.length === 1 && args[0])
         // If there is one argument, the decorator was applied to the class.
-        return (_a = classLegacyDecorator_1.classLegacyDecorator(bind_1.uniqueId, classDecoratorLogic)).call.apply(_a, __spreadArrays([null], args));
-    // Destructuring of dynamic arguments.
+        return (_a = classLegacyDecorator_1.classLegacyDecorator(bind_1.uniqueId, classDecoratorLogic)).call.apply(_a, tslib_1.__spreadArrays([null], args));
+    // Destructuring the dynamic arguments.
     var target = args[0], property = args[1], descriptor = args[2];
-    // Avoid decoration of static properties.
+    // Avoid decorating the static properties.
     if (isFunction_1.default(target))
         return;
     // Ensure the decorator is used correctly.
@@ -156,7 +135,7 @@ function bindDecorator(args) {
         bind_1.throwUsageError();
     // If there are three arguments, the decorator was applied to the method.
     if (isFunction_1.default(descriptor.value) || isOriginallyMethod_1.isOriginallyMethod(target, property))
-        return (_b = methodLegacyDecorator_1.methodLegacyDecorator(bind_1.uniqueId, methodDecoratorLogic)).call.apply(_b, __spreadArrays([null], args));
+        return (_b = methodLegacyDecorator_1.methodLegacyDecorator(bind_1.uniqueId, methodDecoratorLogic)).call.apply(_b, tslib_1.__spreadArrays([null], args));
     // Error in case the decorator used incorrectly.
     bind_1.throwUsageError();
 }
