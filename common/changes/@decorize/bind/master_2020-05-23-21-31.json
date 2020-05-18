@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@decorize/bind",
+      "comment": "Improve workflow and README",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@decorize/bind",
+  "email": "nojukubi@yokize.com"
+}

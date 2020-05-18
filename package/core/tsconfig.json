@@ -1,14 +1,17 @@
 {
   "extends": "@toolize/script",
   "include": ["lib"],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "dist",
-    "rootDir": "lib"
-  },
   "typedocOptions": {
     "inputFiles": ["lib"],
     "mode": "modules",
     "out": "doc"
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": "lib",
+    "paths": {
+      "~*": ["lib/*"]
+    }
   }
 }

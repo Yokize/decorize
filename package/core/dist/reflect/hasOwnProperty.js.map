@@ -1,1 +1,0 @@
-{"version":3,"file":"hasOwnProperty.js","sourceRoot":"","sources":["../../lib/reflect/hasOwnProperty.ts"],"names":[],"mappings":";;;;AAAA,qEAAuC;AAEvC;;;;;;;GAOG;AACH,SAAgB,cAAc,CAAC,MAAc,EAAE,QAAqB;IAClE,IAAI,kBAAQ,CAAC,MAAM,CAAC;QAAE,OAAO,MAAM,CAAC,cAAc,CAAC,IAAI,CAAC,MAAM,EAAE,QAAQ,CAAC,CAAC;;QACrE,MAAM,IAAI,SAAS,CAAC,iEAAiE,CAAC,CAAC;AAC9F,CAAC;AAHD,wCAGC"}

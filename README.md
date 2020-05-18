@@ -3,10 +3,35 @@
 </p>
 
 <p align="center">
-  [![build](https://img.shields.io/github/workflow/status/Yokize/decorize/build/master?style=for-the-badge&logo=github)](https://github.com/Yokize/decorize/actions?query=workflow%3Abuild)
-  [![quality](https://img.shields.io/codacy/grade/8f0566a3ddca4105aad6ee0585ff5379?style=for-the-badge&logo=codacy&label=quality)](https://www.codacy.com/gh/Yokize/decorize?utm_source=github.com&utm_medium=referral&utm_content=Yokize/decorize&utm_campaign=Badge_Grade)
-  [![coverage](https://img.shields.io/codacy/coverage/8f0566a3ddca4105aad6ee0585ff5379?style=for-the-badge&logo=codacy&label=coverage)](https://www.codacy.com/gh/Yokize/decorize?utm_source=github.com&utm_medium=referral&utm_content=Yokize/decorize&utm_campaign=Badge_Coverage)
-  [![chat](https://img.shields.io/gitter/room/decorize/community?style=for-the-badge&color=informational&logo=gitter&label)](https://gitter.im/decorize/community)
-  ![typescript](https://img.shields.io/static/v1?style=for-the-badge&color=informational&logo=typescript&label&message=3.9.2)
-  ![license](https://img.shields.io/github/license/Yokize/decorize?style=for-the-badge&color=informational&label)
+  <a href="https://github.com/Yokize/decorize/actions" alt="build">
+    <img src="https://img.shields.io/github/workflow/status/Yokize/decorize/CI/master?style=for-the-badge&logo=github" />
+  </a>
+
+  <a href="https://www.codefactor.io/repository/github/Yokize/decorize" alt="quality">
+    <img src="https://img.shields.io/codefactor/grade/github/Yokize/decorize?style=for-the-badge&logo=codefactor&logoColor=white&label=quality" />
+  </a>
+    
+  <a href="https://www.codacy.com/gh/Yokize/decorize?utm_source=github.com&utm_medium=referral&utm_content=Yokize/decorize&utm_campaign=Badge_Coverage" alt="coverage">
+    <img src="https://img.shields.io/codacy/coverage/8f0566a3ddca4105aad6ee0585ff5379?style=for-the-badge&logo=codacy&label=coverage" />
+  </a>
 </p>
+
+<p align="center">
+  <a href="https://gitter.im/decorize/community" alt="chat">
+    <img src="https://img.shields.io/gitter/room/decorize/community?style=for-the-badge&logo=gitter&color=informational&label" />
+  </a>
+    
+  <a href="https://www.typescriptlang.org" alt="typescript">
+    <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=typescript&color=informational&label&message=3.9" />
+  </a>
+    
+  <a href="https://en.wikipedia.org/wiki/MIT_License" alt="license">
+    <img src="https://img.shields.io/github/license/Yokize/decorize?style=for-the-badge&color=informational&label" />
+  </a>
+</p>
+
+| Name                               | Description                                                                                |                                                            NPM                                                            |
+| :--------------------------------- | :----------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
+| [@decorize/core](./package/core)   | Core for creating decorators and registering them during use.                              |  [![npm](https://img.shields.io/npm/v/@decorize/core?style=for-the-badge)](https://www.npmjs.com/package/@decorize/core)  |
+| [@decorize/bind](./package/bind)   | Decorator to bind the method or all methods of the class to the context used to access it. |  [![npm](https://img.shields.io/npm/v/@decorize/bind?style=for-the-badge)](https://www.npmjs.com/package/@decorize/bind)  |
+| [@decorize/cache](./package/cache) | Decorator to cache the result of the method or getter.                                     | [![npm](https://img.shields.io/npm/v/@decorize/cache?style=for-the-badge)](https://www.npmjs.com/package/@decorize/cache) |

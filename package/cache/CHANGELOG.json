@@ -1,0 +1,17 @@
+{
+  "name": "@decorize/cache",
+  "entries": [
+    {
+      "version": "1.0.0",
+      "tag": "@decorize/cache_v1.0.0",
+      "date": "Sat, 23 May 2020 19:29:48 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Improve logic and initial release"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,10 +1,22 @@
 {
-  "name": "@decorize/cache-dev",
+  "name": "@decorize/cache",
   "version": "1.0.0",
-  "directories": {
-    "doc": "doc",
-    "lib": "lib",
-    "test": "test"
+  "license": "MIT",
+  "author": "Nojukubi <nojukubi@yokize.com>",
+  "homepage": "https://github.com/Yokize/decorize",
+  "description": "Decorator to cache the result of the method or getter",
+  "main": "./index.js",
+  "keywords": [
+    "cache",
+    "method",
+    "getter",
+    "decorator",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "directory": "package/cache",
+    "url": "git+https://github.com/Yokize/decorize.git"
   },
   "scripts": {
     "doc": "tScript doc",
@@ -19,7 +31,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@toolize/script": "^0.0.3",
-    "@types/lodash": "^4.14.150"
+    "@toolize/script": "^0.0.4",
+    "@types/lodash": "^4.14.152"
   }
 }
