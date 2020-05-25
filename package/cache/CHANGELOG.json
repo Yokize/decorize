@@ -2,6 +2,23 @@
   "name": "@decorize/cache",
   "entries": [
     {
+      "version": "1.0.1",
+      "tag": "@decorize/cache_v1.0.1",
+      "date": "Mon, 25 May 2020 20:32:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Improve workflow and README"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@decorize/core\" from `^1.0.0` to `^1.0.1`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.0",
       "tag": "@decorize/cache_v1.0.0",
       "date": "Sat, 23 May 2020 19:29:48 GMT",

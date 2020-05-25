@@ -1,6 +1,6 @@
 {
   "name": "@decorize/bind",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "author": "Nojukubi <nojukubi@yokize.com>",
   "homepage": "https://github.com/Yokize/decorize",
@@ -28,7 +28,7 @@
     "build": "tScript build"
   },
   "dependencies": {
-    "@decorize/core": "^1.0.0",
+    "@decorize/core": "^1.0.1",
     "lodash": "^4.17.15",
     "tslib": "^2.0.0"
   },
