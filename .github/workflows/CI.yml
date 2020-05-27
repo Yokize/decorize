@@ -89,12 +89,15 @@ jobs:
       - name: Environment
         uses: actions/setup-node@v1
 
-      # Bump version and create changelog.
-      - name: Version and changelog
+      # Configure user name and email.
+      - name: Configure Git
         run: |
           git config --local user.name '${{github.workflow}}'
           git config --local user.email '${{github.workflow}}@yokize.com'
 
+      # Bump version and create changelog.
+      - name: Version and changelog
+        run: |
           node common/scripts/install-run-rush.js version --bump
 
           if ! git diff --no-ext-diff --quiet --exit-code; then
@@ -156,14 +159,14 @@ jobs:
         with:
           path: .
 
-      # Replace existing wih prepared packages.
+      # Replace wih prepared packages.
       - name: Prepare packages
         run: |
           rm -r ./package
           cp -r ./artifact/. .
 
       # Release packages to public registry.
-      - name: Release
+      - name: Release packages
         run: >-
           node common/scripts/install-run-rush.js publish
           --apply

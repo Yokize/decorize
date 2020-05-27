@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# The path to the commitlint binary.
+COMMAND=common/temp/node_modules/.bin/commitlint
+
+# Determine whether commitlint is installed.
+if [ -f $COMMAND ]; then
+  $COMMAND --edit --extends @commitlint/config-conventional
+else
+  echo Commitlint not installed
+fi
