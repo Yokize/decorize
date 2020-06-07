@@ -21,11 +21,11 @@ export type MethodLogic = (
  * Creates legacy method decorator that executes logic at runtime.
  *
  * @param name Decorator name.
+ * @param metadata Metadata.
  * @param logic Logic to execute.
- * @param metadata Configs & params.
  * @return Created method decorator.
  */
-export function methodLegacyDecorator(name: any, logic: MethodLogic, metadata?: any): MethodDecorator {
+export function methodLegacyDecorator(name: any, metadata?: any, logic?: MethodLogic): MethodDecorator {
   // Legacy method decorator.
   return (target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor | void => {
     // Register method decorator.
@@ -37,6 +37,6 @@ export function methodLegacyDecorator(name: any, logic: MethodLogic, metadata?: 
     });
 
     // Execute decorator logic at runtime.
-    return logic(target, property, descriptor, metadata);
+    return logic ? logic(target, property, descriptor, metadata) : descriptor;
   };
 }

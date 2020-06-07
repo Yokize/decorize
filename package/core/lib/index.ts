@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 export * from './decorator';
+export * from './class/getClassName';
 export * from './class/isEqualClass';
 export * from './registry/addClass';
 export * from './registry/addParam';

@@ -37,7 +37,7 @@ function methodDecoratorLogic(
   // and bind it on the fly. The bound function is cached to avoid double
   // bindings and increase performance on re-access.
   newDescriptor.get = function bindLogic(this: object): Function {
-    // The function which should be bound can be obtained from the accessor
+    // The function which should be bound can be obtained from the created
     // descriptor by executing `get` with context.
     const fn: Function = get.call(this);
 
@@ -110,7 +110,7 @@ function classDecoratorLogic(target: Function): Function {
     // is already decorated and the descriptor is modified, so the original
     // type must be checked.
     if (isFunction(descriptor.value) || isOriginallyMethod(prototype, property))
-      // Override existing method to an enhanced function.
+      // Wrap existing method by enhanced function which defines bind logic.
       defineProperty(prototype, property, methodDecoratorLogic(prototype, property, descriptor));
   });
 
@@ -126,12 +126,12 @@ function classDecoratorLogic(target: Function): Function {
  */
 function bindDecorator(args: any[]): any {
   if (args.length === 0)
-    // If there are no arguments, the decorator was used as a factory.
+    // If there are no arguments, the decorator is used as a factory.
     return (...args2: any[]): any => bindDecorator(args2);
 
-  if (args.length === 1 && args[0])
-    // If there is one argument, the decorator was applied to the class.
-    return classLegacyDecorator(uniqueId, classDecoratorLogic).call(null, ...args);
+  if (args.length === 1)
+    // If there is one argument, the decorator is applied to the class.
+    return classLegacyDecorator(uniqueId, null, classDecoratorLogic).call(null, ...args);
 
   // Destructuring the dynamic arguments.
   const [target, property, descriptor] = args;
@@ -142,9 +142,10 @@ function bindDecorator(args: any[]): any {
   // Ensure the decorator is used correctly.
   if (!isObject(descriptor)) throwUsageError();
 
-  // If there are three arguments, the decorator was applied to the method.
+  // If the third argument is the descriptor or property defined as
+  // the original method, the decorator is applied to the method.
   if (isFunction((<any>descriptor).value) || isOriginallyMethod(target, property))
-    return methodLegacyDecorator(uniqueId, methodDecoratorLogic).call(null, ...args);
+    return methodLegacyDecorator(uniqueId, null, methodDecoratorLogic).call(null, ...args);
 
   // Error in case the decorator used incorrectly.
   throwUsageError();

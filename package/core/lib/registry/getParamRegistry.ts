@@ -23,5 +23,5 @@ export function getParamRegistry(target: object, method: PropertyKey, paramIdx: 
  * @return Existing or newly created registry.
  */
 export function getOrCreateParamRegistry(target: object, method: PropertyKey, paramIdx: number): ParamRegistry {
-  return getParamRegistry(target, method, paramIdx) ?? { decorator: [] };
+  return getParamRegistry(target, method, paramIdx) ?? { decorator: [], paramIdx };
 }

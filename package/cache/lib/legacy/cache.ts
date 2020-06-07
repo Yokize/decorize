@@ -8,8 +8,9 @@ import { toAccessorType } from '@decorize/core/descriptor/toAccessorType';
 import { isOriginallyMethod } from '@decorize/core/original/isOriginallyMethod';
 import { methodLegacyDecorator } from '@decorize/core/legacy/methodLegacyDecorator';
 import { accessorLegacyDecorator } from '@decorize/core/legacy/accessorLegacyDecorator';
-import { CacheConfig, checkExpiration, throwUsageError, uniqueId } from '../cache';
+import { CacheConfig, throwUsageError, uniqueId } from '../cache';
 import { CacheEntry, Global } from '../global';
+import { checkExpiration } from '../expire';
 
 /**
  * Decorate the method to cache its result.
@@ -35,7 +36,7 @@ function methodDecoratorLogic(
   // and cache its results on the fly.
   newDescriptor.get = function cacheGetter(this: object): Function {
     // The function whose result has to be cached can be obtained from the
-    // accessor descriptor by executing `get` with context.
+    // created descriptor by executing `get` with context.
     const fn: Function = get.call(this);
 
     // Ensure the result obtained from `get` is the correct type.
@@ -64,8 +65,8 @@ function methodDecoratorLogic(
       // Execute without cache in case the context is nil.
       if (isNil(this)) return fn.apply(this, args);
 
-      // Create the key using the global or custom resolver with arguments
-      // that are passed to the wrapper.
+      // Create the key using the global or custom resolver with
+      // arguments that are passed to the wrapper.
       const cacheKey: PropertyKey = (configuration?.resolver ?? Global.resolver)(...args);
 
       // Check expiration of the cache entry.
@@ -168,11 +169,11 @@ function getterDecoratorLogic(
  */
 function cacheDecorator(args: any[]): any {
   if (args.length === 0)
-    // If there are no arguments, the decorator was used as a factory.
+    // If there are no arguments, the decorator is used as a factory.
     return (...args2: any[]): any => cacheDecorator(args2);
 
   if (args.length === 1)
-    // If there is one argument, the decorator was applied with config.
+    // If there is one argument, the decorator is applied with config.
     return (...args2: any[]): any => cacheDecorator([...args2, ...args]);
 
   // Destructuring the dynamic arguments.
@@ -181,12 +182,13 @@ function cacheDecorator(args: any[]): any {
   // Ensure the decorator is used correctly.
   if (!isObject(descriptor)) throwUsageError();
 
-  // If there are three arguments, the decorator was applied to the method or getter.
+  // If the third argument is the descriptor, the decorator is applied
+  // to the method or getter.
   const newlyCreatedDecorator: any =
     isFunction((<any>descriptor).value) || isOriginallyMethod(target, property)
-      ? methodLegacyDecorator(uniqueId, methodDecoratorLogic, configuration)
+      ? methodLegacyDecorator(uniqueId, configuration, methodDecoratorLogic)
       : isFunction((<any>descriptor).get)
-      ? accessorLegacyDecorator(uniqueId, getterDecoratorLogic, configuration)
+      ? accessorLegacyDecorator(uniqueId, configuration, getterDecoratorLogic)
       : throwUsageError();
 
   // Execute newly created decorator.
@@ -196,10 +198,10 @@ function cacheDecorator(args: any[]): any {
 /**
  * Cache the result of the method or getter.
  *
- * @param config Config.
+ * @param configuration Configuration.
  * @return Method or getter decorator.
  */
-export function Cache(config?: CacheConfig): MethodDecorator;
+export function Cache(configuration?: CacheConfig): MethodDecorator;
 
 /**
  * Cache the result of the method or getter.
@@ -217,10 +219,10 @@ export function Cache(...args: any[]): any {
 /**
  * Cache the result of the method or getter.
  *
- * @param config Config.
+ * @param configuration Configuration.
  * @return Method or getter decorator.
  */
-export function cache(config?: CacheConfig): MethodDecorator;
+export function cache(configuration?: CacheConfig): MethodDecorator;
 
 /**
  * Cache the result of the method or getter.

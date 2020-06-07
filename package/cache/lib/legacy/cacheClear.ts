@@ -34,7 +34,7 @@ function methodDecoratorLogic(
   // Create the new getter with enhanced logic to wrap the original method
   // and clear the cache.
   newDescriptor.get = function clearCacheGetter(this: object): Function {
-    // The original function can be obtained from the accessor descriptor
+    // The original function can be obtained from the created descriptor
     // by executing `get` with context.
     const fn: Function = get.call(this);
 
@@ -197,8 +197,8 @@ function setterDecoratorLogic(
  */
 function cacheClearDecorator(args: any[]): any {
   if (args.length <= 1)
-    // If there are one or less arguments, the decorator was used as a factory
-    // or applied with config.
+    // If there are one or less arguments, the decorator is used as a factory
+    // with or w/o config.
     return (...args2: any[]): any => cacheClearDecorator([...args2, ...args]);
 
   // Destructuring the dynamic arguments.
@@ -207,14 +207,15 @@ function cacheClearDecorator(args: any[]): any {
   // Ensure the decorator is used correctly.
   if (!isObject(descriptor)) throwUsageError();
 
-  // If there are three arguments, the decorator was applied to the method or accessor.
+  // If the third argument is the descriptor, the decorator is applied
+  // to the method or accessor.
   const newlyCreatedDecorator: any =
     isFunction((<any>descriptor).value) || isOriginallyMethod(target, property)
-      ? methodLegacyDecorator(uniqueId, methodDecoratorLogic, configuration)
+      ? methodLegacyDecorator(uniqueId, configuration, methodDecoratorLogic)
       : isFunction((<any>descriptor).get) || isFunction((<any>descriptor).set)
       ? configuration?.setter || ((<any>descriptor).set && !(<any>descriptor).get)
-        ? accessorLegacyDecorator(uniqueId, setterDecoratorLogic, configuration)
-        : accessorLegacyDecorator(uniqueId, getterDecoratorLogic, configuration)
+        ? accessorLegacyDecorator(uniqueId, configuration, setterDecoratorLogic)
+        : accessorLegacyDecorator(uniqueId, configuration, getterDecoratorLogic)
       : throwUsageError();
 
   // Execute newly created decorator.
@@ -224,10 +225,10 @@ function cacheClearDecorator(args: any[]): any {
 /**
  * Clear the cached results of the method or getter.
  *
- * @param config Config.
+ * @param configuration Configuration.
  * @return Method or accessor decorator.
  */
-export function CacheClear(config?: ClearConfig): MethodDecorator;
+export function CacheClear(configuration?: ClearConfig): MethodDecorator;
 
 /**
  * Clear the cached results of the method or getter.
@@ -245,10 +246,10 @@ export function CacheClear(...args: any[]): any {
 /**
  * Clear the cached results of the method or getter.
  *
- * @param config Config.
+ * @param configuration Configuration.
  * @return Method or accessor decorator.
  */
-export function cacheClear(config?: ClearConfig): MethodDecorator;
+export function cacheClear(configuration?: ClearConfig): MethodDecorator;
 
 /**
  * Clear the cached results of the method or getter.

@@ -26,12 +26,43 @@ describe('methodLegacyDecorator', (): void => {
     const descriptor: PropertyDescriptor = { value: 'NewDescriptor' };
 
     // Var: newly created method decorator.
-    const decorator: MethodDecorator = methodLegacyDecorator(entry.name, (): any => descriptor);
+    const decorator: MethodDecorator = methodLegacyDecorator(entry.name, null, (): any => descriptor);
 
     // Exp: descriptor returned from the decorator's logic.
     expect(decorator(Test, 'test', {})).toBe(descriptor);
 
     // Exp: helper to add entry to property registry have been called with correct args.
     expect(addProperty).toHaveBeenCalledWith(Test, 'test', expect.objectContaining(entry));
+  });
+
+  // Case::
+  test('should create and register decorator with metadata', async (): Promise<void> => {
+    // Testing target.
+    const { methodLegacyDecorator } = await import('~legacy/methodLegacyDecorator');
+
+    // Mock: add to property registry.
+    const addProperty: jest.SpyInstance = jest
+      .spyOn(await import('~registry/addProperty'), 'addProperty')
+      .mockReturnValue(undefined);
+
+    // Var: testing class.
+    class Test {}
+
+    // Var: metadata.
+    const metadata: any = {
+      config: true
+    };
+
+    // Var: descriptor to return from the decorator.
+    const descriptor: PropertyDescriptor = { value: 'txt' };
+
+    // Var: newly created method decorator.
+    const decorator: MethodDecorator = methodLegacyDecorator('decorator', metadata);
+
+    // Exp: descriptor returned from the decorator's logic.
+    expect(decorator(Test, 'test', descriptor)).toBe(descriptor);
+
+    // Exp: helper to add entry to property registry have been called with correct args.
+    expect(addProperty).toHaveBeenCalledWith(Test, 'test', expect.objectContaining({ metadata }));
   });
 });
