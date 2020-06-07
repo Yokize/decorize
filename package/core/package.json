@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Nojukubi <nojukubi@yokize.com>",
   "homepage": "https://github.com/Yokize/decorize",
-  "description": "Experimental @decorize/core",
+  "description": "Utilities for creating decorators and registering them during their usage.",
   "main": "./index.js",
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@toolize/script": "^0.0.4",
-    "@types/lodash": "^4.14.152",
+    "@types/lodash": "^4.14.155",
     "reflect-metadata": "^0.1.13"
   }
 }

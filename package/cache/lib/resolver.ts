@@ -1,5 +1,5 @@
 /**
- * The resolver to create the default key.
+ * The resolver to create the default cache key.
  */
 export const resolver: Resolver = (): any => 'default';
 

@@ -7,18 +7,12 @@ import { getOwnProperty } from '@decorize/core/reflect/getOwnProperty';
 import { deleteMetadata } from '@decorize/core/reflect/deleteMetadata';
 import { deleteProperty } from '@decorize/core/reflect/deleteProperty';
 import { resolver } from './resolver';
-
-/* istanbul ignore next */
-const _globalKey: string | symbol = Symbol
-  ? // Private symbol.
-    Symbol.for('Decorize: Cache')
-  : // Namespaced key.
-    '__decorize::cache__';
+import { uniqueId } from './cache';
 
 /**
- * The interface describes the basic structure of the cache entry,
- * which contains the result of the method or getter, the maximum
- * age (ms) and the date of its addition (ms).
+ * The interface describes the structure of the cache entry, which
+ * contains the result of the method or getter, the maximum age (ms)
+ * and the date of its addition (ms).
  */
 export interface CacheEntry {
   value: any;
@@ -36,7 +30,7 @@ export interface CacheEntry {
  */
 function has(target: object, property: PropertyKey, key: any): boolean {
   // Get the cache that's associated with the target.
-  const cache: any = getOwnMetadata(_globalKey, target);
+  const cache: any = getOwnMetadata(uniqueId, target);
 
   // Ensure the cache exist and has the entry associated with the key.
   return isObject(cache?.[property]) ? hasOwnProperty(cache[property], key) : false;
@@ -52,7 +46,7 @@ function has(target: object, property: PropertyKey, key: any): boolean {
  */
 function get(target: object, property: PropertyKey, key: any): any {
   // Get the cache that's associated with the target.
-  const cache: any = getOwnMetadata(_globalKey, target);
+  const cache: any = getOwnMetadata(uniqueId, target);
 
   // Ensure the cache exist and retrieve the entry associated with the key.
   return isObject(cache?.[property]) ? getOwnProperty(cache[property], key) : undefined;
@@ -68,7 +62,7 @@ function get(target: object, property: PropertyKey, key: any): any {
  */
 function set(target: object, property: PropertyKey, key: any, entry: any): void {
   // Get the cache that's associated with the target.
-  let cache: any = getOwnMetadata(_globalKey, target);
+  let cache: any = getOwnMetadata(uniqueId, target);
 
   // Defaulting general cache.
   if (isNil(cache)) cache = {};
@@ -80,7 +74,7 @@ function set(target: object, property: PropertyKey, key: any, entry: any): void 
   cache[property][key] = entry;
 
   // Link the cache to the target.
-  defineMetadata(_globalKey, cache, target);
+  defineMetadata(uniqueId, cache, target);
 }
 
 /**
@@ -92,7 +86,7 @@ function set(target: object, property: PropertyKey, key: any, entry: any): void 
  */
 function remove(target: object, property: PropertyKey, key: any): void {
   // Get the cache that's associated with the target.
-  const cache: any = getOwnMetadata(_globalKey, target);
+  const cache: any = getOwnMetadata(uniqueId, target);
 
   // Ensure the cache exist and remove the entry associated with the key.
   if (isObject(cache?.[property])) deleteProperty(cache[property], key);
@@ -106,12 +100,12 @@ function remove(target: object, property: PropertyKey, key: any): void {
  */
 function clear(target: any, property?: PropertyKey): void {
   // Get the cache that's associated with the target.
-  const cache: any = getOwnMetadata(_globalKey, target);
+  const cache: any = getOwnMetadata(uniqueId, target);
 
   // Remove the cache in case it's exists.
   isNil(property)
     ? // Remove the whole cache.
-      deleteMetadata(_globalKey, target)
+      deleteMetadata(uniqueId, target)
     : // Remove the property cache.
       isObject(cache?.[property]) && deleteProperty(cache, property);
 }

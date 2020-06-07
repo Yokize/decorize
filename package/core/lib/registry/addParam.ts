@@ -18,6 +18,9 @@ export function addParam(target: object, method: PropertyKey, paramIdx: number, 
   // Add directly to the registry.
   registry.decorator.push(entry);
 
+  // Add parameter idx to registry.
+  registry.paramIdx = paramIdx;
+
   // Link registry with the class (prototype), method & param index.
   setParamRegistry(target, method, paramIdx, registry);
 }

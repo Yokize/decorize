@@ -4,9 +4,9 @@
 export const uniqueId: string = 'decorize:@bind';
 
 /**
- * The interface describes the basic metadata structure which contains
- * the bound function. The main reason for caching the bound function
- * is to avoid unnecessary bindings and increase performance.
+ * The interface describes the metadata structure which contains the
+ * bound function. The main reason for caching the bound function is
+ * to avoid unnecessary bindings and increase performance.
  */
 export interface Metadata {
   bound?: Function;

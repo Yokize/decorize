@@ -14,11 +14,11 @@ export type ClassLogic = (target: any, metadata: any) => any | void;
  * Creates legacy class decorator that executes logic at runtime.
  *
  * @param name Decorator name.
+ * @param metadata Metadata.
  * @param logic Logic to execute.
- * @param metadata Configs & params.
  * @return Created class decorator.
  */
-export function classLegacyDecorator(name: any, logic: ClassLogic, metadata?: any): ClassDecorator {
+export function classLegacyDecorator(name: any, metadata?: any, logic?: ClassLogic): ClassDecorator {
   // Legacy class decorator.
   return (target: any): any | void => {
     // Register class decorator.
@@ -30,6 +30,6 @@ export function classLegacyDecorator(name: any, logic: ClassLogic, metadata?: an
     });
 
     // Execute decorator logic at runtime.
-    return logic(target, metadata);
+    return logic ? logic(target, metadata) : target;
   };
 }

@@ -14,11 +14,11 @@ export type PropertyLogic = (target: any, property: PropertyKey, metadata: any) 
  * Creates legacy property decorator that executes logic at runtime.
  *
  * @param name Decorator name.
+ * @param metadata Metadata.
  * @param logic Logic to execute.
- * @param metadata Configs & params.
  * @return Created property decorator.
  */
-export function propertyLegacyDecorator(name: any, logic: PropertyLogic, metadata?: any): PropertyDecorator {
+export function propertyLegacyDecorator(name: any, metadata?: any, logic?: PropertyLogic): PropertyDecorator {
   // Legacy property decorator.
   return (target: object, property: PropertyKey): void => {
     // Register property decorator.
@@ -30,6 +30,6 @@ export function propertyLegacyDecorator(name: any, logic: PropertyLogic, metadat
     });
 
     // Execute decorator logic at runtime.
-    logic(target, property, metadata);
+    if (logic) logic(target, property, metadata);
   };
 }

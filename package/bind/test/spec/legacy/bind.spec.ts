@@ -397,13 +397,10 @@ describe('@bind', (): void => {
     // Testing target.
     const { bind } = await import('~legacy/bind');
 
-    // Exp: throw error as tried to pass a nil config.
-    expect((): any => (<any>bind)(null)).toThrow(Error);
-
     // Exp: throw error as tried to decorate the property.
     expect((): any => (<any>bind)({}, 'test')).toThrow(Error);
 
-    // Exp: throw error as tried to decorate the property.
+    // Exp: throw error as tried to decorate the initialized property.
     expect((): any => bind({}, 'test', { value: 1 }).get()).toThrow(Error);
 
     // Exp: throw error as tried to decorate the getter.

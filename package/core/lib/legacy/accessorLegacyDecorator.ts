@@ -23,11 +23,11 @@ export type AccessorLogic = (
  * so used MethodDecorator as it's have same signature.
  *
  * @param name Decorator name.
+ * @param metadata Metadata.
  * @param logic Logic to execute.
- * @param metadata Configs & params.
  * @return Created accessor decorator.
  */
-export function accessorLegacyDecorator(name: any, logic: AccessorLogic, metadata?: any): MethodDecorator {
+export function accessorLegacyDecorator(name: any, metadata?: any, logic?: AccessorLogic): MethodDecorator {
   // Legacy accessor decorator.
   return (target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor | void => {
     // Register accessor decorator.
@@ -39,6 +39,6 @@ export function accessorLegacyDecorator(name: any, logic: AccessorLogic, metadat
     });
 
     // Execute decorator logic at runtime.
-    return logic(target, property, descriptor, metadata);
+    return logic ? logic(target, property, descriptor, metadata) : descriptor;
   };
 }

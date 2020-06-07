@@ -15,11 +15,11 @@ export type ParameterLogic = (target: any, property: PropertyKey, paramIndex: nu
  * Creates legacy parameter decorator that executes logic at runtime.
  *
  * @param name Decorator name.
+ * @param metadata Metadata.
  * @param logic Logic to execute.
- * @param metadata Configs & params.
  * @return Created param decorator.
  */
-export function parameterLegacyDecorator(name: any, logic: ParameterLogic, metadata?: any): ParameterDecorator {
+export function parameterLegacyDecorator(name: any, metadata?: any, logic?: ParameterLogic): ParameterDecorator {
   // Legacy parameter decorator.
   return (target: object, property: PropertyKey, paramIndex: number): void => {
     // Register parameter decorator.
@@ -31,6 +31,6 @@ export function parameterLegacyDecorator(name: any, logic: ParameterLogic, metad
     });
 
     // Execute decorator logic at runtime.
-    logic(target, property, paramIndex, metadata);
+    if (logic) logic(target, property, paramIndex, metadata);
   };
 }

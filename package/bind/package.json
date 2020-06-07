@@ -9,7 +9,6 @@
   "keywords": [
     "bind",
     "bound",
-    "autobind",
     "class",
     "method",
     "decorator",
@@ -34,6 +33,6 @@
   },
   "devDependencies": {
     "@toolize/script": "^0.0.4",
-    "@types/lodash": "^4.14.152"
+    "@types/lodash": "^4.14.155"
   }
 }
