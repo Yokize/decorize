@@ -2,6 +2,18 @@
   "name": "@decorize/core",
   "entries": [
     {
+      "version": "2.0.0",
+      "tag": "@decorize/core_v2.0.0",
+      "date": "Sun, 07 Jun 2020 17:24:13 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "change legacy decorator signature"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.1",
       "tag": "@decorize/core_v1.0.1",
       "date": "Mon, 25 May 2020 20:32:57 GMT",
