@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "directory": "package/bind",
-    "url": "git+https://github.com/Yokize/decorize.git"
+    "url": "https://github.com/Yokize/decorize.git"
   },
   "scripts": {
     "doc": "tScript doc",
@@ -28,11 +28,11 @@
   },
   "dependencies": {
     "@decorize/core": "^2.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@toolize/script": "^0.0.4",
-    "@types/lodash": "^4.14.155"
+    "@toolize/script": "^0.0.5",
+    "@types/lodash": "^4.14.157"
   }
 }

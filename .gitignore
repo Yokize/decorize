@@ -2,14 +2,14 @@
 .idea
 .vscode
 
+# Dist
+dist
+
 # Rush
 common/temp
 node_modules
 package-deps*
 yarn.lock
-
-# Dist
-dist
 
 # Test
 coverage

@@ -9,6 +9,7 @@ import { hasOwnProperty } from '@decorize/core/reflect/hasOwnProperty';
 import { defineProperty } from '@decorize/core/reflect/defineProperty';
 import { getPrototypeOf } from '@decorize/core/reflect/getPrototypeOf';
 import { toAccessorType } from '@decorize/core/descriptor/toAccessorType';
+import { isBuiltInProperty } from '@decorize/core/class/isBuiltInProperty';
 import { isOriginallyMethod } from '@decorize/core/original/isOriginallyMethod';
 import { classLegacyDecorator } from '@decorize/core/legacy/classLegacyDecorator';
 import { methodLegacyDecorator } from '@decorize/core/legacy/methodLegacyDecorator';
@@ -102,7 +103,7 @@ function classDecoratorLogic(target: Function): Function {
     const descriptor: PropertyDescriptor = getOwnPropertyDescriptor(prototype, property);
 
     // Ignore built-in reserved or non-configurable properties.
-    if (property === 'constructor' || !descriptor.configurable) return;
+    if (isBuiltInProperty(prototype, property) || !descriptor.configurable) return;
 
     // Proceed to decoration only in case the property has been verified
     // as the method. The easiest way to do this is just to check that the

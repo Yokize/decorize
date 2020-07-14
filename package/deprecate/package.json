@@ -1,14 +1,25 @@
 {
-  "name": "@decorize/core",
-  "version": "2.0.0",
+  "name": "@decorize/deprecate",
+  "version": "0.0.0",
   "license": "MIT",
   "author": "Nojukubi <nojukubi@yokize.com>",
   "homepage": "https://github.com/Yokize/decorize",
-  "description": "Utilities for creating decorators and registering them during their usage.",
+  "description": "Decorator to deprecate the class, method, accessor and property",
   "main": "./index.js",
+  "keywords": [
+    "class",
+    "method",
+    "getter",
+    "setter",
+    "property",
+    "decorator",
+    "deprecate",
+    "deprecated",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
-    "directory": "package/core",
+    "directory": "package/deprecate",
     "url": "https://github.com/Yokize/decorize.git"
   },
   "scripts": {
@@ -19,12 +30,12 @@
     "build": "tScript build"
   },
   "dependencies": {
+    "@decorize/core": "^2.0.0",
     "lodash": "^4.17.19",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@toolize/script": "^0.0.5",
-    "@types/lodash": "^4.14.157",
-    "reflect-metadata": "^0.1.13"
+    "@types/lodash": "^4.14.157"
   }
 }
