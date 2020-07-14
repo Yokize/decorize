@@ -1,0 +1,22 @@
+{
+  "name": "@decorize/deprecate",
+  "entries": [
+    {
+      "version": "1.0.0",
+      "tag": "@decorize/deprecate_v1.0.0",
+      "date": "Tue, 14 Jul 2020 20:54:15 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Initial release"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@decorize/core\" from `^2.0.0` to `^2.1.0`"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,13 +1,20 @@
 # Change Log - @decorize/bind
 
-This log was last generated on Sun, 07 Jun 2020 17:24:13 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Jul 2020 20:54:15 GMT and should not be manually modified.
+
+## 1.0.3
+Tue, 14 Jul 2020 20:54:15 GMT
+
+### Patches
+
+- Update documentation
 
 ## 1.0.2
 Sun, 07 Jun 2020 17:24:13 GMT
 
 ### Patches
 
-- adapt new legacy decorator signature
+- Adapt new legacy decorator signature
 
 ## 1.0.1
 Mon, 25 May 2020 20:32:57 GMT

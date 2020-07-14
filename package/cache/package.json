@@ -1,6 +1,6 @@
 {
   "name": "@decorize/cache",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "author": "Nojukubi <nojukubi@yokize.com>",
   "homepage": "https://github.com/Yokize/decorize",
@@ -26,7 +26,7 @@
     "build": "tScript build"
   },
   "dependencies": {
-    "@decorize/core": "^2.0.0",
+    "@decorize/core": "^2.1.0",
     "lodash": "^4.17.19",
     "tslib": "^2.0.0"
   },
