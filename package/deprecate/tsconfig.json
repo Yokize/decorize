@@ -1,0 +1,18 @@
+{
+  "extends": "@toolize/script",
+  "include": ["lib"],
+  "typedocOptions": {
+    "inputFiles": ["lib"],
+    "mode": "modules",
+    "out": "doc"
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": "lib",
+    "paths": {
+      "~*": ["lib/*"],
+      "@decorize/core/*": ["node_modules/@decorize/core/dist/*"]
+    }
+  }
+}

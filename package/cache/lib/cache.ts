@@ -1,5 +1,6 @@
 import { Resolver } from './resolver';
 import { CacheEntry } from './global';
+
 /**
  * Unique decorator ID.
  */

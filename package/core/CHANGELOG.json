@@ -8,7 +8,7 @@
       "comments": {
         "major": [
           {
-            "comment": "change legacy decorator signature"
+            "comment": "Change legacy decorator signature"
           }
         ]
       }

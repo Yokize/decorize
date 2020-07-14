@@ -16,7 +16,7 @@ npm install @decorize/bind --save
 
 ## Usage
 
-Method decorator:
+Decorate the method:
 
 ```typescript
 import { bind } from '@decorize/bind';
@@ -31,7 +31,7 @@ class Example {
 new Example().method.call(null); // True
 ```
 
-Class decorator:
+Decorate the class:
 
 ```typescript
 import { bind } from '@decorize/bind';
@@ -44,6 +44,14 @@ class Example {
 }
 
 new Example().method.call(null); // True
+```
+
+## Typing
+
+```typescript
+export declare function bind(): ClassDecorator & MethodDecorator;
+export declare function bind<T extends Function>(target: T): T;
+export declare function bind(target: object, property: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor;
 ```
 
 ## Feature
@@ -64,7 +72,7 @@ new Example().method.call(null); // True
   There is no need for any polyfill and can be fully used with TypeScript (`d.ts`) and ES5.
 
 - Intelligent and backward compatible (ES5 vs ES2015+).\
-  Ensures correct use of the decorator and verifies whether the method can be decorated by checking the attributes of the descriptor. Methods derived from the prototype or by using the `super` will not be bound.
+  Ensures correct use of the decorator and verifies whether the method can be decorated by checking the attributes of the descriptor. Methods derived from the `prototype` or by using the `super` will not be bound.
 
 - Advanced decoration and synergy with other decorators.\
   Logic respects the original method and other decorators, so all the attributes of the descriptor not related to this decorator will be kept or adapted.

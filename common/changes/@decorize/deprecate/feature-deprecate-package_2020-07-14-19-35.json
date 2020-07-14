@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@decorize/deprecate",
+      "comment": "Initial release",
+      "type": "major"
+    }
+  ],
+  "packageName": "@decorize/deprecate",
+  "email": "nojukubi@yokize.com"
+}

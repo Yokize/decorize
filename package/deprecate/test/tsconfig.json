@@ -1,0 +1,7 @@
+{
+  "extends": "../tsconfig",
+  "include": ["spec", "perf"],
+  "compilerOptions": {
+    "target": "ES2018"
+  }
+}

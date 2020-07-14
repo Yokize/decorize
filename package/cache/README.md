@@ -6,7 +6,7 @@
 ![min+gzip](https://img.shields.io/bundlephobia/minzip/@decorize/cache?style=flat-square&label=min%2Bzip)
 ![typescript](https://img.shields.io/static/v1?style=flat-square&logo=typescript&color=informational&label&message=3.9)
 
-Decorator to cache the result of the method or getter.
+Decorator for caching the result of a particular method or getter.
 
 ## Install
 
@@ -16,36 +16,36 @@ npm install @decorize/cache --save
 
 ## Usage
 
-Method decorator:
+Decorate the method:
 
 ```typescript
 import { cache, cacheClear } from '@decorize/cache';
 
 class Example {
   @cache
-  public method(): any {
-    return 'anyValue'; // Result
+  public methodOne(): number {
+    return Date.now();
   }
 
   @cacheClear
-  public clearAll(): any {
+  public methodTwo(): any {
     return;
   }
 }
 ```
 
-Getter decorator:
+Decorate the getter:
 
 ```typescript
 import { cache, cacheClear } from '@decorize/cache';
 
 class Example {
   @cache
-  public get property(): any {
-    return 'anyValue'; // Result.
+  @cacheClear({ setter: true })
+  public get property(): number {
+    return Date.now();
   }
 
-  @cacheClear
   public set property(val: any) {
     // Cached result will be cleared after execution.
   }
@@ -59,12 +59,12 @@ import { cache, cacheClear } from '@decorize/cache';
 
 class Example {
   @cache({ maxAge: 1000 })
-  public get property(): any {
-    return 'anyValue'; // Result cached with maxAge.
+  public get propertyOne(): number {
+    return Date.now(); // Result cached with maxAge.
   }
 
   @cacheClear({ setter: true, before: true })
-  public set property(val: any) {
+  public set propertyTwo(val: any) {
     // In case maxAge exceeded clear the result before setter executed.
   }
 }
@@ -85,6 +85,39 @@ class Example {
 
 In the example, the result is cached for each individual identifier, except for the cached entry where result equals 1.
 
+## Typing
+
+```typescript
+export interface CacheConfig {
+  maxAge?: number;
+  resolver?: Resolver;
+  expire?: (entry: CacheEntry, context: any) => boolean | void;
+}
+
+export declare function cache(configuration?: CacheConfig): MethodDecorator;
+export declare function cache(
+  target: object,
+  property: PropertyKey,
+  descriptor: PropertyDescriptor
+): PropertyDescriptor;
+```
+
+```typescript
+export interface ClearConfig {
+  before?: boolean;
+  after?: boolean;
+  getter?: boolean;
+  setter?: boolean;
+}
+
+export declare function cacheClear(configuration?: ClearConfig): MethodDecorator;
+export declare function cacheClear(
+  target: object,
+  property: PropertyKey,
+  descriptor: PropertyDescriptor
+): PropertyDescriptor;
+```
+
 ## Feature
 
 - Support different naming conventions.\
@@ -101,8 +134,10 @@ In the example, the result is cached for each individual identifier, except for 
 
 - Allow to configure the clearing of results.\
   Configure the clearing with `before` and `after` (default) options which defines whether cleaning should be done before or after the method or accessor execution.
-
   The decorator cannot be applied to both the getter and setter of the same property, so its possible to specify explicitly the `getter` or `setter`.
+
+- Allow to change the `Global` configuration and helpers.\
+  The package exports `Global`, which can be used to change the default resolver and helpers to manage the cache.
 
 - Polyfill free, ES5 and TypeScript compatibility.\
   There is no need for any polyfill and can be fully used by ES5 or TypeScript (`d.ts`).

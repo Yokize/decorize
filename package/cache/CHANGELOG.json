@@ -8,7 +8,7 @@
       "comments": {
         "patch": [
           {
-            "comment": "adapt new legacy decorator signature"
+            "comment": "Adapt new legacy decorator signature"
           }
         ],
         "dependency": [

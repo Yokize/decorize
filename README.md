@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/logo.png" alt="decorize" />
+  <img src=".github/assets/logo.png" alt="@decorize" />
 </p>
 
 <p align="center">
@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://gitter.im/decorize/community">
-    <img src="https://img.shields.io/gitter/room/decorize/community?style=for-the-badge&logo=gitter&color=informational&label" alt="chat" />
+    <img src="https://img.shields.io/gitter/room/decorize/community?style=for-the-badge&logo=gitter&color=informational&label" alt="gitter" />
   </a>
 
   <a href="https://www.typescriptlang.org">
@@ -30,8 +30,9 @@
   </a>
 </p>
 
-| Name                               | Description                                                                                |                                                            NPM                                                            |
-| :--------------------------------- | :----------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
-| [@decorize/core](./package/core)   | Core for creating decorators and registering them during use.                              |  [![npm](https://img.shields.io/npm/v/@decorize/core?style=for-the-badge)](https://www.npmjs.com/package/@decorize/core)  |
-| [@decorize/bind](./package/bind)   | Decorator to bind the method or all methods of the class to the context used to access it. |  [![npm](https://img.shields.io/npm/v/@decorize/bind?style=for-the-badge)](https://www.npmjs.com/package/@decorize/bind)  |
-| [@decorize/cache](./package/cache) | Decorator to cache the result of the method or getter.                                     | [![npm](https://img.shields.io/npm/v/@decorize/cache?style=for-the-badge)](https://www.npmjs.com/package/@decorize/cache) |
+| Name                                       | Description                                                                                |                                                                NPM                                                                |
+| :----------------------------------------- | :----------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------: |
+| [@decorize/core](./package/core)           | Core for creating decorators and registering them during use.                              |      [![npm](https://img.shields.io/npm/v/@decorize/core?style=for-the-badge)](https://www.npmjs.com/package/@decorize/core)      |
+| [@decorize/bind](./package/bind)           | Decorator to bind the method or all methods of the class to the context used to access it. |      [![npm](https://img.shields.io/npm/v/@decorize/bind?style=for-the-badge)](https://www.npmjs.com/package/@decorize/bind)      |
+| [@decorize/cache](./package/cache)         | Decorator for caching the result of a particular method or getter.                         |     [![npm](https://img.shields.io/npm/v/@decorize/cache?style=for-the-badge)](https://www.npmjs.com/package/@decorize/cache)     |
+| [@decorize/deprecate](./package/deprecate) | Decorator to deprecate the class, method, accessor and property.                           | [![npm](https://img.shields.io/npm/v/@decorize/deprecate?style=for-the-badge)](https://www.npmjs.com/package/@decorize/deprecate) |
